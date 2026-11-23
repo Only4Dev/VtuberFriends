@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-20",
+  "method": "Generative reconstruction of approved asymmetric turquoise ice dragon. Original reference preserved, not exact pixel extraction.",
+  "assets": [
+    {
+      "file": "brow-left.png",
+      "sha256": "0c04f1eeb58b1ad3c110b3208620bfd681226e1bb4faefd69197b4d95545fb96",
+      "bytes": 690553
+    },
+    {
+      "file": "brow-right.png",
+      "sha256": "c6e2b958086cee6b997f40c972ce571f539cfdfe4aff7a9802e5f2796cd3a525",
+      "bytes": 412788
+    },
+    {
+      "file": "fang-white.png",
+      "sha256": "9aab8102ac13b91aba927c70bfec84cd6072887d48a4f2ad5bd64a679d52b016",
+      "bytes": 79057
+    },
+    {
+      "file": "head.png",
+      "sha256": "7398a5107b554020c71114e902a1b150978bfe4700c272034ff9d22f28c8884e",
+      "bytes": 2281566
+    },
+    {
+      "file": "iris.png",
+      "sha256": "7dd3ec7a55743160f9ea3568b92a9f52bc30e400c7628e0930acc494256bfba7",
+      "bytes": 1389419
+    },
+    {
+      "file": "lid-lower.png",
+      "sha256": "028eedabc0bfb34566ea43bdeb5001417f7b032dbc138b8b5a7989e14357eec4",
+      "bytes": 904928
+    },
+    {
+      "file": "lid-upper.png",
+      "sha256": "0e459eeeb2475e75e45bc2a6e1d14826a0c1aa0b8006a2ba841807ae65eea508",
+      "bytes": 1073886
+    },
+    {
+      "file": "reference.png",
+      "sha256": "fc87490c82134bda702ad9b8e5caa9c38e149433d979b7c8300d06610dd462ad",
+      "bytes": 2411895
+    },
+    {
+      "file": "sclera.png",
+      "sha256": "a9391ebc3813ff2455ad83634b937c30db7508e78eeb4e71aa985753fb3acd05",
+      "bytes": 908535
+    },
+    {
+      "file": "torso.png",
+      "sha256": "6b2beecac0e83478eda01821f72fe5bd5f8fe63aa8dfd9cb1e3babf7d718dfa8",
+      "bytes": 2111071
+    },
+    {
+      "file": "wing-left.png",
+      "sha256": "b7c421956b895d95f9d9c0f7b7bc8068866c3a0f238c9a2d727e2c678e964482",
+      "bytes": 2122206
+    },
+    {
+      "file": "wing-right.png",
+      "sha256": "acdd91d85ee4c5a07395e8e76e28f53422db9c263b0fe5ca019602856bf5dc63",
+      "bytes": 2129059
+    }
+  ]
+}

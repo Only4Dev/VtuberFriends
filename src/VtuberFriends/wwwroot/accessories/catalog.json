@@ -1,0 +1,333 @@
+[
+  {
+    "id": "glasses-round",
+    "value": "round",
+    "category": "accessoryGlasses",
+    "node": "head",
+    "rect": [
+      518,
+      488,
+      500,
+      135
+    ],
+    "file": "glasses-round.svg",
+    "label": "Redondos · bronce"
+  },
+  {
+    "id": "glasses-sun",
+    "value": "sun",
+    "category": "accessoryGlasses",
+    "node": "head",
+    "rect": [
+      518,
+      495,
+      500,
+      122
+    ],
+    "file": "glasses-sun.svg",
+    "label": "De sol · obsidiana"
+  },
+  {
+    "id": "hat-wizard",
+    "value": "wizard",
+    "category": "accessoryHat",
+    "node": "head",
+    "rect": [
+      495,
+      -125,
+      546,
+      350
+    ],
+    "file": "hat-wizard.svg",
+    "label": "Mago · medianoche"
+  },
+  {
+    "id": "hat-top",
+    "value": "top",
+    "category": "accessoryHat",
+    "node": "head",
+    "rect": [
+      510,
+      -45,
+      516,
+      270
+    ],
+    "file": "hat-top.svg",
+    "label": "Sombrero de copa"
+  },
+  {
+    "id": "necklace-leather",
+    "value": "leather",
+    "category": "accessoryNecklace",
+    "node": "torso",
+    "rect": [
+      625,
+      772,
+      286,
+      105
+    ],
+    "file": "necklace-leather.svg",
+    "label": "Cuero · hebilla"
+  },
+  {
+    "id": "necklace-gem",
+    "value": "gem",
+    "category": "accessoryNecklace",
+    "node": "torso",
+    "rect": [
+      620,
+      770,
+      296,
+      180
+    ],
+    "file": "necklace-gem.svg",
+    "label": "Cadena · gema cian"
+  },
+  {
+    "id": "object-microphone",
+    "value": "microphone",
+    "category": "accessoryObject",
+    "node": "root",
+    "rect": [
+      1030,
+      620,
+      160,
+      320
+    ],
+    "file": "object-microphone.svg",
+    "label": "Micrófono · escenario"
+  },
+  {
+    "id": "glasses-rectangular",
+    "value": "rectangular",
+    "category": "accessoryGlasses",
+    "node": "head",
+    "rect": [
+      510,
+      345,
+      520,
+      125
+    ],
+    "file": "glasses-rectangular.svg",
+    "label": "Rectangulares · Thoxer"
+  },
+  {
+    "id": "object-vape",
+    "value": "vape",
+    "category": "accessoryObject",
+    "node": "root",
+    "rect": [
+      1040,
+      610,
+      240,
+      320
+    ],
+    "file": "object-vape.svg",
+    "label": "Vaper · titanio"
+  },
+  {
+    "id": "object-phone",
+    "value": "phone",
+    "category": "accessoryObject",
+    "node": "root",
+    "rect": [
+      1040,
+      610,
+      240,
+      320
+    ],
+    "file": "object-phone.svg",
+    "label": "Teléfono · reels y likes",
+    "fx": "phone"
+  },
+  {
+    "id": "object-stick",
+    "value": "stick",
+    "category": "accessoryObject",
+    "node": "root",
+    "rect": [
+      1040,
+      610,
+      240,
+      320
+    ],
+    "file": "object-stick.svg",
+    "label": "Palo · bosque"
+  },
+  {
+    "id": "object-sword",
+    "value": "sword",
+    "category": "accessoryObject",
+    "node": "root",
+    "rect": [
+      1040,
+      610,
+      240,
+      320
+    ],
+    "file": "object-sword.svg",
+    "label": "Espada · juramento"
+  },
+  {
+    "id": "object-capture-ball",
+    "value": "capture-ball",
+    "category": "accessoryObject",
+    "node": "root",
+    "rect": [
+      1040,
+      610,
+      240,
+      320
+    ],
+    "file": "object-capture-ball.svg",
+    "label": "Esfera · captura"
+  },
+  {
+    "id": "object-teddy",
+    "value": "teddy",
+    "category": "accessoryObject",
+    "node": "root",
+    "rect": [
+      1040,
+      610,
+      240,
+      320
+    ],
+    "file": "object-teddy.svg",
+    "label": "Teddy · compañero"
+  },
+  {
+    "id": "object-galaxy",
+    "value": "galaxy",
+    "category": "accessoryObject",
+    "node": "root",
+    "rect": [
+      1010,
+      620,
+      320,
+      300
+    ],
+    "file": "object-galaxy.svg",
+    "label": "Galaxia · espiral viva",
+    "fx": "galaxy"
+  },
+  {
+    "id": "hat-crown",
+    "value": "crown",
+    "category": "accessoryHat",
+    "node": "head",
+    "rect": [
+      510,
+      -100,
+      516,
+      340
+    ],
+    "file": "hat-crown.svg",
+    "label": "Corona · gemas reales"
+  },
+  {
+    "id": "effect-aura",
+    "value": "energy",
+    "category": "accessoryAura",
+    "node": "root",
+    "rect": [
+      0,
+      0,
+      300,
+      400
+    ],
+    "file": "effect-aura.svg",
+    "label": "Aura · energía ascendente",
+    "fx": "aura"
+  },
+  {
+    "id": "effect-floor",
+    "value": "smoke",
+    "category": "accessoryFloor",
+    "node": "root",
+    "rect": [
+      0,
+      0,
+      300,
+      400
+    ],
+    "file": "effect-floor.svg",
+    "label": "Humo · círculo a los pies",
+    "fx": "floor-smoke"
+  },
+  {
+    "id": "effect-lightning",
+    "value": "storm",
+    "category": "accessoryLightning",
+    "node": "root",
+    "rect": [
+      0,
+      0,
+      300,
+      400
+    ],
+    "file": "effect-lightning.svg",
+    "label": "Rayos · tormenta",
+    "fx": "lightning"
+  },
+  {
+    "id": "effect-nose",
+    "value": "nose-smoke",
+    "category": "accessoryEffect",
+    "node": "head",
+    "rect": [
+      0,
+      0,
+      300,
+      400
+    ],
+    "file": "effect-nose.svg",
+    "label": "Humo nasal · ocasional",
+    "fx": "nose-smoke"
+  },
+  {
+    "id": "aura-runes",
+    "value": "runes",
+    "category": "accessoryAura",
+    "node": "root",
+    "rect": [
+      0,
+      0,
+      300,
+      400
+    ],
+    "file": "effect-aura.svg",
+    "label": "Runas · círculo arcano",
+    "fx": "aura-runes"
+  },
+  {
+    "id": "aura-aurora",
+    "value": "aurora",
+    "category": "accessoryAura",
+    "node": "root",
+    "rect": [
+      0,
+      0,
+      300,
+      400
+    ],
+    "file": "effect-aura.svg",
+    "label": "Aurora · velos polares",
+    "fx": "aura-aurora"
+  },
+  {
+    "id": "aura-embers",
+    "value": "embers",
+    "category": "accessoryAura",
+    "node": "root",
+    "rect": [
+      0,
+      0,
+      300,
+      400
+    ],
+    "file": "effect-aura.svg",
+    "label": "Ascuas · espiral de fuego",
+    "fx": "aura-embers"
+  }
+]

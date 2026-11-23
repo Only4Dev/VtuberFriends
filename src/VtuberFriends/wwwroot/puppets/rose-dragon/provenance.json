@@ -1,0 +1,131 @@
+{
+  "date": "2026-11-20",
+  "method": "Generative reconstruction of supplied pink female dragon reference. Original preserved; not exact extraction.",
+  "assets": [
+    {
+      "file": "antenna-left.png",
+      "sha256": "56f47ee6bf70d4818a84e8bbc0641aacf0a5586ca3bf822c4cc8590ad96f9286",
+      "bytes": 554160
+    },
+    {
+      "file": "antenna-right.png",
+      "sha256": "a9dc257cadb953bd1fc61cc2e931ee700d006c71d315bded2babac221d3e9048",
+      "bytes": 1009951
+    },
+    {
+      "file": "brow.png",
+      "sha256": "b76378679625b6543d901bf4f28a4abba097927aeac4baf7a13b72342a561b44",
+      "bytes": 174187
+    },
+    {
+      "file": "fang-white.png",
+      "sha256": "9aab8102ac13b91aba927c70bfec84cd6072887d48a4f2ad5bd64a679d52b016",
+      "bytes": 79057
+    },
+    {
+      "file": "fang.png",
+      "sha256": "a397321cedac6baa90c0a83f6d9374cb3193a46c0d0ad4baff15670d7b92a649",
+      "bytes": 86369
+    },
+    {
+      "file": "forelock.png",
+      "sha256": "cb52b8f179c5931b407fc81687575536c86a3bd41e5cc3dc925bd5642b673fc7",
+      "bytes": 710930
+    },
+    {
+      "file": "hair-left-v2.png",
+      "sha256": "e5ee18b535fc949f47cfc7b36cb76c3b92f71daaa6df0e9067e64195e7c4bce6",
+      "bytes": 1309256
+    },
+    {
+      "file": "hair-left.png",
+      "sha256": "02e913657f4a0db43975d2c2da6fe4be5cc142112f67878e645db19e55a18329",
+      "bytes": 1566837
+    },
+    {
+      "file": "hair-right-v2.png",
+      "sha256": "0364dd4a1b58db45ee2e20fb481f0ac0d61417e2a9e389556d6394942c17f032",
+      "bytes": 901525
+    },
+    {
+      "file": "hair-right.png",
+      "sha256": "9b08b830d308d80975c6bcad58fa839f6a69b334e9a6db522d32d3ca0b95aab1",
+      "bytes": 1426686
+    },
+    {
+      "file": "head-clean.png",
+      "sha256": "b9be280816f3fe58ae7aa6ca52a5ecaaaae90a5afbc7c5946884d6eaedd65e7d",
+      "bytes": 2077116
+    },
+    {
+      "file": "head-v2.png",
+      "sha256": "4c55c8c68345a8709eb98ee86ed8fe8f1295b7042574d878c9eefd90236106cf",
+      "bytes": 1632393
+    },
+    {
+      "file": "head.png",
+      "sha256": "3f57053efaa4f9ab1913e6d2bbf54f232cad01f93a6e646f0181705f68372ad8",
+      "bytes": 2127386
+    },
+    {
+      "file": "iris.png",
+      "sha256": "4ab8a599a92aa62afe79b954dcde6fbd52d96c698615afb1fc47a135235d11cb",
+      "bytes": 799531
+    },
+    {
+      "file": "lashes-left.png",
+      "sha256": "74be432a84b41def846eee58345273301dfc50531ea548b1a7bac8a49f2414f5",
+      "bytes": 324965
+    },
+    {
+      "file": "lashes-right.png",
+      "sha256": "2db7cba44d0ae6e9b63aac850c2e25815ffd4e21758d9728409ee652767bea55",
+      "bytes": 157379
+    },
+    {
+      "file": "lashes-upper.png",
+      "sha256": "5e83a0648e99a8e2c7ecbb1f2c651c39b590f3b222fbc502314cc97e0923e793",
+      "bytes": 238679
+    },
+    {
+      "file": "lid-lower.png",
+      "sha256": "bf7e14ef40316094fc9e4625d7a89907a1c3d0f3969eccba0fee96f0a1c848a1",
+      "bytes": 805713
+    },
+    {
+      "file": "lid-upper.png",
+      "sha256": "e2ad4b41dffdc234f7896ac23d9a22de6d3fa89415fe887cf67a3a0d539b73db",
+      "bytes": 621599
+    },
+    {
+      "file": "reference.png",
+      "sha256": "a74cd534740d9e4380d0cfd31de1eb30a4222f17055bde1b1bfaa6089590e819",
+      "bytes": 2186198
+    },
+    {
+      "file": "sclera.png",
+      "sha256": "a931e442139af0f75595d5d7c3b39f5458f22a4b1d7a1839c5debf8afee7dc11",
+      "bytes": 918607
+    },
+    {
+      "file": "torso-v2.png",
+      "sha256": "50fdd1a1f07c1cda41b8b32ca6c043af8c0df139b73d744faaad5a36558fce8e",
+      "bytes": 1947710
+    },
+    {
+      "file": "torso.png",
+      "sha256": "56589b596b92c4fd63fe8b675b49934af4dd56695983ffd12c95ad972c8d10c7",
+      "bytes": 826143
+    },
+    {
+      "file": "wing-left.png",
+      "sha256": "489ddd87440ebb12c0c44d55b8fa5e6c59e2f6869edc50dcf382eb753ccd366d",
+      "bytes": 1714330
+    },
+    {
+      "file": "wing-right.png",
+      "sha256": "10ded634b16e6196fa703f1572b7b91a23e606f04d6313845d54f28e80fbf0c7",
+      "bytes": 1807029
+    }
+  ]
+}

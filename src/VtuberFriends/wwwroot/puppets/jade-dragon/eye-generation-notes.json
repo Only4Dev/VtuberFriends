@@ -1,0 +1,18 @@
+[
+  {
+    "id": "iris",
+    "prompt": "Use case precise-object-edit. Separate 2D puppet texture from attached eye and dragon references. ONLY the golden amber IRIS plus central dark vertical slit PUPIL from eye reference. Reconstruct a complete oval iris, round at top and softly pointed bottom, rich golden scale texture and small white catchlight. NO white sclera/background, NO surrounding eye shape, no lids or scales from head. Exactly one isolated gold iris with pupil; outside the iris is fully transparent. No glow, aura or soft shadow. Match crisp polished faceted illustration. Single separate asset, generous transparent margin, no text or other elements."
+  },
+  {
+    "id": "sclera",
+    "prompt": "Use case precise-object-edit. Separate 2D puppet texture from attached eye and dragon references. ONLY the ivory cream SCLERA eye background, from the eye reference, but REMOVE the entire golden iris and slit pupil and reconstruct clean seamless ivory where iris was. One almond eye shape with subtle ivory gradients, no gold, no pupil, no red outline or eyelids. No outer glow or aura. Fully transparent outside the almond silhouette. Match crisp polished faceted illustration. Single separate asset, generous transparent margin, no text or other elements."
+  },
+  {
+    "id": "lid-upper",
+    "prompt": "Use case precise-object-edit. Separate 2D puppet texture from attached eye and dragon references. ONLY an upper eyelid curtain surface for the jade dragon: wide smooth dark emerald green subtly faceted plate, gently curved lower edge, solid filled green covering surface, no holes. Similar emerald material to dragon forehead, plain green without gold/red markings. Isolated broad plate shape, no eyeball, iris, white, teeth or other anatomy. Transparent outside, no glow. Match crisp polished faceted illustration. Single separate asset, generous transparent margin, no text or other elements."
+  },
+  {
+    "id": "lid-lower",
+    "prompt": "Use case precise-object-edit. Separate 2D puppet texture from attached eye and dragon references. ONLY a lower eyelid curtain surface for the jade dragon: wide low smooth emerald green subtly faceted plate, gently curved upper edge, solid filled green covering surface. Same green material as dragon cheeks, plain green without gold/red markings. Isolated broad plate shape, no eyeball, iris, white, teeth or other anatomy. Transparent outside, no glow. Match crisp polished faceted illustration. Single separate asset, generous transparent margin, no text or other elements."
+  }
+]

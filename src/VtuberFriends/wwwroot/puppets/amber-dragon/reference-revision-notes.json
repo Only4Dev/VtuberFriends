@@ -1,0 +1,10 @@
+[
+  {
+    "id": "head-v2",
+    "prompt": "Use case: precise-object-edit / production puppet texture reconstruction. Use attached APPROVED ORIGINAL reference as proportion authority. Only the isolated HEAD. Follow the reference's facial proportions carefully: moderately rounded friendly face, not excessively round/goofy. Refined smaller cream muzzle, defined subtle angular chin rather than a huge oval marshmallow lower face; cheek volume moderate and tapered toward chin. Eyes sockets should be rounded almond-shaped, slightly smaller and gently angled like original reference, not perfectly circular startled googly eyes. Keep original curled beige horns, brown scales and gold forehead decoration. NO eyebrows baked in (separate golden brow layers), NO eyes/pupils/sclera (true transparent socket holes), NO teeth and NO mouth line/opening. Lower muzzle and chin remain an intact cream skin surface for procedural mouth layer. Keep nose/nostrils. Do NOT include neck/body/wings/glasses. Preserve the reference character's restrained friendly intelligent expression, no angry look. Same clean polished fantasy illustration and softly faceted shading. Single isolated piece, generous true transparent margins, no outside glow/shadow, no text or other parts."
+  },
+  {
+    "id": "torso-v2",
+    "prompt": "Use case: precise-object-edit / production puppet texture reconstruction. Use attached APPROVED ORIGINAL reference as proportion authority. Only the isolated TORSO and short thick neck below head. Match original reference torso exactly in character: a short tapered chest/bust with cream layered breast plates and modest brown side scales; NOT a big round pot belly, NOT wide inflated pear shape. Slimmer side silhouette and narrower base than the previous overly chubby interpretation. Neck top filled and complete for head overlap. Keep the original brown/beige/gold palette and details. Remove entire head, horns, wings, eyes, mouth. One complete isolated torso. Same clean polished fantasy illustration and softly faceted shading. Single isolated piece, generous true transparent margins, no outside glow/shadow, no text or other parts."
+  }
+]

@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import {paintAvatar} from '../src/VtuberFriends/wwwroot/avatar-view.js';
+let now=1000;globalThis.performance={now:()=>now};
+const names=new Set(),style={setProperty(name,value){this[name]=value;}};
+const view={container:{classList:{toggle(name,value){if(value)names.add(name);else names.delete(name);}},style},body:{},name:{},kind:null,until:0};
+const slot={id:1,userId:'demo-a',enabled:true,avatar:'bronze',opacity:.35,thresholdDb:-60,holdMs:200,scale:1,showName:true};
+const person={userId:'demo-a',name:'Only4',present:true};
+paintAvatar(view,slot,person,{rms:.01},{connected:true});
+assert.equal(view.container.style.opacity,'0.35');assert.equal(view.name.textContent,'Only4');assert(names.has('talking'));
+paintAvatar(view,{...slot,enabled:false},person,{rms:.01},{connected:true});assert(names.has('is-hidden'));
+paintAvatar(view,slot,{...person,present:false},{rms:.01},{connected:true});assert(names.has('is-hidden'));
+paintAvatar(view,slot,person,{rms:.01},{connected:false});assert(names.has('is-hidden'));
+paintAvatar(view,{...slot,enabled:false},person,{rms:0},{connected:true,preview:true});assert(!names.has('is-hidden'));
+now+=300;paintAvatar(view,slot,person,{rms:0},{connected:true});assert(!names.has('talking'));
+paintAvatar(view,slot,{...person,name:'Nuevo nombre'}, {rms:0},{connected:true});assert.equal(view.name.textContent,'Nuevo nombre');
+console.log('PASS: opacidad real, nombre de Discord, fuente oculta al desactivar/salir/desconectar, preview y silencio.');
+
+paintAvatar(view,{...slot,showName:false},person,{rms:0},{connected:true});
+assert.equal(view.name.hidden,true);
+paintAvatar(view,{...slot,showName:true},person,{rms:0},{connected:true});
+assert.equal(view.name.hidden,false);
+console.log('PASS: interruptor de etiqueta oculta y vuelve a mostrar el nombre.');

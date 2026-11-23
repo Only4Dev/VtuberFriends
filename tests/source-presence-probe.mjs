@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {SourcePresence} from '../src/VtuberFriends/wwwroot/source-presence.js';
+const now=100000,restored=new SourcePresence({time:now-500,userId:'a',visible:true});
+assert.equal(restored.update(false,false,'a',now).instant,true);
+assert.equal(restored.update(true,true,'a',now+100).resume,true,'Disconnected boot must not consume reload restoration');
+assert.equal(restored.update(true,true,'a',now+200).resume,false,'No duplicate resume from polling');
+restored.update(false,false,'a');assert.equal(restored.update(true,true,'a').resume,true,'Transient connection recovery should not replay entry');
+restored.update(true,false,'a');assert.equal(restored.update(true,true,'a').instant,false,'Actual leave/reentry should animate');
+restored.update(false,false,'a');assert.equal(restored.update(true,true,'b').resume,false,'Reassigned user must get entry');
+const clean=new SourcePresence();clean.update(false,false,'a');assert.equal(clean.update(true,true,'a').instant,false,'First fresh start must animate');
+assert.equal(new SourcePresence({time:1,userId:'a',visible:true}).update(true,true,'a',now).resume,false);
+console.log('PASS: disconnected boot/reload, recovery without replay, real leave/reentry, reassignment and expired restore. Synthetic state transitions.');

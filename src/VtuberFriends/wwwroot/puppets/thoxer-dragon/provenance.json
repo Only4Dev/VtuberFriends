@@ -1,0 +1,74 @@
+{
+  "date": "2026-11-20",
+  "method": "Generative reconstruction of approved Thoxer reference; separate eye layers/brows/accessory glasses, intact muzzle with surface mouth.",
+  "reference": "Approved Thoxer concept copied unchanged from art/concepts/nexo-cyber-v2/reference.png. Generative layer reconstruction, not exact pixel extraction. No human photograph included.",
+  "parts": 20,
+  "texturedLayers": 16,
+  "assets": [
+    {
+      "file": "brow-left.png",
+      "sha256": "07b6bd24f3a1ffc285997c089729089e807336ef4db4146a66af0ca341f23e56",
+      "bytes": 1041291
+    },
+    {
+      "file": "brow-right.png",
+      "sha256": "147deb986f16e16f8bfbe8eda664b0c2902018a9c29fa56fab9080daa22118dc",
+      "bytes": 856000
+    },
+    {
+      "file": "fang.png",
+      "sha256": "19c10bc41d214e8ed3f0498571950e6e804ef26fde825043551cea53cb62a025",
+      "bytes": 1119326
+    },
+    {
+      "file": "head-clean.png",
+      "sha256": "80fb46c33c419c0f869e7a88bd414df5fdf9c667188866a1f6a9c12b8dc5cf0c",
+      "bytes": 1924064
+    },
+    {
+      "file": "iris.png",
+      "sha256": "e12fed8b57da456fae19f7551e7e6db3786e781b7c57ff1c5469678ea544cff8",
+      "bytes": 1237467
+    },
+    {
+      "file": "lid-lower.png",
+      "sha256": "e6167b5545ff9030edb82109d7368b05a15b8a99e391d7d4afc87a3021d9d4d9",
+      "bytes": 692291
+    },
+    {
+      "file": "lid-upper.png",
+      "sha256": "4b88e3d0d9523ff000dce13648be1f69609461f2364ec1c58c3e7ebfa19afee9",
+      "bytes": 1046619
+    },
+    {
+      "file": "reference.png",
+      "sha256": "ffec55afa158940f14fa9fb7bc7b7e9847bdab767655e104e1eb2489eff9b96e",
+      "bytes": 1956526
+    },
+    {
+      "file": "sclera.png",
+      "sha256": "cbb561149f504e5c9047e4e9c9fbe00d274cf3e3a35cc2ef191e7fc86ffb41a2",
+      "bytes": 1281149
+    },
+    {
+      "file": "torso.png",
+      "sha256": "f6add7c6cd0e401e12d588c2a4438580ce7bf78b3ca3f14ada18ea1a42a70b17",
+      "bytes": 1825377
+    },
+    {
+      "file": "wing-left.png",
+      "sha256": "9cd3f3c3e46614905ce2194bfebd72cf283d1820acb7c6c9f7841af8f229edcf",
+      "bytes": 1922847
+    },
+    {
+      "file": "wing-right.png",
+      "sha256": "adc9bafc764144c3ce298df2534807e36eceb71bf9c2a01e2dc67ede7b782509",
+      "bytes": 1325336
+    },
+    {
+      "file": "torso-lion.png",
+      "sha256": "e10143f5d7e5c07784e124131d7bf4fb8128ceefff433d2729004ed706322faa",
+      "bytes": 2174674
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+import assert from 'node:assert/strict';import {subscribeState} from '../src/VtuberFriends/wwwroot/state-stream.js';
+const handlers=new Map(),sockets=[];globalThis.location={origin:'http://127.0.0.1:17861'};globalThis.document={hidden:false,addEventListener:(k,v)=>handlers.set(k,v),removeEventListener:k=>handlers.delete(k)};
+globalThis.WebSocket=class{constructor(url){this.url=url;sockets.push(this);}close(){this.closed=true;this.onclose?.();}};
+const seen=[];let offline=0;const dispose=subscribeState(s=>seen.push(structuredClone(s)),()=>offline++,{panel:true});const socket=sockets[0];socket.onopen();
+const emit=(type,data)=>socket.onmessage({data:JSON.stringify({type,data})});emit('slots',[{id:7}]);emit('diagnostics',{warnings:2});emit('levels',{receiver:{mode:'demo'},users:[{rms:.2}],participants:[]});assert.equal(seen[0].slots[0].id,7);assert.equal(seen[0].receiver.warnings,2);
+document.hidden=true;handlers.get('visibilitychange')();assert(socket.closed);document.hidden=false;handlers.get('visibilitychange')();assert.equal(sockets.length,2);dispose();assert.equal(handlers.size,0);assert(offline>0);console.log('PASS: split state updates, hidden panel disconnect, resume and disposal without polling.');

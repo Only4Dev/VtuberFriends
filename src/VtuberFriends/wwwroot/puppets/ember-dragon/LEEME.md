@@ -1,0 +1,1 @@
+Ascua: cabeza completa sin boca ni dientes pintados; pupilas, fondos y cortinas independientes. Dos colmillos siguen el labio de la boca interpolada, sin jaw. Cejas y alas separadas. PNG generados con ImageGen desde referencia; no extraccion exacta. Registro por UV, originales sin modificar.

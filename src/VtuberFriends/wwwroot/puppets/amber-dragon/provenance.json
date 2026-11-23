@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-19",
+  "method": "Generative reconstruction of approved friendly Amber reference; round intact muzzle, independent golden brows, surface mouth without separate jaw.",
+  "parts": 20,
+  "assets": [
+    {
+      "file": "brow.png",
+      "sha256": "3e7f5553354a19fae455d1e258140f46bc95e36a2061d6674f6be68f91a8e6f9",
+      "bytes": 347014
+    },
+    {
+      "file": "fang.png",
+      "sha256": "568ba3c8bde41f560c53687b381d6926f984e57ce16201dbde5d94fd984f061e",
+      "bytes": 788881
+    },
+    {
+      "file": "head-v2.png",
+      "sha256": "6b324ac9ff7f3f93f3d11a0e05c78a7fd97300bc0de5a93b87c51faed84c4f98",
+      "bytes": 1366624
+    },
+    {
+      "file": "iris.png",
+      "sha256": "430ed4eaf0e20cd7f6991018e102e43457b3c8028af1291048b535d3b1c71f33",
+      "bytes": 746103
+    },
+    {
+      "file": "lid-lower.png",
+      "sha256": "ff6b7236d5c668d09cce9b61bc9ec75234c852acaf09d8e4384e6456a856b5b8",
+      "bytes": 679249
+    },
+    {
+      "file": "lid-upper.png",
+      "sha256": "e02d1a8fea797bbe050ad937ba13735a5651ae7f005e359ae61bd462562f0bd6",
+      "bytes": 1173248
+    },
+    {
+      "file": "reference.png",
+      "sha256": "1c022923e05fd651b523fe8424b33f2e1f7ec0f72b27da3fa52b36be471ff295",
+      "bytes": 1650806
+    },
+    {
+      "file": "sclera.png",
+      "sha256": "9eccff31b021566b95c26129a4e65a6f8fcd2b8e4363594d6f24c9fc5af2176a",
+      "bytes": 1473784
+    },
+    {
+      "file": "torso-v2.png",
+      "sha256": "a61c87bb7cf48ddace7825f201860b021a1dc8d0e673556e6b63e4f5d6a74dba",
+      "bytes": 999561
+    },
+    {
+      "file": "wing-left.png",
+      "sha256": "d6e723d422f21032fa9c347ca4d4d77bd4f72a8dfbfb8b1d003a2b496438c5b3",
+      "bytes": 1561502
+    },
+    {
+      "file": "wing-right.png",
+      "sha256": "2beb00945555e0e45e6b070c651994f1c78bc0d5f30b98a9eb911190d875a3a4",
+      "bytes": 1637665
+    }
+  ],
+  "referenceRevision": "Head-v2 and torso-v2 closer to approved reference, narrower chest and defined chin; existing surface mouth untouched; calmer centered gaze."
+}

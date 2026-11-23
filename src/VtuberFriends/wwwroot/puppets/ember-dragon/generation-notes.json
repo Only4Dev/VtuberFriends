@@ -1,0 +1,18 @@
+{
+  "tool": "built-in ImageGen",
+  "reference": "reference.png",
+  "common": "Faithful production 2D puppet reconstruction. Single isolated sprite, genuine transparency, high resolution shaded illustration, no labels or sheets. Preserve reference colors and distinctive details.",
+  "parts": {
+    "head": "Complete head with segmented horns, hair, forehead gem, ears, full blank muzzle/chin. Remove eyebrows, mouth and teeth; genuine transparent narrow half-lidded eye holes; no eyeballs, neck or wings.",
+    "torso": "Chest/neck only, orange faceted gem, silver chevron neck armor, dark side scales and orange seams. Reconstruct hidden upper neck, no head or wings.",
+    "wing-left": "Image-left wing only, orange shoulder and tip joints, dark curved spar, burgundy membrane and orange flame markings; root on right.",
+    "wing-right": "Image-right wing only, matching joints, spar, burgundy membrane and flame markings; root on left.",
+    "iris": "Single round reddish copper iris with round black pupil and white highlight, transparency outside circle; no sclera or lids.",
+    "sclera": "Single creamy white oval background with upper gray shading; no iris, pupil or black center.",
+    "brow-left": "Detached image-left angular dark plum metallic eyebrow, lavender highlight; slopes toward right/nose.",
+    "brow-right": "Detached image-right angular dark plum metallic eyebrow, lavender highlight; slopes toward left/nose.",
+    "lid-upper": "Opaque dark plum rounded trapezoid curtain, twice as wide as tall, no eyes, holes, gems or patterns.",
+    "lid-lower": "Opaque dark plum rounded bowl/trapezoid curtain, twice as wide as tall, no eyes, holes, gems or patterns.",
+    "fang": "One ivory fang, thick rounded top and tapered downward point, no gum, lip or second tooth."
+  }
+}

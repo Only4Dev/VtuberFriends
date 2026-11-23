@@ -1,0 +1,24 @@
+**/bin/
+**/obj/
+.tools/
+artifacts/
+config.json
+*.user
+
+.local/
+*.dpapi
+
+Distribucion/
+
+# Private local history, generated art workspace and user sound library
+/CURRENT.md
+/art/
+/Sonidos/*
+!/Sonidos/LEEME.txt
+*.zip
+*.log
+*.pem
+*.key
+
+__pycache__/
+*.pyc

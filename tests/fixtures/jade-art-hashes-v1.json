@@ -1,0 +1,16 @@
+{
+  "rig.json": "ef3766f35fdb3ac41ad062de9cf9a3a1ae047a8e7695fbf5c573246da8a9b949",
+  "fangs.png": "c0da78f3278d11f913a38eb378f54e82e2f6fdd1140d7f63c72cb40e8fd0800b",
+  "head.png": "910b4adbe323ed4fc86ea23d3f00e6e892f963d984caff76348ff7b2aea07fda",
+  "iris.png": "e581528faa51b5b8bf693d6173b4457d18cb52a920bbefdf5b6185c4ce07271f",
+  "jaw.png": "b1c3d3445309e5daa3246cfb84c695fd046487a7d5f0761f5a42e3c52aea5015",
+  "lid-lower.png": "1971568afc758d9f20ffb24301e56cbd96ef790bfad206d94297be585a9ef321",
+  "lid-upper.png": "769b26be8c099a9f97bda26e2cdd44a5901f546cb99aff99ffe90c5a8ed22d97",
+  "lower-teeth.png": "c8aa48160c130fb9165ac909be6fc55916602b6f797fc4808a4789bde0158097",
+  "sclera.png": "943c3917155868884f20a474889cec57421bfe9a7535ad3ade0a9efdbbd0dd76",
+  "tail-tip.png": "e4bd25ba0fccb2f9e8db7dd1ac5add05aa43272be391774fe927929e522906bb",
+  "tongue.png": "64af0a094a1a307fe0dbc01072591f7c9306e61df7ac835af31243394ef8acb5",
+  "torso.png": "0a7d19fc461a1a6f1bb1a97e812ab67bd0777534ee8926082ac159fe688b10cc",
+  "wing-left.png": "521cd204b2c85f4d2c230c561a9a04f120678139776efeccaf95b3f7ebd519b5",
+  "wing-right.png": "b3a935708779fead145740216ab7a559cc9aac7e7d2e6ce93785868ee6a86aa5"
+}

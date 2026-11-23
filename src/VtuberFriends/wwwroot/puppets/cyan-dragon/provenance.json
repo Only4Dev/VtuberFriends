@@ -1,0 +1,81 @@
+{
+  "date": "2026-11-19",
+  "reference": "reference.png",
+  "method": "Built-in ImageGen revision 4: remove ALL teeth from head only. Reuse separate original two-fang layer. Black solid cavity clipped to mouth aperture; no red cavity texture. Silver jaw revision: built-in ImageGen color edit only; original jaw retained. Rig behavior unchanged.",
+  "parts": 18,
+  "texturedLayers": 14,
+  "alpha": "Generated alpha preserved; mesh UV bounds trim padding at runtime.",
+  "assets": [
+    {
+      "file": "eye-left.png",
+      "sha256": "9fcc8d8c3e33f7772afa5bf3a87866cbe538dece19beec60d454d476d61fe2c3",
+      "bytes": 948395
+    },
+    {
+      "file": "eye-right.png",
+      "sha256": "1d50ae74b903215d11bedb020c32ae4930f38a70b21cbb11b9a5412f0bfcd7e6",
+      "bytes": 1158431
+    },
+    {
+      "file": "fangs.png",
+      "sha256": "379911346496e19f4280fd6055d0b2d62661bcf02cd10290367b821c15cfb35b",
+      "bytes": 110917
+    },
+    {
+      "file": "head-v4.png",
+      "sha256": "4f6bd5680230b6da8f7596ef44be4b32ed23f13e46901d024ad55c1081965f93",
+      "bytes": 1880223
+    },
+    {
+      "file": "jaw-silver.png",
+      "sha256": "60dcc997cc021c5716a28609bb9baca0adc96239ec529fe656b171f0acf99967",
+      "bytes": 703576
+    },
+    {
+      "file": "lid-left-lower-obsidian.png",
+      "sha256": "eba6f20f2eeeb76eee556cd62a0c3971925c9e43ddade3d45c9a7c68f650c2e4",
+      "bytes": 563122
+    },
+    {
+      "file": "lid-left-upper-obsidian.png",
+      "sha256": "d5437ae87222d2403fe2931f9af01c0f9101c1e3316bbd4b30753428b3a119c4",
+      "bytes": 1063030
+    },
+    {
+      "file": "lid-right-lower-obsidian.png",
+      "sha256": "9726d30e7654a1857850bc2fec64cadb4246d8b75c07da20b2a4cfffec1c854b",
+      "bytes": 526324
+    },
+    {
+      "file": "lid-right-upper-obsidian.png",
+      "sha256": "423f1e480e65d1ebd85616f7ff906d3d8bb79303a6013d03611147bc26901aaa",
+      "bytes": 1322794
+    },
+    {
+      "file": "lower-teeth.png",
+      "sha256": "c8aa48160c130fb9165ac909be6fc55916602b6f797fc4808a4789bde0158097",
+      "bytes": 227986
+    },
+    {
+      "file": "tongue-v3.png",
+      "sha256": "e2ce367c9d69a6f3882a4a8a114efa5544858080664d60bdc026356332ccc288",
+      "bytes": 633477
+    },
+    {
+      "file": "torso.png",
+      "sha256": "96c190ed362ab212cb8401e6f3beda9b7b28bc223831a3433bd8e99868b6f220",
+      "bytes": 1334561
+    },
+    {
+      "file": "wing-left.png",
+      "sha256": "835087f75382b5186793dbacd507138bd725c4339bc9f8f1699a5a5c547e934f",
+      "bytes": 1511951
+    },
+    {
+      "file": "wing-right.png",
+      "sha256": "7580a919cf856a2a2307d6c4af266bc2b61ec2e691740bf88b4c7f7ee5154105",
+      "bytes": 1488475
+    }
+  ],
+  "mouthUpdate": "Independent opaque backing with overlap beneath lips; separate generated six lower teeth attached to jaw. Original head remains toothless, two upper fangs unchanged."
+}

@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-20",
+  "method": "Original ImageGen textile dragon concept, reconstructed as independent sprites. Not exact pixel extraction.",
+  "assets": [
+    {
+      "file": "bandana.png",
+      "sha256": "c0bb3c2bfbf4f420d913df1f36337033c9c901254049f42e70ee875176facb28",
+      "bytes": 2034446
+    },
+    {
+      "file": "brow.png",
+      "sha256": "41ac38fe462c6928352047c9840ea7e13ae8f7aae52169d8dd77dd5153d6629b",
+      "bytes": 1822200
+    },
+    {
+      "file": "fang-clean.png",
+      "sha256": "6e6e1178bb463a4497699123adb0e9c838813d724059039183de6c5d332f1e1d",
+      "bytes": 1160983
+    },
+    {
+      "file": "fang.png",
+      "sha256": "b50d9a007445cb1ad9c971d930d14bc03e6773b49715eba29962a9cbde588aeb",
+      "bytes": 2111056
+    },
+    {
+      "file": "head.png",
+      "sha256": "21e15fd30395f154f5013cdf8759bd39205a9c295dda25558f1a842661ce4ca3",
+      "bytes": 2168664
+    },
+    {
+      "file": "iris.png",
+      "sha256": "c6ff54808180db99687f7d1caf2e276e87baad86f0fe27d2d30a935064504f07",
+      "bytes": 2663991
+    },
+    {
+      "file": "lid-lower.png",
+      "sha256": "16902bd251b8f9cfc38d52f7aa4e2a18519676c11058e891907327ec098edccd",
+      "bytes": 2172095
+    },
+    {
+      "file": "lid-upper.png",
+      "sha256": "6f0363931f7c300ea387335f66fd195fad77124982cfc389718070a455c98a66",
+      "bytes": 1817361
+    },
+    {
+      "file": "reference-without-bandana.png",
+      "sha256": "6b18e127bc5f66c86ec63a65bf8231de117009c609a89b04dc7b80e1ed4eacb6",
+      "bytes": 2568950
+    },
+    {
+      "file": "reference.png",
+      "sha256": "bd32ff43920ab54db1abe3145e2465184943c17fc3fb1dda17bee6cc7aec5b82",
+      "bytes": 2333717
+    },
+    {
+      "file": "sclera.png",
+      "sha256": "45fa974e588ac5eb675595a7551fb8a188ce347d3cbd2ce924956c074f336cde",
+      "bytes": 2432786
+    },
+    {
+      "file": "torso.png",
+      "sha256": "2273781f445a1b992666c0d720a439c13b0019978cb30d21459f61eb591597a0",
+      "bytes": 1680038
+    },
+    {
+      "file": "wing-left.png",
+      "sha256": "096853d9dd6583f4bbc05c58095533b557e805f2a1aee07a4341370a16e7064e",
+      "bytes": 2116158
+    },
+    {
+      "file": "wing-right.png",
+      "sha256": "f2fe17669b974d70277919ba9252251601c04ebf80ddd536893aecb339e51b26",
+      "bytes": 2328339
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "head",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the complete isolated HEAD with its long green gold red swept crown horns and cheek fins. Front facing symmetrical. Remove entire body and neck. Remove lower jaw, all teeth, mouth interior and tongue: finish at clean shallow zigzag upper muzzle edge. Exactly ZERO teeth. BOTH eye openings must be truly transparent holes, no white eyes, pupils or dark painted fill; underlying eye layers will go behind these holes. Match original reference identity and polished faceted illustration. Wide horizontal composition head aspect1.6:1. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "torso",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the continuous serpentine BODY BELOW THE HEAD: tall silver-plated neck flowing down into the compact green gold red S-shaped coiled body with two broad overlapping loops like reference. Remove entire head, horns, eyes, jaw, mouth. Remove both side wing-fins, and the leaf-shaped terminal tail fin: keep a short thick tail end pointing down-right ready for a separate fin overlap. One continuous connected body, reconstruct hidden neck top as smoothly rounded solid green/silver continuation. Silver belly plates, emerald scales gold rings red dorsal ridges. Vertical composition. No disconnected fragments. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "wing-left",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the small LEFT shoulder fin visible on IMAGE LEFT below the head: green curved swept triangular fin, gold oval/ring near root and red trailing edge, pointed tip extends to LEFT. Isolated complete fin including hidden rounded root on right. No body, no head, no other fin. Horizontal composition. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "wing-right",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the small RIGHT shoulder fin visible on IMAGE RIGHT below the head: green curved swept triangular fin, gold oval/ring near root and red trailing edge, pointed tip extends to RIGHT. Isolated complete fin including hidden rounded root on left. No body, no head, no other fin. Horizontal composition. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "tail-tip",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the bottom leaf-shaped pointed TAIL FIN of the reference, green with gold ring and gold stripe, red pointed edges, broad forked elegant silhouette angled from lower-left toward upper-right. Extend its left root for overlap with body stub. No coiled body, no head or other pieces. Horizontal composition. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "jaw",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the silver lower JAW of reference. Shallow silver V / chevron shape with faceted gray plates, dark narrow outline, smooth pointed chin centered bottom. Front view symmetric, upper edge is shallow angular zigzag to fit dragon muzzle. No upper muzzle, head, neck, teeth, fangs, tongue, mouth interior. Wide flat jawstrip aspect3:1. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "tongue",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the small pink dragon TONGUE from reference mouth, rounded triangular shape with subtle central crease, warm pink tip and burgundy base. No jaw, mouth cavity, lips, teeth, head. Single clean piece. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "fangs",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY exactly TWO ivory upper dragon FANGS, separate tapered curved triangles pointing downward, matching reference. On transparent canvas wide horizontal arrangement, one near25%width, one near75%width. No gums, head, jaw, mouth or other teeth. Exactly TWO isolated fangs. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "eye-left",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the LEFT eye as seen on IMAGE LEFT: almond-shaped warm ivory sclera and golden amber iris with vertical dark slit pupil, facing straight ahead, slight sharp upward outercorner. The eye texture itself without socket, scales, eyelids or head. One isolated eye. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "eye-right",
+    "prompt": "Use case: precise-object-edit / generative reconstruction for a layered 2D puppet. From attached dragon reference reconstruct a single separate production texture. ONLY the RIGHT eye as seen on IMAGE RIGHT: almond-shaped warm ivory sclera and golden amber iris with vertical dark slit pupil, facing straight ahead, slight sharp upward outercorner. The eye texture itself without socket, scales, eyelids or head. One isolated eye. Preserve reference crisp illustrated linework, jade green / gold / red palette, scale detail and shading. This is one isolated part, NOT a sheet or whole character. True transparent background and generous padding around entire part; no cast shadow, glow, labels or text. Do not add extra anatomy."
+  },
+  {
+    "id": "iris",
+    "prompt": "Use case precise-object-edit. Separate 2D puppet texture from attached eye and dragon references. ONLY the golden amber IRIS plus central dark vertical slit PUPIL from eye reference. Reconstruct a complete oval iris, round at top and softly pointed bottom, rich golden scale texture and small white catchlight. NO white sclera/background, NO surrounding eye shape, no lids or scales from head. Exactly one isolated gold iris with pupil; outside the iris is fully transparent. No glow, aura or soft shadow. Match crisp polished faceted illustration. Single separate asset, generous transparent margin, no text or other elements."
+  },
+  {
+    "id": "sclera",
+    "prompt": "Use case precise-object-edit. Separate 2D puppet texture from attached eye and dragon references. ONLY the ivory cream SCLERA eye background, from the eye reference, but REMOVE the entire golden iris and slit pupil and reconstruct clean seamless ivory where iris was. One almond eye shape with subtle ivory gradients, no gold, no pupil, no red outline or eyelids. No outer glow or aura. Fully transparent outside the almond silhouette. Match crisp polished faceted illustration. Single separate asset, generous transparent margin, no text or other elements."
+  },
+  {
+    "id": "lid-upper",
+    "prompt": "Use case precise-object-edit. Separate 2D puppet texture from attached eye and dragon references. ONLY an upper eyelid curtain surface for the jade dragon: wide smooth dark emerald green subtly faceted plate, gently curved lower edge, solid filled green covering surface, no holes. Similar emerald material to dragon forehead, plain green without gold/red markings. Isolated broad plate shape, no eyeball, iris, white, teeth or other anatomy. Transparent outside, no glow. Match crisp polished faceted illustration. Single separate asset, generous transparent margin, no text or other elements."
+  },
+  {
+    "id": "lid-lower",
+    "prompt": "Use case precise-object-edit. Separate 2D puppet texture from attached eye and dragon references. ONLY a lower eyelid curtain surface for the jade dragon: wide low smooth emerald green subtly faceted plate, gently curved upper edge, solid filled green covering surface. Same green material as dragon cheeks, plain green without gold/red markings. Isolated broad plate shape, no eyeball, iris, white, teeth or other anatomy. Transparent outside, no glow. Match crisp polished faceted illustration. Single separate asset, generous transparent margin, no text or other elements."
+  }
+]

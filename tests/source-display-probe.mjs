@@ -1,0 +1,7 @@
+import assert from 'node:assert/strict';import {sourceDisplay} from '../src/VtuberFriends/wwwroot/source-display.js';
+const state={testMode:false,receiver:{mode:'discord',status:'disconnected'},participants:[],users:[]},slot={userId:'123456789012345678',enabled:true,opacity:.43,avatar:'cyan-puppet'},saved=structuredClone(slot);
+assert.equal(sourceDisplay(slot,state,true).wanted,false);state.testMode=true;let display=sourceDisplay(slot,state,true,'Nombre recordado');assert(display.wanted);assert.equal(display.person.name,'Nombre recordado');assert.equal(display.level.rms,0);assert.equal(state.participants.length,0);
+assert.equal(sourceDisplay({...slot,enabled:false},state,true).wanted,false);assert.equal(sourceDisplay({...slot,userId:null},state,true).wanted,false);assert.equal(sourceDisplay(slot,state,false).wanted,false);
+state.receiver.status='connected';state.participants=[{userId:slot.userId,name:'Nombre real',present:true}];state.users=[{userId:slot.userId,rms:.2,frames:9}];display=sourceDisplay(slot,state,true);assert.equal(display.person.name,'Nombre real');assert.equal(display.level.rms,0);
+state.testMode=false;display=sourceDisplay(slot,state,true);assert(display.wanted);assert.equal(display.level.rms,.2);state.participants=[];assert.equal(sourceDisplay(slot,state,true).wanted,false);assert.deepEqual(slot,saved);
+console.log('PASS: assigned+Mostrar only, offline receiver allowed in test, silence, retained names, real presence restoration, stale connection hides, zero slot mutation.');

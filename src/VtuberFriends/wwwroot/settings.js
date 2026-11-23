@@ -1,0 +1,16 @@
+export function mountSettings(){
+ const button=document.querySelector('#settingsButton'),dialog=document.querySelector('#settingsDialog');
+ const form=dialog.querySelector('form'),status=dialog.querySelector('[role=status]'),token=form.elements.token;
+ button.addEventListener('click',async()=>{dialog.showModal();status.textContent='Cargando…';try{const r=await fetch('/api/settings');const s=await r.json();form.elements.guildId.value=s.guildId;form.elements.channelId.value=s.channelId;token.value='';token.placeholder=s.hasToken?'Ya hay un token cifrado. Deja vacío para conservarlo.':'Pega el token del bot';status.textContent=s.demo?'Modo demo: no se conecta a Discord.':'El token se cifra para tu usuario de Windows y nunca se muestra de nuevo.';form.querySelector('[type=submit]').disabled=s.demo;}catch{status.textContent='No se pudo cargar la configuración.';}});
+ dialog.querySelector('[data-close]').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{token.value='';});
+ form.addEventListener('submit',async event=>{event.preventDefault();const submit=form.querySelector('[type=submit]');submit.disabled=true;status.textContent='Guardando y conectando… puede tardar hasta 90 segundos.';
+  try{const payload={guildId:form.elements.guildId.value.trim(),channelId:form.elements.channelId.value.trim(),token:token.value||null};token.value='';const r=await fetch('/api/settings/connect',{method:'POST',headers:{'Content-Type':'application/json','X-VF-Panel':'1'},body:JSON.stringify(payload)});payload.token=null;const result=await r.json();status.textContent=r.ok?(result.receiver.status==='connected'?'Bot conectado al canal.':result.receiver.status==='token_required'?'Falta el token del bot.':'No pudo conectar. Revisa token, IDs, invitación del bot y permisos Ver canales/Conectar.'):(result.error||'No se pudo guardar.');}catch{status.textContent='No se pudo contactar con la aplicación.';}finally{submit.disabled=false;}
+ });
+ dialog.querySelector('[data-disconnect]').addEventListener('click',async()=>{status.textContent='Desconectando…';await fetch('/api/settings/disconnect',{method:'POST',headers:{'X-VF-Panel':'1'}});status.textContent='Bot desconectado. Puedes volver a conectar con Guardar y conectar.';});
+ dialog.querySelector('[data-reconnect]').addEventListener('click',async event=>{
+ const button=event.currentTarget;button.disabled=true;status.textContent='Reconectando voz sin cambiar configuraciones…';
+ try{const response=await fetch('/api/audio/reconnect',{method:'POST',headers:{'X-VF-Panel':'1'}}),data=await response.json();status.textContent=response.ok&&data.receiver?.status==='connected'?'Voz reconectada. Habla para comprobar audio.':data.error||'No pudo reconectar. Consulta Estado de la conexión.';}catch{status.textContent='No se pudo contactar con la app.';}finally{button.disabled=false;}
+ });
+ document.querySelector('#refreshSounds').addEventListener('click',()=>{document.dispatchEvent(new Event('vf-refresh-sounds'));});
+ dialog.querySelector('[data-exit]').addEventListener('click',async()=>{await fetch('/api/app/exit',{method:'POST',headers:{'X-VF-Panel':'1'}});status.textContent='Aplicación cerrada. Ya puedes cerrar esta ventana.';});
+}

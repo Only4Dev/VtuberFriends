@@ -1,0 +1,4 @@
+Copia aqui tus sonidos de entrada y salida.
+WAV, MP3, OGG, M4A o WEBM; hasta 10 MB por archivo.
+Pulsa Actualizar biblioteca en el panel para ver los archivos nuevos. No uses subcarpetas.
+Esta carpeta es portable: acompana al programa y su configuracion.

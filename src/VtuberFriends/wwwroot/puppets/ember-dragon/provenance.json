@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-20",
+  "method": "Generative reconstruction from supplied fire dragon reference; original preserved. Independent sprites, not exact pixel extraction.",
+  "assets": [
+    {
+      "file": "brow-left.png",
+      "sha256": "e24932b588fd4c829755b51d28404a33c4f04314e449fd6a3e9945e6705d6688",
+      "bytes": 926517
+    },
+    {
+      "file": "brow-right.png",
+      "sha256": "4c1d1f2757669182370a6223070bd4b4cf40754eea82d9a7c55a68f7ea93aee1",
+      "bytes": 708296
+    },
+    {
+      "file": "fang.png",
+      "sha256": "33eac679d66b823dc7fc80a7521e53e82a8d97b0daa1dfe4d3a197ab8cbbf869",
+      "bytes": 453641
+    },
+    {
+      "file": "head.png",
+      "sha256": "af0cacd7da2127cf72b94cf525d9e57d7663984dbd5a01e8728902d5b9ddb771",
+      "bytes": 1616454
+    },
+    {
+      "file": "iris.png",
+      "sha256": "9212bd731fca30542b7539fd5bf2ea8a643ff7b12a0741de207a52eb706c6da0",
+      "bytes": 1222601
+    },
+    {
+      "file": "lid-lower.png",
+      "sha256": "1a94299c9982a0978f3d74be813fb2eaf7d8b11e7d97e5af3dbcd6c6d21c0cf3",
+      "bytes": 925606
+    },
+    {
+      "file": "lid-upper.png",
+      "sha256": "54891329445975c97ac387ef5c3eb60afce369a18ae24216a3c21727df890471",
+      "bytes": 1050284
+    },
+    {
+      "file": "reference.png",
+      "sha256": "1150c117a7080df192d54345644cb4e80bcdc72d9f843975af45c7fc227a598e",
+      "bytes": 1955147
+    },
+    {
+      "file": "sclera.png",
+      "sha256": "55c7c39e2b696f4b7da759334f822281fabb3fa3c1d466968ef29f00e95b86d6",
+      "bytes": 1228530
+    },
+    {
+      "file": "torso.png",
+      "sha256": "f365c9e50c9f79e1a87aac081186109f73dbc5fd78569d1e406e937b9a0923a3",
+      "bytes": 1667602
+    },
+    {
+      "file": "wing-left.png",
+      "sha256": "276677dd1b7920b544931e60eae28eeeb6fc0d2c55d82a7baddec036077a7ab0",
+      "bytes": 985220
+    },
+    {
+      "file": "wing-right.png",
+      "sha256": "58ca2238f8322196744a08775a3b9dfa184feeb370b3404126e8bd73af58296c",
+      "bytes": 1016739
+    }
+  ]
+}

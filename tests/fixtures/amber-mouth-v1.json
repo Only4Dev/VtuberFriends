@@ -1,0 +1,90 @@
+[
+  {
+    "id": "mouth",
+    "node": "head",
+    "rect": [
+      570,
+      660,
+      396,
+      120
+    ],
+    "kind": "solid",
+    "color": [
+      35,
+      18,
+      15,
+      255
+    ],
+    "uv": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "deform": "surfaceMouth"
+  },
+  {
+    "id": "tongue",
+    "node": "head",
+    "rect": [
+      570,
+      660,
+      396,
+      120
+    ],
+    "kind": "solid",
+    "color": [
+      218,
+      122,
+      143,
+      255
+    ],
+    "uv": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "deform": "surfaceTongue"
+  },
+  {
+    "id": "fang-left",
+    "node": "head",
+    "src": "fang.png",
+    "rect": [
+      646,
+      671,
+      32,
+      38
+    ],
+    "uv": [
+      0.376953125,
+      0.2490234375,
+      0.623046875,
+      0.70703125
+    ],
+    "deform": "surfaceFangs",
+    "alphaCutoff": 0.3,
+    "flipX": false
+  },
+  {
+    "id": "fang-right",
+    "node": "head",
+    "src": "fang.png",
+    "rect": [
+      858,
+      671,
+      32,
+      38
+    ],
+    "uv": [
+      0.376953125,
+      0.2490234375,
+      0.623046875,
+      0.70703125
+    ],
+    "deform": "surfaceFangs",
+    "alphaCutoff": 0.3,
+    "flipX": true
+  }
+]

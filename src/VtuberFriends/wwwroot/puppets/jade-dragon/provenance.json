@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-20",
+  "method": "Built-in ImageGen generative reconstruction of approved Jade concept; no claim of exact extraction. Eyes revised to independent iris, fixed sclera and separate eyelid textures. Six lower teeth reused from Cyan. Body stays one continuous textured surface with a shared smooth deformation field.",
+  "parts": 21,
+  "texturedLayers": 17,
+  "assets": [
+    {
+      "file": "fangs.png",
+      "sha256": "c0da78f3278d11f913a38eb378f54e82e2f6fdd1140d7f63c72cb40e8fd0800b",
+      "bytes": 210494
+    },
+    {
+      "file": "head.png",
+      "sha256": "910b4adbe323ed4fc86ea23d3f00e6e892f963d984caff76348ff7b2aea07fda",
+      "bytes": 1329252
+    },
+    {
+      "file": "iris.png",
+      "sha256": "e581528faa51b5b8bf693d6173b4457d18cb52a920bbefdf5b6185c4ce07271f",
+      "bytes": 404516
+    },
+    {
+      "file": "jaw.png",
+      "sha256": "b1c3d3445309e5daa3246cfb84c695fd046487a7d5f0761f5a42e3c52aea5015",
+      "bytes": 685814
+    },
+    {
+      "file": "lid-lower.png",
+      "sha256": "1971568afc758d9f20ffb24301e56cbd96ef790bfad206d94297be585a9ef321",
+      "bytes": 549998
+    },
+    {
+      "file": "lid-upper.png",
+      "sha256": "769b26be8c099a9f97bda26e2cdd44a5901f546cb99aff99ffe90c5a8ed22d97",
+      "bytes": 844277
+    },
+    {
+      "file": "lower-teeth.png",
+      "sha256": "c8aa48160c130fb9165ac909be6fc55916602b6f797fc4808a4789bde0158097",
+      "bytes": 227986
+    },
+    {
+      "file": "reference.png",
+      "sha256": "fdc61762185333f4197c21f1336b49078e4ccefc6d6946a48088a882184fc7bf",
+      "bytes": 1524042
+    },
+    {
+      "file": "sclera.png",
+      "sha256": "943c3917155868884f20a474889cec57421bfe9a7535ad3ade0a9efdbbd0dd76",
+      "bytes": 663096
+    },
+    {
+      "file": "tail-tip.png",
+      "sha256": "e4bd25ba0fccb2f9e8db7dd1ac5add05aa43272be391774fe927929e522906bb",
+      "bytes": 880185
+    },
+    {
+      "file": "tongue.png",
+      "sha256": "64af0a094a1a307fe0dbc01072591f7c9306e61df7ac835af31243394ef8acb5",
+      "bytes": 822315
+    },
+    {
+      "file": "torso.png",
+      "sha256": "0a7d19fc461a1a6f1bb1a97e812ab67bd0777534ee8926082ac159fe688b10cc",
+      "bytes": 1278155
+    },
+    {
+      "file": "wing-left.png",
+      "sha256": "521cd204b2c85f4d2c230c561a9a04f120678139776efeccaf95b3f7ebd519b5",
+      "bytes": 865746
+    },
+    {
+      "file": "wing-right.png",
+      "sha256": "b3a935708779fead145740216ab7a559cc9aac7e7d2e6ce93785868ee6a86aa5",
+      "bytes": 696943
+    }
+  ],
+  "eyeRevision": "Smooth small amber anime iris matching reference; no scale pattern. Fixed sclera and curtains preserved."
+}

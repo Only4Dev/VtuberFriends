@@ -1,0 +1,60 @@
+name: Portable release and compatible update
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: windows-latest
+    env:
+      DOTNET_GCHeapHardLimit: '0x20000000'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate without real Discord
+        shell: pwsh
+        run: |
+          dotnet run --project tests/RecoveryProbe -c Release
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          dotnet run --project tests/UpdatesProbe -c Release
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          dotnet run --project tests/LevelsProbe -c Release
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node tests/accessories-probe.mjs
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node tests/puppet-shader-interface-probe.mjs
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Build clean portable release
+        shell: pwsh
+        run: |
+          ./scripts/build-launcher.ps1
+          dotnet publish src/VtuberFriends -c Release -r win-x64 --self-contained true -o artifacts/win-x64
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          dotnet publish src/VtuberFriends.Patch -c Release -r win-x64 --self-contained true -o artifacts/patch-runner
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/make-organized-release.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Create delta against last public release
+        shell: pwsh
+        run: |
+          python scripts/github-release-assets.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VtuberFriends-release
+          path: artifacts/release-assets/*
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: gh release create $env:GITHUB_REF_NAME artifacts/release-assets/* --verify-tag --generate-notes --title "Vtuber & Friends $env:GITHUB_REF_NAME"

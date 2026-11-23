@@ -1,0 +1,1 @@
+Remiendo: amarillo/lima, tejido y parches. Cabeza sin boca ni dientes pintados. Iris, fondo y cortinas separados; boca interpolada sin jaw, colmillos de fieltro. Mascada azul paisley en capa bandana, parent torso. Originales PNG intactos, UV registrados por alpha. Concepto y reconstruccion generados con ImageGen; prompts en generation-notes.json.

@@ -1,0 +1,6 @@
+Eye reference revision — 2026-11-19
+
+Built-in ImageGen precise-object-edit. Replaced iris.png with smooth amber anime iris, removing reptile scale texture. Preserved original as iris-textured-v1.png. Iris rectangles reduced from 92×165 to 44×125, same eye center approximately; fixed sclera, lids, head, body and controllers untouched. Generated alpha preserved; UV bounds read from alpha. Original reference remains authoritative.
+
+Prompt:
+Precise-object-edit. Create ONLY a replacement isolated iris/pupil layer for the green chibi dragon in image1, using image2 merely to understand the layer being replaced. Match IMAGE1 eyes: SIMPLE small slender amber oval iris, a thin dark central vertical oval pupil, smooth warm honey/gold shading, tiny modest white catchlight. Flat polished anime/cel shading. Absolutely NO reptile scale texture, NO intricate scale pattern, NO glowing molten gold, NO large black snake slit. The reference has mostly ivory sclera visible surrounding a narrow amber iris; do NOT include that sclera in this asset, only the iris and pupil. One complete smooth oval golden iris with dark center, true transparent background outside its oval silhouette, no eyelids, face, text, shadow or glow.

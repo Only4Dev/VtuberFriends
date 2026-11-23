@@ -1,0 +1,17 @@
+[
+  {
+    "file": "libdave.dll",
+    "source": "https://github.com/discord/libdave/releases/download/v1.2.1/cpp/libdave-Windows-X64-boringssl.zip",
+    "sha256": "50783C26946DC7699BD2097C3DCEAB1B65FD61788687D6CC00D9E1262EE8BEBE"
+  },
+  {
+    "file": "opus.dll",
+    "source": "https://raw.githubusercontent.com/discord-net/Discord.Net/3.20.2/voice-natives/vnext_natives_win32_x64.zip",
+    "sha256": "C84DA836E8D92421AC305842CFE5A724898ED09D340D46B129E210BDC9448131"
+  },
+  {
+    "file": "libsodium.dll",
+    "source": "https://raw.githubusercontent.com/discord-net/Discord.Net/3.20.2/voice-natives/vnext_natives_win32_x64.zip",
+    "sha256": "F1485CE247CE946E2C17EE2C56811C22838703309C7944A03867BBC45CE91CF9"
+  }
+]

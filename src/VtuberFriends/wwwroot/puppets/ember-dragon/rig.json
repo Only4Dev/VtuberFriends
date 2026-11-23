@@ -1,0 +1,652 @@
+{
+  "schemaVersion": 1,
+  "id": "ember-dragon",
+  "name": "Ascua · Puppet 2D",
+  "canvas": [
+    1536,
+    1120
+  ],
+  "textureMax": 2048,
+  "provenance": "Generative reconstruction from supplied fire dragon reference; original preserved. Independent sprites, not exact pixel extraction.",
+  "nodes": [
+    {
+      "id": "root",
+      "parent": null,
+      "pivot": [
+        768,
+        1050
+      ],
+      "bind": "body"
+    },
+    {
+      "id": "torso",
+      "parent": "root",
+      "pivot": [
+        768,
+        775
+      ],
+      "bind": "neck"
+    },
+    {
+      "id": "wing-left-root",
+      "parent": "root",
+      "pivot": [
+        600,
+        755
+      ],
+      "bind": "wingLeftRoot"
+    },
+    {
+      "id": "wing-left-tip",
+      "parent": "wing-left-root",
+      "pivot": [
+        340,
+        740
+      ],
+      "bind": "wingLeftTip"
+    },
+    {
+      "id": "wing-right-root",
+      "parent": "root",
+      "pivot": [
+        936,
+        755
+      ],
+      "bind": "wingRightRoot"
+    },
+    {
+      "id": "wing-right-tip",
+      "parent": "wing-right-root",
+      "pivot": [
+        1196,
+        740
+      ],
+      "bind": "wingRightTip"
+    },
+    {
+      "id": "head",
+      "parent": "torso",
+      "pivot": [
+        768,
+        540
+      ],
+      "bind": "head"
+    },
+    {
+      "id": "eye-left",
+      "parent": "head",
+      "pivot": [
+        674,
+        426
+      ],
+      "bind": "eyeLeft"
+    },
+    {
+      "id": "eye-right",
+      "parent": "head",
+      "pivot": [
+        862,
+        426
+      ],
+      "bind": "eyeRight"
+    },
+    {
+      "id": "lid-left-upper",
+      "parent": "head",
+      "pivot": [
+        628.7187928669409,
+        553.4095634095634
+      ],
+      "bind": "lidLeftUpper",
+      "travel": 155
+    },
+    {
+      "id": "lid-left-lower",
+      "parent": "head",
+      "pivot": [
+        628.7187928669409,
+        553.4095634095634
+      ],
+      "bind": "lidLeftLower",
+      "travel": -45
+    },
+    {
+      "id": "lid-right-upper",
+      "parent": "head",
+      "pivot": [
+        907.2812071330591,
+        553.8045738045738
+      ],
+      "bind": "lidRightUpper",
+      "travel": 155
+    },
+    {
+      "id": "lid-right-lower",
+      "parent": "head",
+      "pivot": [
+        907.2812071330591,
+        553.8045738045738
+      ],
+      "bind": "lidRightLower",
+      "travel": -45
+    },
+    {
+      "id": "brow-left",
+      "parent": "head",
+      "pivot": [
+        640,
+        350
+      ],
+      "bind": "browLeft"
+    },
+    {
+      "id": "brow-right",
+      "parent": "head",
+      "pivot": [
+        895,
+        350
+      ],
+      "bind": "browRight"
+    }
+  ],
+  "parts": [
+    {
+      "id": "wing-left",
+      "node": "wing-left-root",
+      "src": "wing-left.png",
+      "rect": [
+        20,
+        540,
+        565,
+        515
+      ],
+      "uv": [
+        0.10980662983425414,
+        0.013812154696132596,
+        0.8984806629834254,
+        0.9861878453038674
+      ],
+      "deform": "leftWing",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "wing-right",
+      "node": "wing-right-root",
+      "src": "wing-right.png",
+      "rect": [
+        951,
+        540,
+        565,
+        515
+      ],
+      "uv": [
+        0.055248618784530384,
+        0.01565377532228361,
+        0.9302486187845304,
+        0.9769797421731123
+      ],
+      "deform": "rightWing",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "torso",
+      "node": "torso",
+      "src": "torso.png",
+      "rect": [
+        410,
+        590,
+        716,
+        480
+      ],
+      "uv": [
+        0.010670731707317074,
+        0.03419516263552961,
+        0.9885670731707317,
+        0.9749791492910759
+      ],
+      "deform": "none",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "eye-dark-left",
+      "node": "head",
+      "rect": [
+        550,
+        380,
+        180,
+        100
+      ],
+      "kind": "solid",
+      "color": [
+        15,
+        20,
+        23,
+        255
+      ],
+      "uv": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "deform": "face"
+    },
+    {
+      "id": "eye-bg-left",
+      "node": "head",
+      "src": "sclera.png",
+      "rect": [
+        545,
+        375,
+        190,
+        110
+      ],
+      "uv": [
+        0.04114994363021421,
+        0.12288613303269448,
+        0.9543404735062007,
+        0.9007891770011274
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "eye-left",
+      "node": "eye-left",
+      "src": "iris.png",
+      "rect": [
+        638,
+        390,
+        72,
+        72
+      ],
+      "uv": [
+        0.052256532066508314,
+        0.052969502407704656,
+        0.936658749010293,
+        0.9550561797752809
+      ],
+      "deform": "none",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "lid-left-upper",
+      "node": "lid-left-upper",
+      "src": "lid-upper.png",
+      "rect": [
+        495,
+        170,
+        290,
+        225
+      ],
+      "uv": [
+        0.010710259301014656,
+        0.1826381059751973,
+        0.9887260428410372,
+        0.8602029312288614
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3,
+      "opaqueCutout": true
+    },
+    {
+      "id": "lid-left-lower",
+      "node": "lid-left-lower",
+      "src": "lid-lower.png",
+      "rect": [
+        505,
+        454,
+        270,
+        150
+      ],
+      "uv": [
+        0.040022547914317926,
+        0.1826381059751973,
+        0.9616685456595265,
+        0.8523111612175873
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3,
+      "opaqueCutout": true
+    },
+    {
+      "id": "eye-dark-right",
+      "node": "head",
+      "rect": [
+        805,
+        380,
+        180,
+        100
+      ],
+      "kind": "solid",
+      "color": [
+        15,
+        20,
+        23,
+        255
+      ],
+      "uv": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "deform": "face"
+    },
+    {
+      "id": "eye-bg-right",
+      "node": "head",
+      "src": "sclera.png",
+      "rect": [
+        800,
+        375,
+        190,
+        110
+      ],
+      "uv": [
+        0.04114994363021421,
+        0.12288613303269448,
+        0.9543404735062007,
+        0.9007891770011274
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "eye-right",
+      "node": "eye-right",
+      "src": "iris.png",
+      "rect": [
+        826,
+        390,
+        72,
+        72
+      ],
+      "uv": [
+        0.052256532066508314,
+        0.052969502407704656,
+        0.936658749010293,
+        0.9550561797752809
+      ],
+      "deform": "none",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "lid-right-upper",
+      "node": "lid-right-upper",
+      "src": "lid-upper.png",
+      "rect": [
+        750,
+        170,
+        290,
+        225
+      ],
+      "uv": [
+        0.010710259301014656,
+        0.1826381059751973,
+        0.9887260428410372,
+        0.8602029312288614
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3,
+      "opaqueCutout": true
+    },
+    {
+      "id": "lid-right-lower",
+      "node": "lid-right-lower",
+      "src": "lid-lower.png",
+      "rect": [
+        760,
+        454,
+        270,
+        150
+      ],
+      "uv": [
+        0.040022547914317926,
+        0.1826381059751973,
+        0.9616685456595265,
+        0.8523111612175873
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3,
+      "opaqueCutout": true
+    },
+    {
+      "id": "head",
+      "node": "head",
+      "src": "head.png",
+      "rect": [
+        300,
+        0,
+        936,
+        670
+      ],
+      "uv": [
+        0.06567366283006093,
+        0.014084507042253521,
+        0.9350033852403521,
+        0.971830985915493
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "brow-left",
+      "node": "brow-left",
+      "src": "brow-left.png",
+      "rect": [
+        555,
+        315,
+        175,
+        75
+      ],
+      "uv": [
+        0.09895833333333333,
+        0.057387057387057384,
+        0.90625,
+        0.945054945054945
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "brow-right",
+      "node": "brow-right",
+      "src": "brow-right.png",
+      "rect": [
+        810,
+        315,
+        175,
+        75
+      ],
+      "uv": [
+        0.08962795941375423,
+        0.13528748590755355,
+        0.9616685456595265,
+        0.8692220969560316
+      ],
+      "deform": "face",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "mouth",
+      "node": "head",
+      "rect": [
+        635,
+        555,
+        266,
+        90
+      ],
+      "kind": "solid",
+      "color": [
+        35,
+        18,
+        15,
+        255
+      ],
+      "uv": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "deform": "surfaceMouth"
+    },
+    {
+      "id": "tongue",
+      "node": "head",
+      "rect": [
+        635,
+        555,
+        266,
+        90
+      ],
+      "kind": "solid",
+      "color": [
+        191,
+        106,
+        130,
+        255
+      ],
+      "uv": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "deform": "surfaceTongue"
+    },
+    {
+      "id": "fang-left",
+      "node": "head",
+      "src": "fang.png",
+      "rect": [
+        675,
+        565,
+        28,
+        32
+      ],
+      "uv": [
+        0.25685975609756095,
+        0.10925771476230192,
+        0.7408536585365854,
+        0.8515429524603837
+      ],
+      "deform": "surfaceFangs",
+      "alphaCutoff": 0.3
+    },
+    {
+      "id": "fang-right",
+      "node": "head",
+      "src": "fang.png",
+      "rect": [
+        833,
+        565,
+        28,
+        32
+      ],
+      "uv": [
+        0.25685975609756095,
+        0.10925771476230192,
+        0.7408536585365854,
+        0.8515429524603837
+      ],
+      "deform": "surfaceFangs",
+      "alphaCutoff": 0.3
+    }
+  ],
+  "requiredParts": [
+    "wing-left",
+    "wing-right",
+    "torso",
+    "eye-dark-left",
+    "eye-bg-left",
+    "eye-left",
+    "lid-left-upper",
+    "lid-left-lower",
+    "eye-dark-right",
+    "eye-bg-right",
+    "eye-right",
+    "lid-right-upper",
+    "lid-right-lower",
+    "head",
+    "brow-left",
+    "brow-right",
+    "mouth",
+    "tongue",
+    "fang-left",
+    "fang-right"
+  ],
+  "limits": {
+    "headAngleX": 20,
+    "headAngleY": 20,
+    "headAngleZ": 15
+  },
+  "notes": "Primary horns and cheek crests use the head mesh, not individually redrawn rigid pieces. Each wing uses root rotation plus weighted elbow/tip deformation on an 8x8 textured mesh.",
+  "anchors": {
+    "mouth": {
+      "part": "mouth",
+      "position": [
+        768,
+        570
+      ]
+    },
+    "crown": {
+      "part": "head",
+      "position": [
+        768,
+        100
+      ]
+    },
+    "hornLeft": {
+      "part": "head",
+      "position": [
+        490,
+        105
+      ]
+    },
+    "hornRight": {
+      "part": "head",
+      "position": [
+        1046,
+        105
+      ]
+    },
+    "body": {
+      "part": "torso",
+      "position": [
+        768,
+        875
+      ]
+    }
+  },
+  "meshSegments": 24,
+  "eyeMask": true,
+  "eyeBounds": {
+    "left": [
+      565,
+      395,
+      715,
+      460
+    ],
+    "right": [
+      820,
+      395,
+      970,
+      460
+    ]
+  },
+  "surfaceMouth": [
+    635,
+    555,
+    266,
+    90
+  ],
+  "glowPalette": "ember",
+  "gazeScale": [
+    0.25,
+    0.18
+  ],
+  "cyberGlow": false,
+  "browMotionScale": 0.55
+}

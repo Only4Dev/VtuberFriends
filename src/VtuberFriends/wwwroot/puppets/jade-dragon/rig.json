@@ -1,0 +1,707 @@
+{
+  "schemaVersion": 1,
+  "id": "jade-dragon",
+  "name": "Jade celestial · Puppet 2D",
+  "canvas": [
+    1536,
+    1440
+  ],
+  "textureMax": 2048,
+  "provenance": "Generative reconstruction from user-approved concept. Independent new parts; continuous coiled body mesh, not exact extraction.",
+  "nodes": [
+    {
+      "id": "root",
+      "parent": null,
+      "pivot": [
+        768,
+        1350
+      ],
+      "bind": "body"
+    },
+    {
+      "id": "torso",
+      "parent": "root",
+      "pivot": [
+        768,
+        750
+      ],
+      "bind": "neck"
+    },
+    {
+      "id": "wing-left-root",
+      "parent": "root",
+      "pivot": [
+        700,
+        845
+      ],
+      "bind": "wingLeftRoot"
+    },
+    {
+      "id": "wing-left-tip",
+      "parent": "wing-left-root",
+      "pivot": [
+        340,
+        740
+      ],
+      "bind": "wingLeftTip"
+    },
+    {
+      "id": "wing-right-root",
+      "parent": "root",
+      "pivot": [
+        830,
+        845
+      ],
+      "bind": "wingRightRoot"
+    },
+    {
+      "id": "wing-right-tip",
+      "parent": "wing-right-root",
+      "pivot": [
+        1196,
+        740
+      ],
+      "bind": "wingRightTip"
+    },
+    {
+      "id": "head",
+      "parent": "torso",
+      "pivot": [
+        768,
+        600
+      ],
+      "bind": "head"
+    },
+    {
+      "id": "jaw",
+      "parent": "head",
+      "pivot": [
+        768,
+        660
+      ],
+      "bind": "jawAnchor"
+    },
+    {
+      "id": "mouth",
+      "parent": "head",
+      "pivot": [
+        768,
+        636
+      ],
+      "bind": "mouth"
+    },
+    {
+      "id": "eye-left",
+      "parent": "head",
+      "pivot": [
+        654,
+        541
+      ],
+      "bind": "eyeLeft"
+    },
+    {
+      "id": "eye-right",
+      "parent": "head",
+      "pivot": [
+        882,
+        541
+      ],
+      "bind": "eyeRight"
+    },
+    {
+      "id": "lid-left-upper",
+      "parent": "head",
+      "pivot": [
+        628.7187928669409,
+        553.4095634095634
+      ],
+      "bind": "lidLeftUpper",
+      "travel": 170
+    },
+    {
+      "id": "lid-left-lower",
+      "parent": "head",
+      "pivot": [
+        628.7187928669409,
+        553.4095634095634
+      ],
+      "bind": "lidLeftLower",
+      "travel": -85
+    },
+    {
+      "id": "lid-right-upper",
+      "parent": "head",
+      "pivot": [
+        907.2812071330591,
+        553.8045738045738
+      ],
+      "bind": "lidRightUpper",
+      "travel": 170
+    },
+    {
+      "id": "lid-right-lower",
+      "parent": "head",
+      "pivot": [
+        907.2812071330591,
+        553.8045738045738
+      ],
+      "bind": "lidRightLower",
+      "travel": -85
+    },
+    {
+      "id": "tongue",
+      "parent": "head",
+      "pivot": [
+        768,
+        696
+      ],
+      "bind": "tongue"
+    },
+    {
+      "id": "upper-fangs",
+      "parent": "head",
+      "pivot": [
+        768,
+        670
+      ],
+      "bind": "upperLip"
+    }
+  ],
+  "parts": [
+    {
+      "id": "wing-left",
+      "node": "wing-left-root",
+      "src": "wing-left.png",
+      "rect": [
+        350,
+        790,
+        360,
+        150
+      ],
+      "uv": [
+        0.052423900789177004,
+        0.18151071025930102,
+        0.9210822998872604,
+        0.8151071025930101
+      ],
+      "deform": "leftWing",
+      "serpent": true
+    },
+    {
+      "id": "wing-right",
+      "node": "wing-right-root",
+      "src": "wing-right.png",
+      "rect": [
+        820,
+        790,
+        360,
+        150
+      ],
+      "uv": [
+        0.08229988726042842,
+        0.21195039458850057,
+        0.9346110484780158,
+        0.8083427282976324
+      ],
+      "deform": "rightWing",
+      "serpent": true
+    },
+    {
+      "id": "torso",
+      "node": "torso",
+      "src": "torso.png",
+      "rect": [
+        249,
+        680,
+        850,
+        680
+      ],
+      "uv": [
+        0.06839032527105922,
+        0.05945121951219512,
+        0.9149291075896581,
+        0.9382621951219512
+      ],
+      "deform": "serpent"
+    },
+    {
+      "id": "tail-tip",
+      "node": "torso",
+      "src": "tail-tip.png",
+      "rect": [
+        950,
+        1135,
+        350,
+        230
+      ],
+      "uv": [
+        0.029312288613303268,
+        0.02480270574971815,
+        0.9763246899661782,
+        0.9549041713641488
+      ],
+      "deform": "serpent"
+    },
+    {
+      "id": "eye-dark-left",
+      "node": "head",
+      "kind": "solid",
+      "color": [
+        9,
+        25,
+        20,
+        255
+      ],
+      "rect": [
+        530,
+        495,
+        210,
+        185
+      ],
+      "uv": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "deform": "face"
+    },
+    {
+      "id": "eye-bg-left",
+      "node": "head",
+      "rect": [
+        520,
+        480,
+        230,
+        220
+      ],
+      "uv": [
+        0.14226519337016574,
+        0.0787292817679558,
+        0.8591160220994475,
+        0.9019337016574586
+      ],
+      "src": "sclera.png",
+      "flipX": true,
+      "deform": "face"
+    },
+    {
+      "id": "eye-left",
+      "node": "eye-left",
+      "src": "iris.png",
+      "rect": [
+        609,
+        526,
+        44,
+        125
+      ],
+      "uv": [
+        0.31097560975609756,
+        0.18432026688907424,
+        0.6829268292682927,
+        0.8056713928273561
+      ],
+      "deform": "none",
+      "flipX": false
+    },
+    {
+      "id": "lid-left-upper",
+      "node": "lid-left-upper",
+      "rect": [
+        510,
+        275,
+        250,
+        240
+      ],
+      "uv": [
+        0.09668508287292818,
+        0.06767955801104972,
+        0.9737569060773481,
+        0.8715469613259669
+      ],
+      "deform": "face",
+      "src": "lid-upper.png",
+      "flipX": true
+    },
+    {
+      "id": "lid-left-lower",
+      "node": "lid-left-lower",
+      "rect": [
+        510,
+        665,
+        250,
+        150
+      ],
+      "uv": [
+        0.07412523020257827,
+        0.19889502762430938,
+        0.9244935543278084,
+        0.9350828729281768
+      ],
+      "deform": "face",
+      "src": "lid-lower.png",
+      "flipX": true
+    },
+    {
+      "id": "eye-dark-right",
+      "node": "head",
+      "kind": "solid",
+      "color": [
+        9,
+        25,
+        20,
+        255
+      ],
+      "rect": [
+        809,
+        495,
+        210,
+        185
+      ],
+      "uv": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "deform": "face"
+    },
+    {
+      "id": "eye-bg-right",
+      "node": "head",
+      "rect": [
+        799,
+        480,
+        230,
+        220
+      ],
+      "uv": [
+        0.14226519337016574,
+        0.0787292817679558,
+        0.8591160220994475,
+        0.9019337016574586
+      ],
+      "src": "sclera.png",
+      "flipX": false,
+      "deform": "face"
+    },
+    {
+      "id": "eye-right",
+      "node": "eye-right",
+      "src": "iris.png",
+      "rect": [
+        888,
+        526,
+        44,
+        125
+      ],
+      "uv": [
+        0.31097560975609756,
+        0.18432026688907424,
+        0.6829268292682927,
+        0.8056713928273561
+      ],
+      "deform": "none",
+      "flipX": false
+    },
+    {
+      "id": "lid-right-upper",
+      "node": "lid-right-upper",
+      "rect": [
+        789,
+        275,
+        250,
+        240
+      ],
+      "uv": [
+        0.09668508287292818,
+        0.06767955801104972,
+        0.9737569060773481,
+        0.8715469613259669
+      ],
+      "deform": "face",
+      "src": "lid-upper.png",
+      "flipX": false
+    },
+    {
+      "id": "lid-right-lower",
+      "node": "lid-right-lower",
+      "rect": [
+        789,
+        665,
+        250,
+        150
+      ],
+      "uv": [
+        0.07412523020257827,
+        0.19889502762430938,
+        0.9244935543278084,
+        0.9350828729281768
+      ],
+      "deform": "face",
+      "src": "lid-lower.png",
+      "flipX": false
+    },
+    {
+      "id": "mouth-back",
+      "node": "mouth",
+      "kind": "solid",
+      "color": [
+        20,
+        13,
+        21,
+        255
+      ],
+      "rect": [
+        478,
+        610,
+        580,
+        280
+      ],
+      "uv": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "deform": "mouthBackdrop",
+      "editReference": "mouth",
+      "clipMouth": true
+    },
+    {
+      "id": "mouth",
+      "node": "mouth",
+      "rect": [
+        478,
+        620,
+        580,
+        240
+      ],
+      "uv": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "deform": "mouth",
+      "kind": "solid",
+      "color": [
+        20,
+        13,
+        21,
+        255
+      ],
+      "clipMouth": true
+    },
+    {
+      "id": "tongue",
+      "node": "tongue",
+      "rect": [
+        650,
+        728,
+        236,
+        42
+      ],
+      "deform": "tongue",
+      "src": "tongue.png",
+      "uv": [
+        0.3131510416666667,
+        0.29296875,
+        0.6868489583333334,
+        0.7158203125
+      ],
+      "clipMouth": true
+    },
+    {
+      "id": "lower-teeth",
+      "node": "jaw",
+      "src": "lower-teeth.png",
+      "rect": [
+        550,
+        650,
+        436,
+        22
+      ],
+      "uv": [
+        0.1703499079189687,
+        0.35359116022099446,
+        0.830110497237569,
+        0.6339779005524862
+      ],
+      "deform": "lowerTeeth",
+      "editReference": "jaw",
+      "clipMouth": true
+    },
+    {
+      "id": "jaw",
+      "node": "jaw",
+      "src": "jaw.png",
+      "rect": [
+        478,
+        640,
+        580,
+        95
+      ],
+      "uv": [
+        0.06077348066298342,
+        0.22375690607734808,
+        0.9396869244935543,
+        0.8674033149171271
+      ],
+      "deform": "lowerJaw"
+    },
+    {
+      "id": "fangs",
+      "node": "upper-fangs",
+      "src": "fangs.png",
+      "rect": [
+        575,
+        680,
+        386,
+        72
+      ],
+      "uv": [
+        0.20303867403314918,
+        0.24033149171270718,
+        0.7969613259668509,
+        0.75
+      ],
+      "deform": "upperLip"
+    },
+    {
+      "id": "head",
+      "node": "head",
+      "src": "head.png",
+      "rect": [
+        160,
+        0,
+        1216,
+        760
+      ],
+      "uv": [
+        0.01008827238335435,
+        0.02620967741935484,
+        0.989281210592686,
+        0.9092741935483871
+      ],
+      "deform": "face"
+    }
+  ],
+  "requiredParts": [
+    "wing-left",
+    "wing-right",
+    "torso",
+    "eye-bg-left",
+    "eye-left",
+    "lid-left-upper",
+    "lid-left-lower",
+    "eye-bg-right",
+    "eye-right",
+    "lid-right-upper",
+    "lid-right-lower",
+    "mouth-back",
+    "mouth",
+    "tongue",
+    "lower-teeth",
+    "jaw",
+    "fangs",
+    "head",
+    "tail-tip"
+  ],
+  "limits": {
+    "headAngleX": 20,
+    "headAngleY": 20,
+    "headAngleZ": 15
+  },
+  "notes": "Primary horns and cheek crests use the head mesh, not individually redrawn rigid pieces. Each wing uses root rotation plus weighted elbow/tip deformation on an 8x8 textured mesh.",
+  "mouthRig": {
+    "upperLip": "head",
+    "upperFangs": "fangs",
+    "count": 2,
+    "opening": 70,
+    "hingeX": [
+      478,
+      1058
+    ],
+    "edges": [
+      [
+        718.36,
+        640.2
+      ],
+      [
+        691.46,
+        645.91
+      ],
+      [
+        714.89,
+        657.33
+      ],
+      [
+        725.3,
+        659.77
+      ],
+      [
+        759.13,
+        675.88
+      ],
+      [
+        725.3,
+        659.57
+      ],
+      [
+        714.89,
+        657.53
+      ],
+      [
+        691.46,
+        645.5
+      ],
+      [
+        718.36,
+        640.41
+      ]
+    ],
+    "background": "mouth-back",
+    "lowerTeeth": "lower-teeth"
+  },
+  "anchors": {
+    "mouth": {
+      "part": "head",
+      "position": [
+        768,
+        739.46
+      ]
+    },
+    "crown": {
+      "part": "head",
+      "position": [
+        768,
+        135
+      ]
+    },
+    "hornLeft": {
+      "part": "head",
+      "position": [
+        460,
+        75
+      ]
+    },
+    "hornRight": {
+      "part": "head",
+      "position": [
+        1076,
+        75
+      ]
+    },
+    "body": {
+      "part": "torso",
+      "position": [
+        768,
+        1000
+      ]
+    }
+  },
+  "behavior": "serpent",
+  "meshSegments": 24,
+  "eyeMask": true
+}

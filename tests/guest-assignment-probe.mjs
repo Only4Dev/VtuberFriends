@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {prepareGuestAssignment,absentGuestName} from '../src/VtuberFriends/wwwroot/guest-assignment.js';
+const slot={id:1,userId:null,enabled:false,avatar:'rose-puppet',opacity:.7,accessoryProfiles:{'rose-puppet':{accessoryHat:'top'}}};
+const id='99999999999999999999',prepared=prepareGuestAssignment(slot,' '+id+' ',[slot]);
+assert.equal(prepared.userId,id);assert.equal(prepared.enabled,true);assert.equal(prepared.avatar,slot.avatar);assert.equal(prepared.opacity,.7);assert.deepEqual(prepared.accessoryProfiles,slot.accessoryProfiles);
+assert.equal(slot.userId,null,'Do not mutate until validation succeeds');
+assert.equal(absentGuestName(id),'Usuario · '+id);
+assert.throws(()=>prepareGuestAssignment(slot,id,[{id:2,userId:id}]),/otra fuente/);
+assert.doesNotThrow(()=>prepareGuestAssignment(prepared,id,[prepared]));
+for(const invalid of ['', 'Only4', '<@12345678901234567>', '123', '123456789012345678901', '1e19', '99999999999999999<script>'])assert.throws(()=>prepareGuestAssignment(slot,invalid,[]),/17 a 20/);
+console.log('PASS: preassign absent Discord ID without numeric precision loss, preserve avatar/settings, activate on entry and reject duplicates/invalid IDs.');

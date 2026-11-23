@@ -1,0 +1,7 @@
+{
+  "tool": "built-in ImageGen",
+  "parts": {
+    "fang-white": "Edit the isolated dragon fang. Make it a SIMPLE PURE WHITE tiny pointed triangular upper fang, white enamel with only a very faint neutral gray edge shadow. NO pink, beige, rose tint, gold, colored reflections, shiny sculpted ridges or bulbous root. Smooth clean minimal cartoon tooth, broad rounded top and pointed tip downward. Real transparent background, generous fully empty margins, one tooth only. Preserve proportions of input tooth so it fits existing puppet mouth.",
+    "lashes-upper": "Precise isolated lash sprite edit. Keep ONLY the thick upper BLACK eyeliner arch and the THREE elegant swept upper eyelashes at its OUTER LEFT end. DELETE the ENTIRE lower eyeliner curve, all lower eyelashes and any closing outline so it is an OPEN upper arch only, NOT a closed almond frame. Remove pink highlight rim: clean solid BLACK upper liner with subtle neutral edge, no pink border. The upper liner is curved like input from outer LEFT to pointed inner RIGHT corner. Nothing below the upper arch, transparent empty lower area. No eye, iris, sclera, skin, head or background. High resolution crisp black sprite, genuine alpha-zero transparent background and generous empty margins. This single upper-lash piece will be mirrored for right eye, no lower line whatsoever."
+  }
+}

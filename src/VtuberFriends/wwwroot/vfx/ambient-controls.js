@@ -1,0 +1,16 @@
+import {ambientRegistry} from './ambient.js?v=__UI_VERSION__';
+export function ambientControls(card,save){
+ const root=document.createElement('details');root.className='advanced';root.innerHTML='<summary>Adornos · energía alrededor del avatar</summary>';
+ const content=document.createElement('div');content.className='advanced-content';root.append(content);
+ const hint=document.createElement('p');hint.className='sound-hint';content.append(hint);const fields=document.createElement('fieldset');fields.className='puppet-edit-fields';content.append(fields);const checks=new Map(),refreshers=[];
+ for(const [id,title]of Object.entries(ambientRegistry)){
+  const label=document.createElement('label');label.className='check-label';const input=document.createElement('input');input.type='checkbox';label.append(input,document.createTextNode(' '+title));fields.append(label);checks.set(id,input);
+  input.addEventListener('change',()=>{card.slot.ambientEffects=[...checks].filter(([,node])=>node.checked).map(([key])=>key);save(card);});
+ }
+ function range(key,title,min,max,step,fallback,format){const label=document.createElement('label');label.className='puppet-edit-range';const caption=document.createElement('span');caption.className='range-label';const name=document.createElement('span');name.textContent=title;const output=document.createElement('output');caption.append(name,output);const input=document.createElement('input');input.type='range';Object.assign(input,{min,max,step});input.setAttribute('aria-label',title+' · Fuente '+card.slot.id);label.append(caption,input);fields.append(label);const refresh=()=>{input.value=card.slot[key]??fallback;output.textContent=format(card.slot[key]??fallback);};refreshers.push(refresh);input.addEventListener('input',()=>{card.slot[key]=Number(input.value);refresh();save(card);});}
+ range('ambientIntensity','Intensidad',0,1,.01,.65,v=>Math.round(v*100)+'%');range('ambientSize','Tamaño del adorno',.5,1.5,.05,1,v=>Math.round(v*100)+'%');range('ambientSpeed','Velocidad de órbita',.2,2,.05,.7,v=>v.toFixed(2)+'×');
+ const color=document.createElement('input');color.type='color';color.setAttribute('aria-label','Color de adornos · Fuente '+card.slot.id);fields.append(color);color.addEventListener('input',()=>{card.slot.ambientColor=color.value;save(card);});
+ const quality=document.createElement('select');quality.setAttribute('aria-label','Calidad de adornos · Fuente '+card.slot.id);for(const [value,text]of [['low','Calidad ligera'],['medium','Calidad equilibrada'],['high','Calidad alta']]){const option=document.createElement('option');option.value=value;option.textContent=text;quality.append(option);}fields.append(quality);quality.addEventListener('change',()=>{card.slot.ambientQuality=quality.value;save(card);});
+ function refresh(){fields.disabled=card.slot.ambientQuality===undefined;hint.textContent=fields.disabled?'Reinicia el receptor para activar estos controles.':'Puedes combinar adornos. Siguen al avatar y se ocultan durante sus entradas/salidas. Se guardan por Puppet en esta fuente.';for(const [id,input]of checks)input.checked=(card.slot.ambientEffects||[]).includes(id);for(const update of refreshers)update();color.value=card.slot.ambientColor||'#86d8ef';quality.value=card.slot.ambientQuality||'medium';}
+ card.refresh.push(refresh);refresh();return root;
+}

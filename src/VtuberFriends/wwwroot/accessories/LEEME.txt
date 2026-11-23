@@ -1,0 +1,5 @@
+Accesorios editables SVG: catalog.json define el ID, categoria, archivo, nodo y rectangulo inicial.
+Conserva IDs y nombres de archivo al retocar el dibujo para mantener los ajustes guardados.
+Los efectos phone/galaxy/aura/floor-smoke/lightning/nose-smoke se dibujan en puppet/prop-effects.js.
+Los objetos tienen variantes izquierda/derecha con ajustes independientes; los efectos se ajustan por Puppet en el panel.
+Al agregar un SVG nuevo, registra una entrada en catalog.json (maximo32). Reinicia para recargar el catalogo.
