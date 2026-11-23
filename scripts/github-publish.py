@@ -27,6 +27,8 @@ if a.action=='ensure-repo':
  print(json.dumps({'repository':repo['html_url'],'private':repo['private']}));raise SystemExit(0)
 tag='v'+a.version
 release=api(base+'/releases/tags/'+urllib.parse.quote(tag,safe=''),missing=True)
+if release is None:
+ release=next((r for r in api(base+'/releases?per_page=100') if r['tag_name']==tag),None)
 if a.action=='draft':
  if release is None:
   if not a.commit:raise RuntimeError('Exact source commit is required.')
