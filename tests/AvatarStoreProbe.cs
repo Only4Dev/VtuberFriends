@@ -10,6 +10,7 @@ public static class AvatarStoreProbe
             var store = new AvatarStore(path);
             if (store.Snapshot().Length != AvatarStore.DefaultSlotCount || store.Snapshot().Any(s => s.Enabled || s.UserId is not null))
                 throw new Exception("Las fuentes nuevas no deben aparecer automaticamente.");
+            for(int i=0;i<8;i++)store.Add();
             store.Save(1, new AvatarSlot(1, "demo-a", true, Opacity: 0.35, ThresholdDb: -65, NameStyle: "outline", NameSize: 25, NameOpacity: .6, EntryAnimation: "fire", ExitSound: "none"));
             var edited = store.Snapshot()[0] with { PuppetParts = new Dictionary<string, PuppetPartEdit> { ["jaw"] = new(X: 15, Y: -12, ScaleY: .85, Rotation: 3) }, PuppetMouthTravel = 60, PuppetPadding = 300, PuppetMouthMode = "fixed", PuppetMouthMaxDb = -25, PuppetMouthStability = .7 };
             store.Save(1, edited);
@@ -123,36 +124,39 @@ public static class AvatarStoreProbe
             // Migrate a real six-slot shape without replacing any existing assignment or setting.
             var six = store.Snapshot().Take(6).ToArray();
             var json = new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web);
+            path=Path.Combine(directory,"legacy-avatars.json");
             File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(six, json));
             var expanded = new AvatarStore(path);
-            if (expanded.Snapshot().Length != AvatarStore.DefaultSlotCount
+            if (expanded.Snapshot().Length != 6
                 || System.Text.Json.JsonSerializer.Serialize(expanded.Snapshot().Take(6), json) != System.Text.Json.JsonSerializer.Serialize(six, json)) throw new Exception("Expansion pierde fuentes existentes.");
+            if(expanded.Add().Id!=7)throw new Exception("ID legacy7 incorrecto.");
             if (expanded.Snapshot()[6].Id != 7 || expanded.Snapshot()[6].Enabled || expanded.Snapshot()[6].UserId is not null) throw new Exception("Fuente7 no empieza vacia.");
             expanded.Save(7, new AvatarSlot(7, "99999999999999999999", true, Avatar: "frost-puppet"));
             var seven = new AvatarStore(path).Snapshot();
             if (seven[6].UserId != "99999999999999999999" || !seven[6].Enabled || seven[6].Avatar != "frost-puppet") throw new Exception("Fuente7 no persiste.");
-            try { expanded.Save(AvatarStore.DefaultSlotCount + 1, new AvatarSlot(AvatarStore.DefaultSlotCount + 1)); throw new Exception("Fuente fuera del limite aceptada."); } catch (ArgumentException) { }
+            try { expanded.Save(1000001, new AvatarSlot(1000001)); throw new Exception("Fuente fuera del limite aceptada."); } catch (ArgumentException) { }
             var sevenOnly = seven.Take(7).ToArray();
             File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(sevenOnly, json));
             string originalSeven = File.ReadAllText(path);
             var eightStore = new AvatarStore(path);
-            if (eightStore.Snapshot().Length != 8 || System.Text.Json.JsonSerializer.Serialize(eightStore.Snapshot().Take(7),json) != System.Text.Json.JsonSerializer.Serialize(sevenOnly,json)
-                || File.ReadAllText(path)!=originalSeven || eightStore.Snapshot()[7].Enabled || eightStore.Snapshot()[7].UserId is not null) throw new Exception("Expansion7a8 modifica las fuentes existentes.");
+            if (eightStore.Snapshot().Length != 7 || System.Text.Json.JsonSerializer.Serialize(eightStore.Snapshot().Take(7),json) != System.Text.Json.JsonSerializer.Serialize(sevenOnly,json)
+                || File.ReadAllText(path)!=originalSeven) throw new Exception("Expansion7a8 modifica las fuentes existentes.");
+            if(eightStore.Add().Id!=8)throw new Exception("ID legacy8 incorrecto.");
             eightStore.Save(8,new AvatarSlot(8,"888888888888888888",true,Avatar:"rose-puppet",Opacity:.73));
             var savedEight=new AvatarStore(path).Snapshot();
             if(savedEight[7].UserId!="888888888888888888"||savedEight[7].Avatar!="rose-puppet"||savedEight[7].Opacity!=.73||!savedEight[7].Enabled
                 || System.Text.Json.JsonSerializer.Serialize(savedEight.Take(7),json)!=System.Text.Json.JsonSerializer.Serialize(sevenOnly,json))throw new Exception("Fuente8 no persiste o cambia fuentes1..7.");
-            Console.WriteLine("PASS: migracion7a8 conserva las siete completas, no escribe al arrancar y fuente8 vacia/guardable/persistente.");
+            Console.WriteLine("PASS: fuentes legacy7 intactas al cargar, alta explicita de8 y persistencia sin renumerar.");
             var duplicate = six.Select((s,i) => i == 5 ? s with { Id = 1 } : s).ToArray();
             File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(duplicate, json));
             try { _ = new AvatarStore(path); throw new Exception("Configuracion duplicada aceptada."); } catch (InvalidDataException) { }
-            Console.WriteLine("PASS: migracion6a8 preserva ajustes/asignaciones, septima fuente vacia y guardable, limites y rechazo de IDs duplicados.");
-            Console.WriteLine("PASS: ocho fuentes ocultas por defecto, asignacion/opacidad persistentes, validacion y visibilidad.");
+            Console.WriteLine("PASS: fuentes legacy6 preservadas, altas explicitas, limites y rechazo de IDs duplicados.");
+            Console.WriteLine("PASS: estudio nuevo vacio, fuentes agregadas explicitamente y ajustes/validacion persistentes.");
         }
         finally
         {
             if (File.Exists(path)) File.Delete(path);
-            if (Directory.Exists(directory)) Directory.Delete(directory);
+            if (Directory.Exists(directory)) Directory.Delete(directory,true);
         }
     }
 }

@@ -4,7 +4,7 @@ async function start(){await new Promise((resolve,reject)=>{const s=createServer
 async function socket(path){const s=new WebSocket(url.replace('http','ws')+path);sockets.push(s);await new Promise((resolve,reject)=>{s.onopen=resolve;s.onerror=reject;});return s;}
 async function exited(max=5000){await Promise.race([new Promise(r=>app.once('exit',r)),wait(max)]);assert(app.exitCode!==null,'process left running');}
 try{
- let state=await start();let slot={...state.slots[0],userId:'123456789012345678',enabled:true,opacity:.63};assert((await fetch(url+'/api/slots/1',{method:'PUT',headers:{'Content-Type':'application/json','X-VF-Panel':'1'},body:JSON.stringify(slot)})).ok);const saved=await readFile(join(data,'demo-avatars.json'));
+ let state=await start();if(state.slots.length===0){assert((await fetch(url+'/api/slots',{method:'POST',headers:{'X-VF-Panel':'1'}})).ok);state=await(await fetch(url+'/api/state')).json();}let slot={...state.slots[0],userId:'123456789012345678',enabled:true,opacity:.63};assert((await fetch(url+'/api/slots/1',{method:'PUT',headers:{'Content-Type':'application/json','X-VF-Panel':'1'},body:JSON.stringify(slot)})).ok);const saved=await readFile(join(data,'demo-avatars.json'));
  assert(!(await(await fetch(url+'/overlay/1')).text()).includes('panel-lifetime'));
  assert.equal((await fetch(url+'/api/panel-lifetime',{headers:{Origin:'https://untrusted.invalid'}})).status,403);
  const live=await socket('/api/live');await wait(2200);assert.equal(app.exitCode,null,'headless/source-only must stay running');

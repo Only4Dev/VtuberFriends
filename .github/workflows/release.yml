@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install UI test dependency
+        run: npm install --prefix .tools/ui-tests linkedom@0.18.15 --no-audit --no-fund
       - name: Validate without real Discord
         shell: pwsh
         run: |
@@ -30,6 +32,10 @@ jobs:
           dotnet run --project tests/UpdatesProbe -c Release
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           dotnet run --project tests/LevelsProbe -c Release
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node tests/studio-ui-probe.mjs
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node tests/update-ui-probe.mjs
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node tests/accessories-probe.mjs
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -57,4 +63,8 @@ jobs:
       - name: Publish GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         shell: pwsh
-        run: gh release create $env:GITHUB_REF_NAME artifacts/release-assets/* --verify-tag --generate-notes --title "Vtuber & Friends $env:GITHUB_REF_NAME"
+        run: |
+          gh release view $env:GITHUB_REF_NAME --json tagName 2>$null
+          if ($LASTEXITCODE -eq 0) { Write-Output "Release already exists; verified assets were not overwritten."; exit 0 }
+          gh release create $env:GITHUB_REF_NAME artifacts/release-assets/* --verify-tag --notes-file CHANGELOG.md --title "Vtuber & Friends $env:GITHUB_REF_NAME"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }

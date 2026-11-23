@@ -8,20 +8,24 @@ namespace VtuberFriends;
 public sealed class UpdateService(string root, HttpClient http)
 {
  public const string Repository="Only4Dev/VtuberFriends";
- public const string Version="0.6.0";
+ public const string Version="0.7.0";
  private readonly SemaphoreSlim gate=new(1);private JsonElement? selected;private string? staged;private int installing;
- private object status=new {state="idle",version=Version,repository=Repository};
+ private UpdateView status=new("idle",Version,Repository);
  public object Status=>Volatile.Read(ref status);
- private void Set(string state,string message)=>Volatile.Write(ref status,new{state,message,version=Version,repository=Repository});
+ private void Set(string state,string message)=>Volatile.Write(ref status,Volatile.Read(ref status) with {State=state,Message=message});
  public async Task<object> Check(CancellationToken ct=default){
   await gate.WaitAsync(ct);try{
-   Set("checking","Buscando actualizaciones…");selected=null;
+   Volatile.Write(ref status,new("checking",Version,Repository,"Buscando actualizaciones…"));selected=null;
    using var request=new HttpRequestMessage(HttpMethod.Get,$"https://api.github.com/repos/{Repository}/releases/latest");request.Headers.UserAgent.ParseAdd("VtuberFriends/"+Version);request.Headers.Accept.ParseAdd("application/vnd.github+json");
    using var response=await http.SendAsync(request,HttpCompletionOption.ResponseHeadersRead,ct);
    if(response.StatusCode==System.Net.HttpStatusCode.NotFound){Set("current","Todavía no hay una versión publicada.");return Status;}
    response.EnsureSuccessStatusCode();byte[] body=await ReadBounded(await response.Content.ReadAsStreamAsync(ct),1024*1024,ct);using var doc=JsonDocument.Parse(body);var release=doc.RootElement;
    if(release.GetProperty("draft").GetBoolean()||release.GetProperty("prerelease").GetBoolean())throw new InvalidDataException();
    if(!System.Version.TryParse(release.GetProperty("tag_name").GetString()?.TrimStart('v'),out var latest)||latest<=System.Version.Parse(Version)){Set("current","Tienes la versión más reciente.");return Status;}
+   string tag=release.GetProperty("tag_name").GetString()!;
+   string changelog="https://github.com/"+Repository+"/releases/tag/"+Uri.EscapeDataString(tag);
+   string notes=release.TryGetProperty("body",out var bodyText)?bodyText.GetString()??"":"";if(notes.Length>20000)notes=notes[..20000];
+   Volatile.Write(ref status,Volatile.Read(ref status) with {LatestVersion=latest.ToString(),ChangelogUrl=changelog,Notes=notes});
    string fingerprint=Convert.ToHexStringLower(SHA256.HashData(await File.ReadAllBytesAsync(Path.Combine(root,"VtuberFriends.dll"),ct)))[..12];
    var asset=release.GetProperty("assets").EnumerateArray().FirstOrDefault(a=>a.GetProperty("name").GetString()==$"vf-update-{fingerprint}.zip");
    if(asset.ValueKind==JsonValueKind.Undefined){Set("incompatible","Hay una versión nueva, pero todavía no hay un parche compatible con esta instalación. Tus datos no se han cambiado.");return Status;}
@@ -53,6 +57,8 @@ public sealed class UpdateService(string root, HttpClient http)
  public static bool AllowedEntry(string path)=>path=="_patch/manifest.json"||path.StartsWith("_patch/payload/",StringComparison.Ordinal)&&!path.Split('/').Any(x=>x is ".local" or "Sonidos")||path is "LEEME-PARCHE.txt" or "Aplicar parche.exe" or "Restaurar parche.exe" or "VtuberFriends.Patch.dll" or "VtuberFriends.Patch.deps.json" or "VtuberFriends.Patch.runtimeconfig.json";
  private ProcessStartInfo Helper(string stage){var info=new ProcessStartInfo(Path.Combine(root,"Aplicar parche.exe")){UseShellExecute=false,CreateNoWindow=true,WorkingDirectory=root};foreach(var a in new[]{"--root",root,"--package-root",stage,"--quiet"})info.ArgumentList.Add(a);return info;}
  private async Task<int> RunHelper(string stage,bool dryRun,CancellationToken ct){var info=Helper(stage);if(dryRun)info.ArgumentList.Add("--dry-run");using var p=Process.Start(info)??throw new IOException();await p.WaitForExitAsync(ct).WaitAsync(TimeSpan.FromSeconds(30),ct);return p.ExitCode;}
- public bool Install(){if(staged is null||Interlocked.CompareExchange(ref installing,1,0)!=0)return false;var info=Helper(staged);info.ArgumentList.Add("--wait-pid");info.ArgumentList.Add(Environment.ProcessId.ToString());info.ArgumentList.Add("--restart");Process.Start(info);Set("installing","Cerrando para instalar…");return true;}
+ public bool Install(){if(staged is null||Interlocked.CompareExchange(ref installing,1,0)!=0)return false;var info=Helper(staged);info.ArgumentList.Add("--wait-pid");info.ArgumentList.Add(Environment.ProcessId.ToString());info.ArgumentList.Add("--restart");try{_ = Process.Start(info)??throw new IOException();}catch{Interlocked.Exchange(ref installing,0);Set("error","No se pudo iniciar el instalador. La app sigue abierta.");return false;}Set("installing","Cerrando para instalar…");return true;}
  private static async Task<byte[]> ReadBounded(Stream input,long maximum,CancellationToken ct){using var bytes=new MemoryStream();byte[] buffer=new byte[81920];int n;while((n=await input.ReadAsync(buffer,ct))>0){if(bytes.Length+n>maximum)throw new InvalidDataException();await bytes.WriteAsync(buffer.AsMemory(0,n),ct);}return bytes.ToArray();}
 }
+
+public sealed record UpdateView(string State,string Version,string Repository,string? Message=null,string? LatestVersion=null,string? ChangelogUrl=null,string? Notes=null);

@@ -1,11 +1,13 @@
-param([int]$WaitSeconds = 0)
+param([int]$WaitSeconds = 0, [int]$Port = 0)
 $ErrorActionPreference = 'Stop'
 # This helper never needs or forwards the bot credential to the browser.
 Remove-Item Env:VF_DISCORD_BOT_TOKEN -ErrorAction SilentlyContinue
 $root = Split-Path -Parent $PSScriptRoot
 $configPath = Join-Path $root 'config.json'
+if ($Port -eq 0) {
 $port = 17861
 if (Test-Path -LiteralPath $configPath) { $port = (Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json).port }
+}
 $url = "http://127.0.0.1:$port/"
 if ($WaitSeconds -gt 0) {
     $ready = $false
@@ -25,7 +27,7 @@ $candidates = @(
 )
 $edge = $candidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
 if ($edge) {
-    Start-Process -FilePath $edge -ArgumentList @("--app=$url", '--window-size=1440,980') -WindowStyle Normal
+    Start-Process -FilePath $edge -ArgumentList @("--app=$url", '--start-maximized') -WindowStyle Normal
 } else {
     Start-Process $url
 }

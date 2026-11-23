@@ -2,7 +2,7 @@ import {sourceDisplay} from '/source-display.js?v=__UI_VERSION__';
 import {subscribeState} from '/state-stream.js?v=__UI_VERSION__';
 import {SourcePresence} from '/source-presence.js?v=__UI_VERSION__';
 import '/live-update.js?v=__UI_VERSION__';
-import {mountAvatar,paintAvatar} from '/avatar-view.js?v=__UI_VERSION__';
+import {mountAvatar,paintAvatar,suspendAvatar} from '/avatar-view.js?v=__UI_VERSION__';
 const id=Number(location.pathname.split('/').filter(Boolean).pop());
 const preview=new URLSearchParams(location.search).get('preview')==='1';
 const view=mountAvatar(document.querySelector('#avatar'));
@@ -15,7 +15,7 @@ const knownNames=new Map();
 function render(){
  if(!latest)return;
  const slot=latest.slots.find(s=>s.id===id);
- if(!slot){view.container.classList.add('is-hidden');return;}
+ if(!slot){if(view.kind||view.puppet)suspendAvatar(view);view.container.classList.add('is-hidden');return;}
  const fresh=performance.now()-received<1000;
  const {test,connected,person,level,wanted}=sourceDisplay(slot,latest,fresh,knownNames.get(slot.userId));
  const modeChanged=test!==lastTestMode;lastTestMode=test;

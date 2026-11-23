@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace VtuberFriends;
@@ -25,8 +25,9 @@ public sealed record PuppetPartEdit(double X = 0, double Y = 0, double ScaleX = 
 public sealed record Participant(string UserId, string Name, bool Present);
 public sealed class AvatarStore
 {
-    public const int DefaultSlotCount = 8;
-    public static bool IsValidSlotId(int id) => id >= 1 && id <= DefaultSlotCount;
+    public const int DefaultSlotCount = 0;
+    public const int MaximumSlotCount = 64;
+    public static bool IsValidSlotId(int id) => id >= 1 && id <= 1000000;
     private readonly object gate = new();
     private readonly string path;
     private readonly string? accessoryCatalog;
@@ -40,18 +41,41 @@ public sealed class AvatarStore
         this.accessoryCatalog = accessoryCatalog;
         slots = File.Exists(path) ? JsonSerializer.Deserialize<AvatarSlot[]>(File.ReadAllText(path), Json)
             ?? throw new InvalidDataException("Configuracion de avatares vacia.") : Defaults();
-        // Older contiguous configurations gain only new empty slots; existing records stay intact.
-        if (slots.Length < 6 || slots.Length > DefaultSlotCount || slots.Any(s => s is null)
-            || !slots.Select(s => s.Id).Order().SequenceEqual(Enumerable.Range(1, slots.Length)))
-            throw new InvalidDataException($"Fuentes invalidas: deben ser consecutivas desde 1, hasta {DefaultSlotCount}.");
-        slots = slots.Concat(Enumerable.Range(slots.Length + 1, DefaultSlotCount - slots.Length).Select(i => new AvatarSlot(i))).ToArray();
+        // Keep every legacy row and ID exactly where it was. Never renumber after a deletion.
+        if (slots.Length > MaximumSlotCount || slots.Any(s => s is null || !IsValidSlotId(s.Id))
+            || slots.Select(s => s.Id).Distinct().Count() != slots.Length)
+            throw new InvalidDataException("Fuentes inválidas: IDs únicos positivos, máximo 64 fuentes.");
         slots = slots.Select(RemoveRetiredEffects).ToArray();
         foreach (var slot in slots) Validate(slot);
         slots = slots.Select(CaptureAccessoryProfile).ToArray();
         if (slots.Where(s => s.UserId is not null).GroupBy(s => s.UserId).Any(g => g.Count() > 1))
             throw new InvalidDataException("Un usuario no puede ocupar dos fuentes.");
     }
-    private static AvatarSlot[] Defaults() => Enumerable.Range(1, DefaultSlotCount).Select(i => new AvatarSlot(i)).ToArray();
+    private static AvatarSlot[] Defaults() => [];
+    private void Persist(AvatarSlot[] updated){
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        File.WriteAllText(path+".tmp",JsonSerializer.Serialize(updated,Json));File.Move(path+".tmp",path,true);
+        slots=updated;Interlocked.Increment(ref revision);
+    }
+    public AvatarSlot Add(){lock(gate){
+        if(slots.Length>=MaximumSlotCount)throw new ArgumentException("Máximo 64 fuentes.");
+        int previous=slots.Select(s=>s.Id).DefaultIfEmpty(0).Max();
+        if(File.Exists(path+".next-id")){if(!int.TryParse(File.ReadAllText(path+".next-id"),out int reserved)||reserved<0)throw new InvalidDataException("Identidad de fuentes inválida.");previous=Math.Max(previous,reserved);}
+        int id=checked(previous+1);if(!IsValidSlotId(id))throw new ArgumentException("Límite de identificadores alcanzado.");
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        File.WriteAllText(path+".dynamic","2");
+        File.WriteAllText(path+".next-id.tmp",id.ToString(System.Globalization.CultureInfo.InvariantCulture));File.Move(path+".next-id.tmp",path+".next-id",true);
+        var value=CaptureAccessoryProfile(new AvatarSlot(id,Avatar:"cyan-puppet"));Persist([..slots,value]);return value;
+    }}
+    public void Remove(int id){lock(gate){
+        if(!slots.Any(s=>s.Id==id))throw new ArgumentException("La fuente ya no existe.");
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        // Reserve all previously used IDs before deletion so old Streamlabs URLs never bind to someone else.
+        int highest=slots.Max(s=>s.Id);if(File.Exists(path+".next-id")){if(!int.TryParse(File.ReadAllText(path+".next-id"),out int reserved))throw new InvalidDataException("Identidad de fuentes inválida.");highest=Math.Max(highest,reserved);}
+        File.WriteAllText(path+".next-id.tmp",highest.ToString(System.Globalization.CultureInfo.InvariantCulture));File.Move(path+".next-id.tmp",path+".next-id",true);File.WriteAllText(path+".dynamic","2");
+        if(File.Exists(path)){string backups=Path.Combine(Path.GetDirectoryName(path)!,"source-backups");Directory.CreateDirectory(backups);File.Copy(path,Path.Combine(backups,DateTime.UtcNow.ToString("yyyyMMddHHmmssfff")+"-"+Guid.NewGuid().ToString("N")+".json"));}
+        Persist(slots.Where(s=>s.Id!=id).ToArray());
+    }}
     public AvatarSlot[] Snapshot() { lock (gate) return slots.OrderBy(s => s.Id).ToArray(); }
     public AvatarSlot Save(int id, AvatarSlot value)
     {
@@ -62,14 +86,11 @@ public sealed class AvatarStore
         value = CaptureAccessoryProfile(value);
         lock (gate)
         {
+            if(!slots.Any(s=>s.Id==id))throw new ArgumentException("La fuente ya no existe.");
             if (value.UserId is not null && slots.Any(s => s.Id != id && s.UserId == value.UserId))
                 throw new ArgumentException("Este usuario ya tiene una fuente asignada.");
             var updated = slots.Select(s => s.Id == id ? value : s).ToArray();
-            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-            var temporary = path + ".tmp";
-            File.WriteAllText(temporary, JsonSerializer.Serialize(updated, Json));
-            File.Move(temporary, path, true);
-            slots = updated;Interlocked.Increment(ref revision);
+            Persist(updated);
             return value;
         }
     }

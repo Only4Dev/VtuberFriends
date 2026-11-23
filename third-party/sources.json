@@ -1,0 +1,30 @@
+[
+  {
+    "file": "Discord.Net-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/discord-net/Discord.Net/3.20.2/LICENSE"
+  },
+  {
+    "file": "libdave-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/discord/libdave/main/LICENSE"
+  },
+  {
+    "file": "libsodium-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/jedisct1/libsodium/master/LICENSE"
+  },
+  {
+    "file": "opus-COPYING.txt",
+    "source": "https://raw.githubusercontent.com/xiph/opus/main/COPYING"
+  },
+  {
+    "file": "Newtonsoft.Json-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/JamesNK/Newtonsoft.Json/13.0.4/LICENSE.md"
+  },
+  {
+    "file": "dotnet-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/dotnet/runtime/main/LICENSE.TXT"
+  },
+  {
+    "file": "dotnet-THIRD-PARTY-NOTICES.txt",
+    "source": "https://raw.githubusercontent.com/dotnet/runtime/main/THIRD-PARTY-NOTICES.TXT"
+  }
+]

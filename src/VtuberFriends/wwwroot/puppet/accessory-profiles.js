@@ -9,7 +9,7 @@ export function applyAccessoryDraft(slot,draft,avatar){
  for(const [key,value]of Object.entries(draft.accessoryEdits||{}))if(key.startsWith(prefix))merged[key]=structuredClone(value);
  slot.accessoryEdits=merged;slot.accessoryProfiles??={};
  const profile=slot.avatar===avatar?captureAccessoryProfile(slot):{...accessoryDefaults,...slot.accessoryProfiles[avatar]};
- for(const key of ['objectAnimation','objectAmplitude','objectSpeed','objectLeftAnimation','objectLeftAmplitude','objectLeftSpeed'])if(draft[key]!==undefined)profile[key]=draft[key];
+ for(const key of ['accessoryGlasses','accessoryHat','accessoryNecklace','accessoryObject','accessoryObjectLeft','accessoryAura','accessoryFloor','accessoryLightning','accessoryEffect','objectAnimation','objectAmplitude','objectSpeed','objectLeftAnimation','objectLeftAmplitude','objectLeftSpeed'])if(draft[key]!==undefined)profile[key]=draft[key];
  slot.accessoryProfiles[avatar]=profile;
  if(slot.avatar===avatar)Object.assign(slot,slot.accessoryProfiles[avatar]);
 }

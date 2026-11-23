@@ -35,7 +35,7 @@ export function mountAvatar(container) {
   const observer = new ResizeObserver(resize);
   observer.observe(container); resize();
   const view={container,actor:container.querySelector('.presence-actor'),fx:container.querySelector('.presence-fx'),fxFront:container.querySelector('.presence-fx-front'),body:container.querySelector('.avatar-body'),name:container.querySelector('.avatar-name'),kind:null,until:0};
-  view.ambient=new AmbientLayer(view);return view;
+  view.resizeObserver=observer;view.ambient=new AmbientLayer(view);return view;
 }
 export function paintAvatar(view,slot,participant,level,options={}) {
   const now=performance.now(), fresh=options.fresh!==false;
@@ -79,3 +79,5 @@ export function suspendAvatar(view){
  stopTransitions(view);view.ambient?.release();view.puppet?.dispose();view.puppet=null;view.kind=null;view.until=0;
  view.body.replaceChildren();view.container.classList.add('is-hidden');
 }
+
+export function disposeAvatar(view){suspendAvatar(view);view.resizeObserver?.disconnect();}

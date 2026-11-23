@@ -35,7 +35,7 @@ if old_catalog.exists() and new_catalog.exists():
  for a in json.loads(new_catalog.read_text(encoding='utf-8-sig')):
   if (a['category'],a['value']) not in old_choices:added_accessories.setdefault(a['category'],[]).append(a['value'])
 added_accessories={k:sorted(set(v)) for k,v in added_accessories.items()}
-manifest={'addedAccessoryValues':added_accessories,'format':1,'id':args.id,'title':args.title,'base':{name:digest(base/name) for name in ['VtuberFriends.deps.json','VtuberFriends.runtimeconfig.json']},'files':changes,'addedAnimations':args.animation,'previousMaxSlots':args.previous_max_slots}
+manifest={'previousDynamicSources':(base/'wwwroot/source-capabilities.json').exists(),'addedAccessoryValues':added_accessories,'format':1,'id':args.id,'title':args.title,'base':{name:digest(base/name) for name in ['VtuberFriends.deps.json','VtuberFriends.runtimeconfig.json']},'files':changes,'addedAnimations':args.animation,'previousMaxSlots':args.previous_max_slots}
 (out/'_patch'/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 runner=root/'artifacts'/'patch-runner'
 for name in ['VtuberFriends.Patch.dll','VtuberFriends.Patch.deps.json','VtuberFriends.Patch.runtimeconfig.json']:shutil.copy2(runner/name,out/name)

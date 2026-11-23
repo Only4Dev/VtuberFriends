@@ -2,7 +2,7 @@
 
 Repositorio: https://github.com/Only4Dev/VtuberFriends
 
-La app consulta Releases públicas de este repositorio. El streamer no necesita cuenta ni token de GitHub. La primera instalación con el actualizador es 0.6.0; las instalaciones anteriores necesitan un último parche de incorporación.
+La app consulta Releases públicas de este repositorio. El streamer no necesita cuenta ni token de GitHub. La primera versión pública es 0.7.0; las instalaciones anteriores necesitan un último parche de incorporación. Para audio05 se incluye vf-20261123-first-release-07.zip, verificado con ocho fuentes configuradas. No usarlo con otra baseline.
 
 ## Lo que se conserva
 
@@ -10,7 +10,7 @@ La app consulta Releases públicas de este repositorio. El streamer no necesita 
 
 ## Flujo del streamer
 
-Configuración → Buscar actualizaciones → Descargar parche → Instalar y reiniciar. Puede buscar una vez al abrir el panel; no consulta en cada fotograma ni descarga en segundo plano durante el directo. La instalación requiere una acción del usuario y detiene brevemente el receptor.
+Al abrir el panel se comprueba una vez (activado por defecto). Un aviso visible muestra la nueva versión, Ver changelog y Actualizar. Actualizar descarga, verifica, instala y reinicia con un solo clic. También se puede comprobar manualmente desde Configuración. Puede buscar una vez al abrir el panel; no consulta en cada fotograma ni descarga en segundo plano durante el directo. La instalación requiere una acción del usuario y detiene brevemente el receptor.
 
 La app selecciona únicamente el asset `vf-update-<primeros12delSHA256deDLLactual>.zip`. Comprueba origen HTTPS del repositorio, tamaño y digest SHA256 publicado por GitHub, límites del ZIP y rutas. El helper instalado verifica la totalidad de los hashes before/after, compatibilidad y rutas permitidas antes de cerrar. Espera la salida del proceso; crea respaldo y revierte si falla una copia. Nunca ejecuta un helper descargado dentro del ZIP.
 
@@ -29,3 +29,5 @@ Para otras apps, reutilizar el contrato de manifiesto, helper transaccional y ve
 ## Validación pendiente de uso real
 
 Las pruebas locales usan HTTP simulado y configuraciones sintéticas. Una llamada prolongada real DAVE y la revisión visual en Streamlabs siguen siendo pruebas separadas.
+
+Desde0.7.0, una instalación nueva inicia con0fuentes. Actualizar una instalación6/7/8conserva todas sus filas y URLs sin reescribir al arrancar. Altas/bajas reservan IDs y marcan el esquema dinámico; el restaurador bloquea volver a un esquema fijo tras usarlas. La GUI confirma bajas y crea backup local.

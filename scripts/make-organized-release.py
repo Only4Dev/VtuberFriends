@@ -43,8 +43,9 @@ runner=root/'artifacts/patch-runner'
 for name in ['VtuberFriends.Patch.dll','VtuberFriends.Patch.deps.json','VtuberFriends.Patch.runtimeconfig.json']:shutil.copy2(runner/name,app/name)
 shutil.copy2(runner/'VtuberFriends.Patch.exe',app/'Aplicar parche.exe')
 shutil.copy2(root/'artifacts/VtuberFriends-launcher.exe',target/'VtuberFriends.exe')
+shutil.copytree(root/'third-party',target/'third-party')
 (target/'Sonidos').mkdir();shutil.copy2(root/'Sonidos/LEEME.txt',target/'Sonidos/LEEME.txt')
-(target/'LEEME.txt').write_text('Vtuber & Friends 0.6.0\nAbre VtuberFriends.exe. Conserva app y Sonidos junto a él.\nConfiguración, token cifrado y avatares se guardan junto al ejecutable, nunca dentro del programa actualizable.\nActualizaciones: Configuración > Buscar actualizaciones. Instala después del directo.\nNo incluye datos personales. No necesitas instalar .NET.\n',encoding='utf-8')
+(target/'LEEME.txt').write_text(f'Vtuber & Friends {version}\nAbre VtuberFriends.exe. Conserva app y Sonidos junto a él.\nConfiguración, token cifrado y avatares se guardan junto al ejecutable, nunca dentro del programa actualizable.\nActualizaciones: Configuración > Buscar actualizaciones. Instala después del directo.\nNo incluye datos personales. No necesitas instalar .NET.\n',encoding='utf-8')
 archive=target.parent/(target.name+'.zip')
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  for p in target.rglob('*'):

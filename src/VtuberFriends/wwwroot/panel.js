@@ -1,3 +1,5 @@
+import {initLanguage,t} from './i18n.js?v=__UI_VERSION__';
+import {confirmAction,dismissible} from './dialogs.js?v=__UI_VERSION__';
 import {mountUpdates} from './updates.js?v=__UI_VERSION__';
 import {organizeCard} from './studio-layout.js?v=__UI_VERSION__';
 import {audioHealthText} from './audio-health.js?v=__UI_VERSION__';
@@ -18,7 +20,7 @@ import '/live-update.js?v=__UI_VERSION__';
 
 import {animationRegistry,previewTransition,playSound} from '/transitions.js?v=__UI_VERSION__';
 
-import {palettes,mountAvatar,paintAvatar,suspendAvatar} from '/avatar-view.js?v=__UI_VERSION__';
+import {palettes,mountAvatar,paintAvatar,suspendAvatar,disposeAvatar} from '/avatar-view.js?v=__UI_VERSION__';
 
 const cards=new Map(), knownNames=new Map();
 
@@ -30,7 +32,7 @@ const testToggle=document.querySelector('#testMode');let testModeSaving=false;
 testToggle.addEventListener('change',async()=>{
  const enabled=testToggle.checked;testModeSaving=true;testToggle.disabled=true;
  try{const response=await fetch('/api/test-mode',{method:'PUT',headers:{'Content-Type':'application/json','X-VF-Panel':'1'},body:JSON.stringify({enabled})});if(!response.ok)throw Error();const result=await response.json();if(latest)latest.testMode=result.enabled;toast(result.enabled?'Modo prueba activo en las fuentes de Streamlabs.':'Modo prueba apagado: presencia real de Discord.');}
- catch{testToggle.checked=latest?.testMode===true;toast('No se pudo cambiar el modo prueba. Comprueba la conexiÃƒÂ³n o instala el parche.');}
+ catch{testToggle.checked=latest?.testMode===true;toast('No se pudo cambiar el modo prueba. Comprueba la conexión o instala el parche.');}
  finally{testModeSaving=false;render(true);}
 });
 performanceToggle.addEventListener('change',()=>{performanceMode=performanceToggle.checked;try{localStorage.setItem('vf.panel.performance',performanceMode?'1':'0');}catch{}document.body.classList.toggle('performance-mode',performanceMode);for(const card of cards.values()){if(performanceMode)suspendAvatar(card.view);refreshControls(card);}render(true);});
@@ -43,7 +45,7 @@ function scheduleSave(card){
  storeAccessoryProfile(card.slot);
  if(card.slot.puppetMouthMode==='fixed'&&card.slot.puppetMouthMaxDb<card.slot.thresholdDb+3)card.slot.puppetMouthMaxDb=card.slot.thresholdDb+3;
 
- clearTimeout(card.timer);card.dirty=true;card.revision++;describeSave(card,'GuardandoÃ¢â‚¬Â¦');
+ clearTimeout(card.timer);card.dirty=true;card.revision++;describeSave(card,'Guardando…');
 
  card.copy.disabled=true;card.timer=setTimeout(()=>flush(card),180);
 
@@ -51,7 +53,7 @@ function scheduleSave(card){
 
 async function flush(card){
 
- if(card.saving)return;
+ if(card.saving||card.removed)return;
 
  card.saving=true;const revision=card.revision,body=JSON.stringify(card.slot);
 
@@ -79,11 +81,11 @@ function control(card,key,min,max,step,format){
 
  const span=document.createElement('span');
 
- span.textContent=({transitionScale:'Escala del efecto',transitionDensity:'Densidad de partÃƒÂ­culas',transitionSpeed:'Velocidad de la secuencia',transitionIntensity:'Intensidad de efectos',opacity:'Opacidad',thresholdDb:'Umbral de voz',holdMs:'Cierre de boca',scale:'TamaÃƒÂ±o',nameSize:'TamaÃƒÂ±o del nombre',nameOpacity:'Opacidad del nombre',soundVolume:'Volumen de efectos',puppetIdle:'Vida en reposo',puppetWings:'Movimiento de alas',puppetMouthGain:'Respuesta de boca',puppetHeadRange:'LÃƒÂ­mite de giro',puppetHeadX:'Cabeza Ã‚Â· horizontal',puppetHeadY:'Cabeza Ã‚Â· vertical',puppetHeadZ:'InclinaciÃƒÂ³n',puppetEyeX:'Mirada Ã‚Â· horizontal',puppetEyeY:'Mirada Ã‚Â· vertical'})[key];
+ span.textContent=({transitionScale:'Escala del efecto',transitionDensity:'Densidad de partículas',transitionSpeed:'Velocidad de la secuencia',transitionIntensity:'Intensidad de efectos',opacity:'Opacidad',thresholdDb:'Umbral de voz',holdMs:'Cierre de boca',scale:'Tamaño',nameSize:'Tamaño del nombre',nameOpacity:'Opacidad del nombre',soundVolume:'Volumen de efectos',puppetIdle:'Vida en reposo',puppetWings:'Movimiento de alas',puppetMouthGain:'Respuesta de boca',puppetHeadRange:'Límite de giro',puppetHeadX:'Cabeza · horizontal',puppetHeadY:'Cabeza · vertical',puppetHeadZ:'Inclinación',puppetEyeX:'Mirada · horizontal',puppetEyeY:'Mirada · vertical'})[key];
 
  const output=document.createElement('output');const input=document.createElement('input');input.type='range';input.min=min;input.max=max;input.step=step;
 
- input.setAttribute('aria-label',span.textContent+' Ã‚Â· Fuente '+card.slot.id);
+ input.setAttribute('aria-label',span.textContent+' · Fuente '+card.slot.id);
 
  const refresh=()=>{const value=card.slot[key]??({transitionSpeed:1,transitionIntensity:.8,transitionScale:1,transitionDensity:.75}[key]);input.value=value;output.textContent=format(value);};
 
@@ -95,13 +97,22 @@ function control(card,key,min,max,step,format){
 
 }
 
+function disposeCard(card){clearTimeout(card.timer);card.removed=true;disposeAvatar(card.view);card.node.remove();cards.delete(card.slot.id);}
+async function removeSource(card){
+ if(!await confirmAction('Eliminar fuente {id} y sus ajustes? Las otras fuentes y sus URLs no cambiarán.'.replace('{id}',card.slot.id)))return;
+ while(card.saving)await new Promise(r=>setTimeout(r,25));if(card.dirty)await flush(card);if(card.dirty){toast('Guarda los cambios antes de eliminar.');return;}
+ try{const r=await fetch('/api/slots/'+card.slot.id,{method:'DELETE',headers:{'X-VF-Panel':'1'}});if(!r.ok)throw Error();if(latest)latest.slots=latest.slots.filter(s=>s.id!==card.slot.id);disposeCard(card);updateSourceCount();render(true);}catch{toast('No se pudo eliminar la fuente.');}
+}
+function updateSourceCount(){const n=latest?.slots.length??0;document.querySelector('#emptySources').hidden=n!==0;document.querySelector('nav a[href="#cast"] b').textContent=String(n);}
+const addSourceButton=document.querySelector('#addSource');addSourceButton.onclick=async()=>{addSourceButton.disabled=true;try{const r=await fetch('/api/slots',{method:'POST',headers:{'X-VF-Panel':'1'}});if(!r.ok)throw Error();const slot=await r.json();if(latest&&!latest.slots.some(s=>s.id===slot.id))latest.slots.push(slot);const card=cards.get(slot.id)||createCard(slot);updateSourceCount();card.node.scrollIntoView({behavior:'smooth',block:'nearest'});render(true);}catch{toast('No se pudo agregar la fuente.');}finally{addSourceButton.disabled=false;}};
+
 function createCard(slot){
 
  const node=document.createElement('article');node.className='card';
 
- node.innerHTML='<div class="card-top"><span class="slot-number"></span><label class="show-toggle">Mostrar <input type="checkbox" aria-label="Mostrar en stream"></label></div>'+
+ node.innerHTML='<div class="card-top"><span class="slot-number"></span><button type="button" class="remove-source" aria-label="Eliminar fuente" title="Eliminar fuente">−</button><label class="show-toggle">Mostrar <input type="checkbox" aria-label="Mostrar en stream"></label></div>'+
 
- '<div class="preview"><span class="live-status"></span><div class="empty-preview"><span>Ã¢â€”â€¡</span>Asigna una voz a esta fuente</div><div class="avatar-render"></div></div>'+
+ '<div class="preview"><span class="live-status"></span><div class="empty-preview"><span>◇</span>Asigna una voz a esta fuente</div><div class="avatar-render"></div></div>'+
 
  '<div class="card-controls"><div class="selectors"><div><label class="field-label">Invitado</label><select class="user-select" aria-label="Invitado"></select></div><div><label class="field-label">Avatar</label><select class="avatar-select" aria-label="Avatar"></select></div></div>'+
 
@@ -109,12 +120,13 @@ function createCard(slot){
 
  '<details class="advanced"><summary>Sensibilidad y apariencia</summary><div class="advanced-content"></div></details>'+
 
- '<div class="volume-row"><span>VOZ</span><meter min="-100" max="0" value="-100"></meter><span class="volume-db">Ã¢Ë†â€™Ã¢Ë†Å¾ dB</span></div></div>'+
+ '<div class="volume-row"><span>VOZ</span><meter min="-100" max="0" value="-100"></meter><span class="volume-db">−∞ dB</span></div></div>'+
 
- '<div class="card-footer"><button class="copy-button">Ã¢â€ â€” &nbsp; Copiar fuente</button><span class="save-state">Guardado</span></div>';
+ '<div class="card-footer"><button class="copy-button">↗ &nbsp; Copiar fuente</button><span class="save-state">Guardado</span></div>';
 
  const card={node,slot:{...slot},refresh:[],dirty:false,saving:false,revision:0};
 
+ card.node.querySelector('.remove-source').onclick=()=>removeSource(card);
  card.view=mountAvatar(node.querySelector('.avatar-render'));
 
  card.user=node.querySelector('.user-select');card.avatar=node.querySelector('.avatar-select');
@@ -129,7 +141,7 @@ function createCard(slot){
 
  card.enabled.setAttribute('aria-label','Mostrar fuente '+slot.id+' en stream');
 
- const modern=document.createElement('optgroup'),legacy=document.createElement('optgroup');modern.label='Puppets 2D';legacy.label='Legacy Â· primeros avatares';card.avatar.append(modern,legacy);for(const [value,palette]of Object.entries(palettes)){const option=document.createElement('option');option.value=value;option.textContent=palette.name;(isPuppet(value)?modern:legacy).append(option);}
+ const modern=document.createElement('optgroup'),legacy=document.createElement('optgroup');modern.label='Puppets 2D';legacy.label='Legacy · primeros avatares';card.avatar.append(modern,legacy);for(const [value,palette]of Object.entries(palettes)){const option=document.createElement('option');option.value=value;option.textContent=palette.name;(isPuppet(value)?modern:legacy).append(option);}
 
  card.user.addEventListener('change',()=>{
 
@@ -146,13 +158,13 @@ function createCard(slot){
  });
 
  const preassign=document.createElement('details');preassign.className='advanced preassign-guest';
- preassign.innerHTML='<summary>Asignar antes de entrar</summary><div class="advanced-content"><label class="field-label">ID de usuario de Discord<input class="guest-id-input" type="text" inputmode="numeric" pattern="[0-9]{17,20}" maxlength="20" placeholder="Pega aquÃƒÂ­ su ID de usuario" autocomplete="off"></label><button class="sound-button" type="button">Preparar invitado</button><p class="sound-hint">Activa el modo desarrollador de Discord y usa Ã‚Â«Copiar ID de usuarioÃ‚Â» en su perfil. Al preparar se activa Mostrar; la fuente permanece oculta hasta que entre a este canal. La asignaciÃƒÂ³n se conserva en prÃƒÂ³ximos inicios.</p><p class="guest-assignment-error" role="alert" hidden></p></div>';
+ preassign.innerHTML='<summary>Asignar antes de entrar</summary><div class="advanced-content"><label class="field-label">ID de usuario de Discord<input class="guest-id-input" type="text" inputmode="numeric" pattern="[0-9]{17,20}" maxlength="20" placeholder="Pega aquí su ID de usuario" autocomplete="off"></label><button class="sound-button" type="button">Preparar invitado</button><p class="sound-hint">Activa el modo desarrollador de Discord y usa «Copiar ID de usuario» en su perfil. Al preparar se activa Mostrar; la fuente permanece oculta hasta que entre a este canal. La asignación se conserva en próximos inicios.</p><p class="guest-assignment-error" role="alert" hidden></p></div>';
  const idInput=preassign.querySelector('input'),idError=preassign.querySelector('[role=alert]');
  const prepare=()=>{
   try{card.slot=prepareGuestAssignment(card.slot,idInput.value,[...cards.values()].map(c=>c.slot));idError.hidden=true;idInput.setCustomValidity('');scheduleSave(card);refreshControls(card);render(true);}
   catch(error){idError.textContent=error.message;idError.hidden=false;idInput.setCustomValidity(error.message);idInput.reportValidity();}
  };
- idInput.setAttribute('aria-label','ID de Discord Ã‚Â· Fuente '+slot.id);
+ idInput.setAttribute('aria-label','ID de Discord · Fuente '+slot.id);
  idInput.addEventListener('input',()=>{idInput.setCustomValidity('');idError.hidden=true;});
  idInput.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();prepare();}});
  preassign.querySelector('button').addEventListener('click',prepare);
@@ -178,7 +190,7 @@ function createCard(slot){
 
  const styleLabel=document.createElement('label');styleLabel.className='field-label';styleLabel.textContent='Estilo';
 
- card.nameStyle=document.createElement('select');card.nameStyle.setAttribute('aria-label','Estilo de nombre Ã‚Â· Fuente '+slot.id);
+ card.nameStyle=document.createElement('select');card.nameStyle.setAttribute('aria-label','Estilo de nombre · Fuente '+slot.id);
 
  for(const [value,title] of [['plate','Placa con marco'],['outline','Letras con borde negro']]){
 
@@ -206,7 +218,7 @@ function createCard(slot){
 
   const caption=document.createElement('label');caption.className='field-label';caption.textContent=title;
 
-  const select=document.createElement('select');select.setAttribute('aria-label','AnimaciÃƒÂ³n de '+title+' Ã‚Â· Fuente '+slot.id);
+  const select=document.createElement('select');select.setAttribute('aria-label','Animación de '+title+' · Fuente '+slot.id);
 
   for(const [id,definition]of animationRegistry){const option=document.createElement('option');option.value=id;option.textContent=definition.label;select.append(option);}
 
@@ -216,7 +228,7 @@ function createCard(slot){
 
   card.motionSelects.push({select,key});
 
-  const soundSelect=document.createElement('select');soundSelect.setAttribute('aria-label','Sonido de '+title+' Ã‚Â· Fuente '+slot.id);
+  const soundSelect=document.createElement('select');soundSelect.setAttribute('aria-label','Sonido de '+title+' · Fuente '+slot.id);
 
   const soundKey=direction+'Sound',soundNameKey=direction+'SoundName',soundFileKey=direction+'SoundFile';
 
@@ -249,9 +261,9 @@ function createCard(slot){
 
   const file=document.createElement('input');file.type='file';file.accept='.wav,.mp3,.ogg,.m4a,.webm';file.hidden=true;
 
-  file.setAttribute('aria-label','Archivo de sonido de '+title+' Ã‚Â· Fuente '+slot.id);
+  file.setAttribute('aria-label','Archivo de sonido de '+title+' · Fuente '+slot.id);
 
-  const choose=document.createElement('button');choose.type='button';choose.className='sound-button';choose.textContent='Elegir archivoÃ¢â‚¬Â¦';choose.addEventListener('click',()=>file.click());
+  const choose=document.createElement('button');choose.type='button';choose.className='sound-button';choose.textContent='Elegir archivo…';choose.addEventListener('click',()=>file.click());
 
   file.addEventListener('change',async()=>{
 
@@ -259,7 +271,7 @@ function createCard(slot){
 
    if(selected.size>10*1024*1024){toast('El sonido debe ser de hasta 10 MB.');return;}
 
-   card.importing=true;choose.disabled=true;choose.textContent='ImportandoÃ¢â‚¬Â¦';
+   card.importing=true;choose.disabled=true;choose.textContent='Importando…';
 
    try{
 
@@ -273,7 +285,7 @@ function createCard(slot){
 
    }catch(error){toast(error.message);}
 
-   finally{card.importing=false;choose.disabled=false;choose.textContent='Elegir archivoÃ¢â‚¬Â¦';file.value='';}
+   finally{card.importing=false;choose.disabled=false;choose.textContent='Elegir archivo…';file.value='';}
 
   });
 
@@ -281,7 +293,7 @@ function createCard(slot){
 
   test.addEventListener('click',async()=>{
 
-   if(!card.slot.userId){toast('Asigna un invitado para ver la transiciÃƒÂ³n.');return;}
+   if(!card.slot.userId){toast('Asigna un invitado para ver la transición.');return;}
 
    // A user click authorizes preview audio in the panel; no live-source changes.
 
@@ -295,18 +307,18 @@ function createCard(slot){
 
   const buttons=document.createElement('div');buttons.className='sound-actions';buttons.append(choose,testSound,test);
 
-  const libraryHint=document.createElement('p');libraryHint.className='sound-hint';libraryHint.textContent='Copia sonidos a la carpeta Sonidos y pulsa Actualizar biblioteca. WAV, MP3, OGG, M4A o WEBM; mÃƒÂ¡ximo 10 MB.';block.append(caption,select,soundSelect,buttons,file,libraryHint);motionControls.append(block);
+  const libraryHint=document.createElement('p');libraryHint.className='sound-hint';libraryHint.textContent='Copia sonidos a la carpeta Sonidos y pulsa Actualizar biblioteca. WAV, MP3, OGG, M4A o WEBM; máximo 10 MB.';block.append(caption,select,soundSelect,buttons,file,libraryHint);motionControls.append(block);
 
  }
 
  const effectControls=document.createElement('fieldset');effectControls.className='puppet-edit-fields';
- effectControls.append(control(card,'transitionSpeed',.6,1.5,.05,v=>Number(v).toFixed(2)+'Ãƒâ€”'),control(card,'transitionIntensity',.2,1,.05,v=>Math.round(v*100)+'%'));
+ effectControls.append(control(card,'transitionSpeed',.6,1.5,.05,v=>Number(v).toFixed(2)+'×'),control(card,'transitionIntensity',.2,1,.05,v=>Math.round(v*100)+'%'));
  effectControls.append(control(card,'transitionScale',.65,1.15,.05,v=>Math.round(v*100)+'%'),control(card,'transitionDensity',.25,1,.05,v=>Math.round(v*100)+'%'));
- const quality=document.createElement('select');quality.setAttribute('aria-label','Calidad de efectos Ã‚Â· Fuente '+slot.id);
+ const quality=document.createElement('select');quality.setAttribute('aria-label','Calidad de efectos · Fuente '+slot.id);
  for(const [value,label]of [['low','Calidad ligera'],['medium','Calidad equilibrada'],['high','Calidad alta']]){const option=document.createElement('option');option.value=value;option.textContent=label;quality.append(option);}
  quality.addEventListener('change',()=>{card.slot.transitionQuality=quality.value;scheduleSave(card);});effectControls.append(quality);motionControls.append(effectControls);
- const tintLabel=document.createElement('label');tintLabel.className='check-label';const tintToggle=document.createElement('input');tintToggle.type='checkbox';tintLabel.append(tintToggle,document.createTextNode(' Color de energÃƒÂ­a personalizado'));
- const tint=document.createElement('input');tint.type='color';tint.value='#ffbb77';tint.setAttribute('aria-label','Color de energÃƒÂ­a Ã‚Â· Fuente '+slot.id);effectControls.append(tintLabel,tint);
+ const tintLabel=document.createElement('label');tintLabel.className='check-label';const tintToggle=document.createElement('input');tintToggle.type='checkbox';tintLabel.append(tintToggle,document.createTextNode(' Color de energía personalizado'));
+ const tint=document.createElement('input');tint.type='color';tint.value='#ffbb77';tint.setAttribute('aria-label','Color de energía · Fuente '+slot.id);effectControls.append(tintLabel,tint);
  tintToggle.addEventListener('change',()=>{card.slot.transitionColor=tintToggle.checked?tint.value:'preset';tint.disabled=!tintToggle.checked;scheduleSave(card);});
  tint.addEventListener('input',()=>{card.slot.transitionColor=tint.value;scheduleSave(card);});
  card.refresh.push(()=>{tintToggle.checked=card.slot.transitionColor!=='preset'&&!!card.slot.transitionColor;tint.disabled=!tintToggle.checked;if(tintToggle.checked)tint.value=card.slot.transitionColor;});
@@ -317,7 +329,7 @@ function createCard(slot){
 
  card.puppetControls=document.createElement('details');card.puppetControls.className='advanced';
 
- card.puppetControls.innerHTML='<summary>Puppet 2D Ã‚Â· movimiento y expresiÃƒÂ³n</summary><div class="advanced-content"></div>';
+ card.puppetControls.innerHTML='<summary>Puppet 2D · movimiento y expresión</summary><div class="advanced-content"></div>';
 
  const puppetControls=card.puppetControls.querySelector('.advanced-content');
 
@@ -329,14 +341,14 @@ function createCard(slot){
 
   control(card,'puppetWings',0,1,.01,value=>Math.round(value*100)+'%'),
 
-  control(card,'puppetMouthGain',.2,3,.05,value=>Number(value).toFixed(2)+'Ãƒâ€”'),
+  control(card,'puppetMouthGain',.2,3,.05,value=>Number(value).toFixed(2)+'×'),
 
-  control(card,'puppetHeadRange',0,20,1,value=>value+'Ã‚Â°'));
+  control(card,'puppetHeadRange',0,20,1,value=>value+'°'));
 
  puppetControls.append(jadePaletteControls(card,scheduleSave),mouthSettings(card,scheduleSave,render),glowControls(card,scheduleSave));
- card.expression=document.createElement('select');card.expression.setAttribute('aria-label','ExpresiÃƒÂ³n Puppet Ã‚Â· Fuente '+slot.id);
+ card.expression=document.createElement('select');card.expression.setAttribute('aria-label','Expresión Puppet · Fuente '+slot.id);
 
- for(const [value,title]of [['auto','Gestos espontÃƒÂ¡neos'],['neutral','Neutral'],['curious','Curiosidad'],['surprised','Sorpresa'],['angry','Enfado'],['happy','AlegrÃƒÂ­a'],['yawn','Bostezo']]){
+ for(const [value,title]of [['auto','Gestos espontáneos'],['neutral','Neutral'],['curious','Curiosidad'],['surprised','Sorpresa'],['angry','Enfado'],['happy','Alegría'],['yawn','Bostezo']]){
 
   const option=document.createElement('option');option.value=value;option.textContent=title;card.expression.append(option);
 
@@ -348,7 +360,7 @@ function createCard(slot){
 
  const manualLabel=document.createElement('label');manualLabel.className='check-label';
 
- card.manual=document.createElement('input');card.manual.type='checkbox';card.manual.setAttribute('aria-label','Control manual de cabeza y mirada Ã‚Â· Fuente '+slot.id);
+ card.manual=document.createElement('input');card.manual.type='checkbox';card.manual.setAttribute('aria-label','Control manual de cabeza y mirada · Fuente '+slot.id);
 
  manualLabel.append(card.manual,document.createTextNode(' Control manual de cabeza y mirada'));
 
@@ -356,9 +368,9 @@ function createCard(slot){
 
  puppetControls.append(manualLabel,
 
-  control(card,'puppetHeadX',-20,20,1,value=>value+'Ã‚Â°'),control(card,'puppetHeadY',-20,20,1,value=>value+'Ã‚Â°'),
+  control(card,'puppetHeadX',-20,20,1,value=>value+'°'),control(card,'puppetHeadY',-20,20,1,value=>value+'°'),
 
-  control(card,'puppetHeadZ',-15,15,1,value=>value+'Ã‚Â°'),
+  control(card,'puppetHeadZ',-15,15,1,value=>value+'°'),
 
   control(card,'puppetEyeX',-1,1,.05,value=>Number(value).toFixed(2)),control(card,'puppetEyeY',-1,1,.05,value=>Number(value).toFixed(2)));
 
@@ -378,7 +390,7 @@ function createCard(slot){
 
   const url=new URL('/overlay/'+card.slot.id,location.origin).href;
 
-  try{await navigator.clipboard.writeText(url);toast('Fuente '+slot.id+' copiada Ã‚Â· tamaÃƒÂ±o HD: 1440 Ãƒâ€” 1080');}
+  try{await navigator.clipboard.writeText(url);toast('Fuente '+slot.id+' copiada · tamaño HD: 1440 × 1080');}
 
   catch{const input=document.createElement('input');input.value=url;input.readOnly=true;card.node.querySelector('.card-footer').append(input);input.focus();input.select();toast('Copia la URL seleccionada.');}
 
@@ -407,7 +419,7 @@ function refreshControls(card){
 
   for(const person of people){
 
-   const option=document.createElement('option');option.value=person.userId;option.textContent=person.name+(person.present?'':' Ã‚Â· fuera');
+   const option=document.createElement('option');option.value=person.userId;option.textContent=person.name+(person.present?'':t(' · fuera'));
 
    option.disabled=[...cards.values()].some(other=>other.slot.id!==card.slot.id&&other.slot.userId===person.userId);
 
@@ -463,21 +475,21 @@ function render(force=false){
 
   if(isPuppet(card.slot.avatar))card.puppetStatus.textContent=performanceMode?'Vista previa pausada en este panel.':card.view.puppet?.status==='ready'
 
-   ? 'Avatar listo Ã‚Â· movimiento y respuesta a la voz activos.'
+   ? 'Avatar listo · movimiento y respuesta a la voz activos.'
 
-   : card.view.puppet?.status==='error'?('Puppet detenido: '+(card.view.puppet?.error||'No se pudo iniciar WebGL')+'. Se muestra la referencia estÃƒÂ¡tica.')
+   : card.view.puppet?.status==='error'?('Puppet detenido: '+(card.view.puppet?.error||'No se pudo iniciar WebGL')+'. Se muestra la referencia estática.')
 
-   : card.view.puppet?.status==='context-lost'?'Contexto grÃƒÂ¡fico perdido; intentando recuperar el rig.':'Cargando capas y texturasÃ¢â‚¬Â¦';
+   : card.view.puppet?.status==='context-lost'?'Contexto gráfico perdido; intentando recuperar el rig.':'Cargando capas y texturas…';
 
   card.node.querySelector('.empty-preview').hidden=!!card.slot.userId;
 
-  card.node.querySelector('.live-status').textContent=!card.slot.userId?'SIN ASIGNAR':testing&&card.slot.enabled?'PRUEBA EN STREAMLABS':!connected?'SIN CONEXIÃƒâ€œN':!person?.present?'FUERA DEL CANAL':card.slot.enabled?'LISTO PARA STREAM':'SOLO VISTA PREVIA';
+  card.node.querySelector('.live-status').textContent=!card.slot.userId?'SIN ASIGNAR':testing&&card.slot.enabled?'PRUEBA EN STREAMLABS':!connected?'SIN CONEXIÓN':!person?.present?'FUERA DEL CANAL':card.slot.enabled?'LISTO PARA STREAM':'SOLO VISTA PREVIA';
 
   const db=connected&&person?.present&&level?.rms>0?Math.max(-100,20*Math.log10(level.rms)):-100;
 
   card.node.querySelector('meter').value=db;
 
-  card.node.querySelector('.volume-db').textContent=db>-100?db.toFixed(0)+' dB':'Ã¢Ë†â€™Ã¢Ë†Å¾ dB';
+  card.node.querySelector('.volume-db').textContent=db>-100?db.toFixed(0)+' dB':'−∞ dB';
 
   if(card.slot.userId&&card.slot.enabled)visible++;
 
@@ -488,7 +500,7 @@ function render(force=false){
 
  document.querySelector('#connectionDot').classList.toggle('offline',!connected);
 
- document.querySelector('#connectionLabel').textContent=latest.receiver.recovery?.state==='blocked'?'DAVE detenido Ã‚Â· reconexiÃƒÂ³n manual':latest.receiver.recovery?.state==='reconnecting'?'Recuperando voz de Discord':latest.receiver.recovery?.state==='paused'?'Audio requiere reconexiÃƒÂ³n manual':!fresh?'Receptor desconectado':latest.receiver.mode==='demo'?'Modo demostraciÃƒÂ³n':connected?'Discord conectado':'Discord desconectado';
+ document.querySelector('#connectionLabel').textContent=latest.receiver.recovery?.state==='blocked'?'DAVE detenido · reconexión manual':latest.receiver.recovery?.state==='reconnecting'?'Recuperando voz de Discord':latest.receiver.recovery?.state==='paused'?'Audio requiere reconexión manual':!fresh?'Receptor desconectado':latest.receiver.mode==='demo'?'Modo demostración':connected?'Discord conectado':'Discord desconectado';
 
 }
 
@@ -497,6 +509,7 @@ function receiveState(state){
  latest=state;received=performance.now();if(performance.now()-lastControls<(performanceMode?500:200))return;lastControls=performance.now();
   for(const person of latest.participants)knownNames.set(person.userId,person.name);
 
+  const ids=new Set(latest.slots.map(s=>s.id));for(const card of [...cards.values()])if(!ids.has(card.slot.id))disposeCard(card);updateSourceCount();
   for(const slot of latest.slots){
 
    const card=cards.get(slot.id)||createCard(slot);
@@ -525,7 +538,7 @@ function receiveState(state){
 
   const recent=diagnostics.warningsLast60Seconds??0, decrypt=diagnostics.decryptFailuresLast60Seconds??0;
 
-  document.querySelector('#diagnosticSummary').textContent='Avisos de esta conexiÃƒÂ³n: '+(latest.receiver.warnings??0)+' Ã‚Â· ÃƒÅ¡ltimos 60 segundos: '+recent+' Ã‚Â· Fallos nativos de descifrado en 60 s: '+decrypt+'. Paquetes de audio descartados en 60 s: '+(diagnostics.packetErrorsLast60Seconds??0)+'. El total histÃƒÂ³rico no indica por sÃƒÂ­ solo un fallo activo.';
+  document.querySelector('#diagnosticSummary').textContent='Avisos de esta conexión: '+(latest.receiver.warnings??0)+' · Últimos 60 segundos: '+recent+' · Fallos nativos de descifrado en 60 s: '+decrypt+'. Paquetes de audio descartados en 60 s: '+(diagnostics.packetErrorsLast60Seconds??0)+'. El total histórico no indica por sí solo un fallo activo.';
 
   const warnings=document.querySelector('#warningKinds');warnings.replaceChildren();
 
@@ -534,14 +547,14 @@ function receiveState(state){
    const label=document.createElement('p');label.className='sound-hint';
 
    const inWindow=diagnostics.warningKindsLast60Seconds?.[kind]??0;
-   label.textContent=(kind.startsWith('DAVE_DECRYPT_')?'Audio DAVE rechazado ('+kind.slice(13)+')':kind.startsWith('VOICE_OPCODE_')?'Mensaje de voz no reconocido por la biblioteca ('+kind.slice(13)+')':kind==='DAVE_UNEXPECTED_TRANSITION'?'TransiciÃƒÂ³n DAVE inesperada':kind==='VOICE_CONNECTION_INTERRUPTED'?'ConexiÃƒÂ³n de voz interrumpida':'Otros avisos de Discord')+': '+count+' acumulados Ã‚Â· '+inWindow+' en los ÃƒÂºltimos 60 s';
+   label.textContent=(kind.startsWith('DAVE_DECRYPT_')?'Audio DAVE rechazado ('+kind.slice(13)+')':kind.startsWith('VOICE_OPCODE_')?'Mensaje de voz no reconocido por la biblioteca ('+kind.slice(13)+')':kind==='DAVE_UNEXPECTED_TRANSITION'?'Transición DAVE inesperada':kind==='VOICE_CONNECTION_INTERRUPTED'?'Conexión de voz interrumpida':'Otros avisos de Discord')+': '+count+' acumulados · '+inWindow+' en los últimos 60 s';
 
    warnings.append(label);
 
   }
 
   const log=diagnostics.log;
-  if(log)document.querySelector('#diagnosticSummary').textContent+=' Registro local: .local/'+log.relativePath+(log.writeFailed?' Ã‚Â· No se pudo escribir el archivo.':' Ã‚Â· Solo categorÃƒÂ­as y cantidades; sin audio ni claves.');
+  if(log)document.querySelector('#diagnosticSummary').textContent+=' Registro local: .local/'+log.relativePath+(log.writeFailed?' · No se pudo escribir el archivo.':' · Solo categorías y cantidades; sin audio ni claves.');
   document.querySelector('#diagnostics').textContent=JSON.stringify(latest.receiver,null,2);
   }
 
@@ -559,9 +572,13 @@ setInterval(render,50);subscribeState(receiveState,()=>{received=0;document.quer
 
 document.addEventListener('vf-audio-blocked',()=>toast('No se pudo reproducir el sonido. Comprueba el formato y el audio del navegador.'));
 
-globalThis.vfReloadReady=()=>![...cards.values()].some(card=>card.dirty||card.saving||card.importing);
+globalThis.vfReloadReady=()=>!document.querySelector('dialog[open]')&&![...cards.values()].some(card=>card.dirty||card.saving||card.importing);
 refreshSoundLibrary();document.addEventListener('vf-refresh-sounds',refreshSoundLibrary);
 
 mountSettings();
 
 mountUpdates();
+
+initLanguage();for(const dialog of document.querySelectorAll("dialog"))dismissible(dialog);
+
+document.addEventListener('vf-language',()=>{for(const card of cards.values())refreshControls(card);if(latest)document.querySelector('#audioHealthSummary').textContent=audioHealthText(latest.receiver);});

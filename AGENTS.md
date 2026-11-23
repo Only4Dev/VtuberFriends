@@ -10,7 +10,7 @@
 
 ## Panel y fuentes
 - El usuario autorizo crear el GUI aunque la prueba DAVE multiusuario siga pendiente. No declarar PASS completo por el GUI.
-- Fuente publica local: /overlay/1..8, solo avatar y nombre, transparente. No mostrar participantes automaticamente.
+- Fuentes públicas locales /overlay/ID con IDs estables, solo avatar y nombre, transparentes. Instalación nueva0 fuentes; alta explícita hasta64. Nunca reutilizar IDs eliminados ni renumerar las demás. No mostrar participantes automáticamente.
 - Respetar asignacion + Enabled + presencia en canal + receptor conectado. Preview del panel puede mostrar una fuente desactivada.
 - Ajustes compartidos por servidor en .local/avatars.json; no depender de localStorage para fuentes de Streamlabs.
 - Nombre desde nickname/global name/username de Discord; no interpolar nombres en HTML.
@@ -57,7 +57,7 @@
 
 - Jade shiny: PuppetJadeShiny es una paleta por fuente del mismo jade-puppet, defaultfalse. Mantener PNG/rig/geometría exactos (fixture SHA), recolorear solo verde de texturasJade, excluir accesorios ypasadasglow. Preservar dorado/rojo/iris/alpha. No regenerar piezas para cambiar esta paleta.
 
-- Fuentes: DefaultSlotCount=8 centralizado en AvatarStore; rutas y validación usan IsValidSlotId, panel cuenta slots.length. Migrar prefijos contiguos legacy (desde6) añadiendo solo slots vacíos/desactivados; no reemplazar asignaciones ni ajustes. No truncar archivos con IDs duplicados/discontinuos o más fuentes que la versión admite.
+- Fuentes dinámicas desde0.7: AvatarStore nuevo vacío; legacy6/7/8 se carga sin añadir, truncar ni reescribir al arrancar. Altas/bajas solo explícitas; IDmonótono en avatars.json.next-id, marcador avatars.json.dynamic y backup local antes de eliminar. Save no puede recrear una fuente borrada. Probar arrays con huecos y URLs de fuentes eliminadas transparentes.
 
 - Auras/humo/rayos y objetos animados: catálogo SVG + prop-effects.js en el renderer Puppet, reloj compartido y alpha premultiplicado. Efectos traseros antes de alas; humo nasal parent head al frente. Reservar rect completo en framing incluso entre emisiones; controles/transformaciones por rigId:accessoryId. No agregar RAF independientes.
 - Perfiles por Puppet también conservan adornos, encuadre/piezas, glows y movimiento; deep clone de defaults/objetos anidados al cambiar de modelo. No compartir posiciones entre modelos. No hornear defaults personales hasta que el usuario termine de ajustarlos.
@@ -70,16 +70,20 @@
 
 - Parches: generar deltas solo entre distribuciones limpias con IDs únicos y hashes before/after. Aplicador no debe modificar config.json, .local, Sonidos ni datos personales; preservar backups y verificar versión/archivos antes de escribir. Mantener guardia de app abierta y rollback probado por fallo intermedio. Declarar --animation para IDs nuevos: restaurar código viejo exige quitar esos valores de ajustes antes, sin sobrescribir ajustes del usuario.
 
-- Antes de crear/entregar cualquier parche, leer PATCH_WORKFLOW.md y ejecutar la prueba de conservación de siete fuentes. Baselines desde ZIP limpio inmutable, nunca instalaciones ya configuradas. Es una exigencia explícita del usuario: no cambiar configuraciones, fuentes ni posiciones; solo agregar la función solicitada.
+- Antes de crear/entregar cualquier parche, leer docs/PATCH_WORKFLOW.md y ejecutar la prueba de conservación de siete fuentes. Baselines desde ZIP limpio inmutable, nunca instalaciones ya configuradas. Es una exigencia explícita del usuario: no cambiar configuraciones, fuentes ni posiciones; solo agregar la función solicitada.
 
 - Modo prueba de fuentes: estado efímero del servidor testMode, defaultfalse y reset al reiniciar; jamás persistir en config/avatars ni falsear participantes/niveles reales. Solo simular presencia de asignado+Enabled, RMS0, cambios de modo instantáneos y sin audio; no persistir presencia falsa en sessionStorage. Respetar opacidad/encuadre y todas las URLs existentes. Al desactivar usar presencia real. Ver tests/source-display-probe.mjs y tests/test-mode-probe.mjs.
 
-- Fuente8 autorizada: migrar6/7a8 agregando solo filas vacías/desactivadas; no modificar las primeras siete ni reescribir el archivo al arrancar. Guardar fuente8 puede persistir ocho filas. Parches de este salto llevan previousMaxSlots=7: el restaurador debe rechazar volver a código antiguo si ya hay ocho fuentes guardadas, sin truncar datos. Ver --feature sources-8 en probes de parches.
+- Compatibilidad legacy: conservar todas las fuentes6/7/8 existentes y sus perfiles completos. Restaurador no puede volver a fuentes fijas tras usar altas/bajas dinámicas; previousDynamicSources permite restaurar entre versiones que sí las admiten. No truncar ni renumerar.
 
 - Desde cierre04: la X del último panel cierra el receptor, con2sde gracia para recarga. panel-lifetime.js se carga independiente de panel.js/state-stream y mantiene lease WebSocket /api/panel-lifetime aunque document.hidden; nunca cerrar esa lease por minimizar/modo rendimiento. Streamlabs/overlays no abren leases. No matar Edge ni procesos ajenos. Headless sin panel sigue funcionando. Validar tests/panel-lifetime-client-probe.mjs y tests/panel-lifetime-probe.mjs.
 - Limpieza Discord acotada solo al apagar el host (ConnectionManager.BeginShutdown + ShutdownTasks). No cambiar semántica de reconexión normal ni ocultar fallos DAVE. Pruebas sin credenciales reales ni ventanas de navegador.
 
 - Audio05: reconciliar GetStreams al reconectar y cada5s; lectores acotados por usuario, cancelar reemplazos, suprimir PCM obsoleto. No reconectar por silencio/Speaking. RecoveryBudget3/10min,60s entre intentos; fatal MLS conserva vigilancia y bloquea reintentos aun durante cooldown. Nunca abrir cliente nuevo si limpieza previa quedó incompleta. Pruebas con IAudioReceiver sintético; no usar credenciales ni afirmar estabilidad real por reloj virtual. Reconectar audio no guarda ajustes. Ver tests/RecoveryProbe.
 
-- Desde0.6.0: distribución nueva con lanzador nativo en raíz y runtime en app; config/.local/Sonidos permanecen en raíz. No mover datos de instalaciones antiguas al actualizar. UpdateService solo Releases públicas del repositorio fijo; verificar digest GitHub, ZIP/rutas y helper instalado. Helper --package-root solo bajo .updates/staged, --wait-pid antes de escribir. No ejecutar helpers descargados. Cero actualización forzada durante el directo. Ver UPDATES.md.
+- Desde0.6.0: distribución nueva con lanzador nativo en raíz y runtime en app; config/.local/Sonidos permanecen en raíz. No mover datos de instalaciones antiguas al actualizar. UpdateService solo Releases públicas del repositorio fijo; verificar digest GitHub, ZIP/rutas y helper instalado. Helper --package-root solo bajo .updates/staged, --wait-pid antes de escribir. No ejecutar helpers descargados. Cero actualización forzada durante el directo. Ver docs/UPDATES.md.
 - UI: Configurar/Personalizar y subpestañas claras; ocultar opciones de etiqueta si ShowName=false. Editor por clic/gizmos; mantener Aplicar/Cancelar, reposo y edits por Puppet. Tamaño porcentual1..100 representa escala .03..3; no reescribir posiciones existentes. Defaults geométricos solo si no hay edit explícito. Base plana es recorte shader del torso, PNG originales intactos y Jade serpentino excluido.
+
+- Codificación UTF-8 explícita en herramientas. Nunca leer archivos JS/HTML/CS como ANSI para reescribirlos. Auditar mojibake y U+FFFD. Inglés/español se limita a la GUI; no traducir apodos, nombres de usuario ni datos de Discord.
+- DEV predeterminado usa .local/dev/config.json y .local/dev/data, sin leer/borrar configuraciones ni tokens de producción. -UseExistingData es elección explícita para abrir datos anteriores. Pruebas usan -DataDirectory temporal y nunca una instalación personal.
+- Editor accesorios: catálogo por categorías con +Agregar, selección opcional, campos contextuales y botones Aplicar/Cancelar/X/backdrop. No resaltar partes del cuerpo cuando selected=null. Aplicar conserva perfiles/edits de otros Puppets; cerrar descarta borrador y libera Player/ResizeObserver.

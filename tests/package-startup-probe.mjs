@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';import {spawn} from 'node:child_process';import {mkdtemp,writeFile,readFile} from 'node:fs/promises';import {join,resolve} from 'node:path';import {tmpdir} from 'node:os';import {createServer} from 'node:net';
-const exe=resolve(process.argv[2]||'Distribucion/VtuberFriends/VtuberFriends.exe'),data=await mkdtemp(join(tmpdir(),'vf-first-run-')),port=17865,url='http://127.0.0.1:'+port;
+const exe=resolve(process.argv[2]||'artifacts/win-x64/VtuberFriends.exe'),data=await mkdtemp(join(tmpdir(),'vf-first-run-')),port=17865,url='http://127.0.0.1:'+port;
 await new Promise((resolve,reject)=>{const s=createServer();s.on('error',reject);s.listen(port,'127.0.0.1',()=>s.close(resolve));});
 const env={...process.env,VF_DISCORD_BOT_TOKEN:'',DOTNET_ROOT:join(data,'no-installed-dotnet'),DOTNET_MULTILEVEL_LOOKUP:'0',DOTNET_GCHeapHardLimit:'0x20000000'};
 await new Promise((resolve,reject)=>{const p=spawn(exe,['--doctor'],{windowsHide:true,env});let output='';p.stdout.on('data',b=>output+=b);p.on('error',reject);p.on('exit',code=>{try{assert.equal(code,0);assert(output.includes('DAVE'));resolve();}catch(e){reject(e);}});});
 const config=join(data,'config.json');await writeFile(config,JSON.stringify({Port:port}));const p=spawn(exe,['--config',config,'--data-dir',join(data,'local'),'--no-panel'],{windowsHide:true,env,stdio:'ignore'});const wait=ms=>new Promise(r=>setTimeout(r,ms));
 try{let state;for(let i=0;i<100;i++){try{state=await(await fetch(url+'/api/state')).json();break;}catch{await wait(100);}}
- assert(state);assert.equal(state.receiver.status,'unconfigured');assert.equal(state.slots.length,7);assert(state.slots.every(s=>!s.enabled));const settings=await(await fetch(url+'/api/settings')).json();assert.equal(settings.hasToken,false);assert(!('token' in settings));
+ assert(state);assert.equal(state.receiver.status,'unconfigured');assert.equal(state.slots.length,0);assert(state.slots.every(s=>!s.enabled));const settings=await(await fetch(url+'/api/settings')).json();assert.equal(settings.hasToken,false);assert(!('token' in settings));
  const html=await(await fetch(url)).text();assert(html.includes('settingsDialog'));assert((await(await fetch(url+'/settings.js')).text()).includes('Guardar'));
  const result=await fetch(url+'/api/settings/connect',{method:'POST',headers:{'Content-Type':'application/json','X-VF-Panel':'1'},body:JSON.stringify({guildId:'999999999999999999',channelId:'999999999999999998'})});assert(result.ok);const saved=await result.json();assert.equal(saved.receiver.status,'token_required');assert.equal(JSON.parse(await readFile(config,'utf8')).ChannelId,'999999999999999998');
  assert((await fetch(url+'/api/settings/disconnect',{method:'POST',headers:{'X-VF-Panel':'1'}})).ok);

@@ -5,6 +5,7 @@ async function start(){await new Promise((resolve,reject)=>{const s=createServer
 async function stop(){await fetch(url+'/api/app/exit',{method:'POST',headers:{'X-VF-Panel':'1'}});await Promise.race([new Promise(r=>app.once('exit',r)),wait(5000)]);assert(app.exitCode!==null);}
 const headers={'Content-Type':'application/json','X-VF-Panel':'1'};
 try{let state=await start();assert.equal(state.testMode,false);assert.equal(state.receiver.status,'unconfigured');
+ for(let i=0;i<7;i++)assert((await fetch(url+'/api/slots',{method:'POST',headers})).ok);state=await(await fetch(url+'/api/state')).json();
  for(let i=0;i<7;i++){const slot={...state.slots[i],userId:i===6?null:String(123456789012345670n+BigInt(i)),enabled:i<5,opacity:.4+i*.05,avatar:'cyan-puppet'};assert((await fetch(url+'/api/slots/'+(i+1),{method:'PUT',headers,body:JSON.stringify(slot)})).ok);}
  state=await(await fetch(url+'/api/state')).json();const before=state.slots,bytes=await readFile(join(data,'local','avatars.json')),configBytes=await readFile(config),observed=[];
  const socket=new WebSocket(url.replace('http','ws')+'/api/live');sockets.push(socket);socket.onmessage=event=>{const m=JSON.parse(event.data);if(m.type==='levels')observed.push(m.data.testMode);};await wait(120);

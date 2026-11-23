@@ -125,6 +125,8 @@ app.MapGet("/api/state", () => Results.Json(new
     participants = demo ? new[]{new Participant("demo-a", "Only4", true), new Participant("demo-b", "Streamer", true)} : connection.Participants,
     slots = avatars.Snapshot()
 }));
+app.MapPost("/api/slots",(HttpContext c)=>{if(!PanelRequest(c))return Results.StatusCode(403);try{return Results.Ok(avatars.Add());}catch(ArgumentException e){return Results.BadRequest(new{error=e.Message});}catch(IOException){return Results.Problem("No se pudo agregar la fuente.");}});
+app.MapDelete("/api/slots/{id:int}",(int id,HttpContext c)=>{if(!PanelRequest(c))return Results.StatusCode(403);try{avatars.Remove(id);return Results.NoContent();}catch(ArgumentException e){return Results.BadRequest(new{error=e.Message});}catch(IOException){return Results.Problem("No se pudo eliminar la fuente.");}});
 app.MapPut("/api/slots/{id:int}", (int id, AvatarSlot slot, HttpContext context) =>
 {
     if (context.Request.Headers["X-VF-Panel"] != "1") return Results.StatusCode(403);

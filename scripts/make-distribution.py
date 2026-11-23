@@ -28,7 +28,7 @@ for path in source.rglob('*'):
  elif parts[0]=='native':keep=path.suffix.lower() in {'.dll','.json','.txt'}
  elif parts[0]=='wwwroot':
   if len(parts)>3 and parts[1]=='puppets':keep='/'.join(parts[3:]) in allowed.get(parts[2],set())
-  else:keep=path.suffix.lower() in {'.html','.js','.css','.svg','.woff','.woff2','.ttf','.otf','.png','.txt'} or rel.as_posix()=='wwwroot/accessories/catalog.json'
+  else:keep=path.suffix.lower() in {'.html','.js','.css','.svg','.woff','.woff2','.ttf','.otf','.png','.txt'} or rel.as_posix() in {'wwwroot/accessories/catalog.json','wwwroot/source-capabilities.json'}
  if keep:copy(path)
  else:omitted+=1
 (target/'Sonidos').mkdir();shutil.copy2(root/'Sonidos/LEEME.txt',target/'Sonidos/LEEME.txt')

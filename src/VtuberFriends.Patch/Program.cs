@@ -44,6 +44,7 @@ try{
 
   string dataRoot=Path.GetFileName(root)=="app"?Path.GetDirectoryName(root)!:root;string settings=Safe(dataRoot,".local/avatars.json");
 
+  if(!manifest.PreviousDynamicSources&&File.Exists(settings+".dynamic"))throw new InvalidOperationException("Esta instalación ya usa fuentes dinámicas. No se restaurará una versión con fuentes fijas ni se borrarán datos.");
   if(manifest.PreviousMaxSlots is int previousMax&&File.Exists(settings)){
 
    using var stored=JsonDocument.Parse(File.ReadAllText(settings));
@@ -123,7 +124,7 @@ static string Safe(string root,string relative){string full=Path.GetFullPath(Pat
 
 internal sealed record Change(string Path,string? Before,string After);
 
-internal sealed record Manifest(int Format,string Id,string Title,Dictionary<string,string> Base,Change[] Files,string[]? AddedAnimations=null,int? PreviousMaxSlots=null,Dictionary<string,string[]>? AddedAccessoryValues=null);
+internal sealed record Manifest(int Format,string Id,string Title,Dictionary<string,string> Base,Change[] Files,string[]? AddedAnimations=null,int? PreviousMaxSlots=null,Dictionary<string,string[]>? AddedAccessoryValues=null,bool PreviousDynamicSources=false);
 
 internal static class Native{[DllImport("user32.dll",CharSet=CharSet.Unicode)]internal static extern int MessageBox(IntPtr window,string text,string caption,uint flags);}
 

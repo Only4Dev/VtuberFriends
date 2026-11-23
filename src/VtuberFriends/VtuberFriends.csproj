@@ -10,4 +10,7 @@
     <Content Update="wwwroot/**/*" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../../native/win-x64/*.dll" Link="native/win-x64/%(Filename)%(Extension)" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
-</Project>
+<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+<DebugType>none</DebugType><DebugSymbols>false</DebugSymbols><IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+<PathMap>$(MSBuildProjectDirectory)=/_/VtuberFriends</PathMap>
+</PropertyGroup></Project>

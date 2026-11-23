@@ -1,0 +1,10 @@
+import {spawn} from 'node:child_process';import assert from 'node:assert/strict';import {resolve,join} from 'node:path';import {mkdtemp} from 'node:fs/promises';import {tmpdir} from 'node:os';
+const isolatedData=await mkdtemp(join(tmpdir(),'vf-dev-launch-'));
+const url='http://127.0.0.1:17861',wait=ms=>new Promise(r=>setTimeout(r,ms));let output='';
+const app=spawn('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',resolve('scripts/run.ps1'),'-Demo','-NoPanel','-DataDirectory',isolatedData],{windowsHide:true,env:{...process.env,VF_DISCORD_BOT_TOKEN:'',DOTNET_GCHeapHardLimit:'0x20000000'}});app.stdout.on('data',x=>output+=x);app.stderr.on('data',x=>output+=x);
+try{let state;for(let i=0;i<100;i++){try{state=await(await fetch(url+'/api/state')).json();break;}catch{if(app.exitCode!==null)throw Error(output);await wait(150);}}assert(state,output);assert.equal(state.slots.length,0);
+const html=await(await fetch(url+'/')).text();assert.match(html,/studio-layout.css/);assert.match(await(await fetch(url+'/panel.js')).text(),/organizeCard/);const layout=await(await fetch(url+'/studio-layout.js')).text();assert.match(layout,/Personalizar/);assert.match(layout,/info-tip/);assert.match(output,/DEV:/);
+const second=spawn('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',resolve('scripts/run.ps1'),'-Demo','-NoPanel','-DataDirectory',isolatedData],{windowsHide:true});let error='';second.stderr.on('data',x=>error+=x);await new Promise(r=>second.on('exit',r));assert.notEqual(second.exitCode,0);assert.match(error,/puerto 17861/);assert.equal((await fetch(url+'/api/state')).status,200);
+await fetch(url+'/api/app/exit',{method:'POST',headers:{'X-VF-Panel':'1'}});await Promise.race([new Promise(r=>app.once('exit',r)),wait(5000)]);assert.equal(app.exitCode,0,output);
+console.log('PASS: actual DEV script builds/serves new studio and tooltip module, refuses second instance before opening stale panel, exits cleanly. Demo only; no browser or Discord.');
+}finally{await fetch(url+'/api/app/exit',{method:'POST',headers:{'X-VF-Panel':'1'}}).catch(()=>{});if(app.exitCode===null)app.kill();}

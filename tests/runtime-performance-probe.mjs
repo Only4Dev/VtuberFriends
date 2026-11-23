@@ -9,7 +9,7 @@ const data=await mkdtemp(join(tmpdir(),'vf-perf-'));const app=spawn(exe,['--demo
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 try{
  let state;for(let i=0;i<100;i++){try{state=await (await fetch(url+'/api/state')).json();break;}catch{await wait(100);}}
- assert(state,'server startup');const settings=await(await fetch(url+'/api/settings')).json();assert.equal(settings.demo,true);assert(!('token' in settings));
+ assert(state,'server startup');if(state.slots.length===0){for(let i=0;i<7;i++)assert((await fetch(url+'/api/slots',{method:'POST',headers:{'X-VF-Panel':'1'}})).ok);state=await(await fetch(url+'/api/state')).json();}const settings=await(await fetch(url+'/api/settings')).json();assert.equal(settings.demo,true);assert(!('token' in settings));
  assert.equal((await fetch(url+'/api/settings/connect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guildId:'x',channelId:'y'})})).status,403);
  assert.equal((await fetch(url+'/api/settings/connect',{method:'POST',headers:{'Content-Type':'application/json','X-VF-Panel':'1'},body:JSON.stringify({guildId:'x',channelId:'y'})})).status,400);
  const measurements=Array.from({length:8},()=>({frames:0,bytes:0,slotUpdates:0,opacity:0}));

@@ -54,3 +54,5 @@ TokenVaultCompatibilityProbe.Run();
  bool healthyFailure=false;await ShutdownTasks.TryAsync(()=>Task.CompletedTask,TimeSpan.FromSeconds(1),()=>healthyFailure=true);if(healthyFailure)throw new Exception("Healthy cleanup was marked failed.");
  Console.WriteLine("PASS: cierre acotado ante limpieza bloqueada y finalizacion normal sin errores.");
 }
+
+DynamicSourcesProbe.Run();
