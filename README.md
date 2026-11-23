@@ -49,7 +49,7 @@ Requires the .NET 10 SDK selected by `global.json`. The native Windows x64 voice
 
 Development uses isolated settings under `.local/dev`. Use `-UseExistingData` only when you explicitly want to open the older local setup. Use `-Demo -NoPanel -DataDirectory <temporary-folder>` for isolated tests without Discord.
 
-Build a portable release with `scripts/publish.ps1`. Compiling the small native launcher also requires the Visual Studio C++ build tools. Version tags run the GitHub release workflow. See [PATCH_WORKFLOW.md](docs/PATCH_WORKFLOW.md).
+Build a portable release with `scripts/publish.ps1`. Compiling the small native launcher also requires the Visual Studio C++ build tools. A GitHub Actions template is provided in `.github/workflow-templates/release.yml`; it is not active until installed under `.github/workflows/` using an account credential with workflow permission. The first release is published through the GitHub API. See [PATCH_WORKFLOW.md](docs/PATCH_WORKFLOW.md).
 
 ## Validation and limits
 

@@ -19,7 +19,7 @@ Un archivo modificado manualmente o una versión sin delta compatible bloquea la
 ## Flujo del desarrollador
 
 1. Cambiar `UpdateService.Version` a una versión superior. Implementar y validar; conservar el ZIP exacto anterior.
-2. Publicar etiqueta `v<versión>`. El workflow `.github/workflows/release.yml` compila, prueba sin Discord real y genera la distribución limpia.
+2. La plantilla `.github/workflow-templates/release.yml` está preparada, pero no activa: la credencial usada para la primera publicación carece del permiso workflow. Para activarla, copiarla a `.github/workflows/release.yml` con una credencial autorizada. Una vez instalada, publicar etiqueta `v<versión>` compila, prueba sin Discord real y genera la distribución limpia. Mientras tanto se compila localmente con scripts/publish.ps1 y se publica mediante scripts/github-publish.py; no se necesita Actions para que la app consulte Releases.
 3. El workflow descarga la última release pública limpia, genera el delta y publica el ZIP completo y el asset compatible. La primera release no tiene baseline anterior. También puede ejecutarse manualmente para producir artifacts sin publicar.
 4. Revisar manifiesto, hashes, cambios de esquema, nuevas animaciones y pruebas de conservación antes de etiquetar. Nuevos valores de accesorios se detectan del catálogo y bloquean una restauración incompatible; las animaciones nuevas deben declararse con `--animation` en el flujo de parches.
 5. Una actualización de runtime/dependencias requiere preparar y probar una migración compatible completa. El generador rechaza hacerla pasar por un parche pequeño.

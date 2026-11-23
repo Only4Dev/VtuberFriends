@@ -49,7 +49,7 @@ Necesitas el SDK .NET 10 indicado por `global.json`. Las bibliotecas nativas est
 
 DEV usa ajustes separados en `.local/dev`. Usa `-UseExistingData` solo si quieres abrir explícitamente la configuración local anterior. Para pruebas aisladas sin Discord usa `-Demo -NoPanel -DataDirectory <carpeta-temporal>`.
 
-`scripts/publish.ps1` prepara la versión portable. Compilar el lanzador nativo requiere las herramientas C++ de Visual Studio. Las etiquetas de versión ejecutan el workflow de GitHub. Consulta [PATCH_WORKFLOW.md](docs/PATCH_WORKFLOW.md).
+`scripts/publish.ps1` prepara la versión portable. Compilar el lanzador nativo requiere las herramientas C++ de Visual Studio. La plantilla `.github/workflow-templates/release.yml` se activa copiándola a `.github/workflows/` con una credencial que tenga permiso de workflows. Por ahora la primera release se publica mediante la API de GitHub; el actualizador de la app funciona independientemente. Consulta [PATCH_WORKFLOW.md](docs/PATCH_WORKFLOW.md).
 
 ## Validación y límites
 
