@@ -2,7 +2,7 @@
 
 ## 0.7.0 — 2026-11-23
 
-First public release.
+First functional public build and baseline for future updates. Earlier development builds remain historical.
 
 ### Added
 - Portable Windows x64 download with a clear root executable and bundled runtime in `app`.
@@ -25,9 +25,9 @@ First public release.
 - Runtime/dependency changes require a separately validated compatible release; incompatible deltas are rejected.
 
 ### Downloads
-- **New installation:** extract `VtuberFriends-Windows-x64.zip` and open its root executable.
-- **Existing audio05 installation:** close the app, extract **all** of `vf-20261123-first-release-07.zip` beside its existing executable, run `Aplicar parche.exe`, then reopen the app. This adds the updater while preserving the existing folder layout and settings. The patch refuses other versions; do not force it.
-- Keep your existing installation and its data. The full-download ZIP is a clean installation, not a replacement for a configured folder.
+- Download `VtuberFriends-Windows-x64.zip`, extract it and open `VtuberFriends.exe`.
+- To keep your setup, close the app and extract the ZIP into the same app folder, replacing program files when prompted. Keep `config.json`, `.local` and `Sonidos` in that folder; the ZIP does not include or overwrite your settings. Do not delete the old folder first.
+- On the same Windows account, your encrypted token, avatar assignments, positions, sounds and Streamlabs source URLs are retained. A separate empty folder starts a new setup unless you copy those data files into it.
 
 ### Validation boundary
 Synthetic audio, HTTP/WebSocket, updater, persistence and simulated-DOM tests do not replace prolonged real Discord/DAVE and Streamlabs acceptance tests.

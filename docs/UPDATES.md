@@ -2,7 +2,9 @@
 
 Repositorio: https://github.com/Only4Dev/VtuberFriends
 
-La app consulta Releases públicas de este repositorio. El streamer no necesita cuenta ni token de GitHub. La primera versión pública es 0.7.0; las instalaciones anteriores necesitan un último parche de incorporación. Para audio05 se incluye vf-20261123-first-release-07.zip, verificado con ocho fuentes configuradas. No usarlo con otra baseline.
+La app consulta Releases públicas de este repositorio. El streamer no necesita cuenta ni token de GitHub. La versión0.7.0 es la primera build funcional pública y baseline para futuras actualizaciones. Se distribuye un único ZIP completo de la app, sin parches de incorporación antiguos.
+
+Para mantener el setup al descargar esta primera build, cerrar la app y extraer el ZIP completo EN LA MISMA carpeta, reemplazando archivos del programa, sin borrar previamente la carpeta. El paquete no incluye config.json ni .local ni sonidos personales. Se conservan los datos de raíz y las URLs de Streamlabs. En una carpeta nueva vacía no se encuentran los datos de la otra carpeta: hay que copiar config.json, .local y Sonidos. El token cifrado sigue siendo del mismo usuario Windows.
 
 ## Lo que se conserva
 

@@ -39,6 +39,8 @@ Actualiza después del directo. Se conservan `config.json`, `.local`, token, son
 
 La X del último panel detiene el receptor tras unos segundos. Minimizar mantiene el directo funcionando. Las fuentes del navegador no mantienen vivo el receptor después de cerrar su panel.
 
+Para conservar tu configuración al descargar esta release, cierra la app y extrae el ZIP completo en la misma carpeta de la app, reemplazando los archivos del programa. **No borres esa carpeta antes.** Conserva `config.json`, `.local` y `Sonidos` junto al ejecutable de la raíz. No necesitas un parche de incorporación adicional.
+
 ## Desarrollo
 
 Necesitas el SDK .NET 10 indicado por `global.json`. Las bibliotecas nativas están fijadas en `native/win-x64`; no actualices libdave por separado de Discord.Net.

@@ -37,6 +37,8 @@ Install updates after your stream. The updater preserves `config.json`, `.local`
 
 `config.json`, `.local` and `Sonidos` live beside the main executable. Keep them when moving or backing up an installation. The bot token is encrypted for the current Windows account; configure it again on another Windows account or PC. Never upload your token or `.local` folder to GitHub.
 
+To keep your setup when downloading this release, close the app and extract the full ZIP into the same app folder, replacing program files. **Do not delete that folder first.** The ZIP contains no personal settings; keep `config.json`, `.local` and `Sonidos` beside the root executable. No separate incorporation patch is needed.
+
 Closing the last panel window stops the receiver after a short grace period. Minimizing keeps it running. Browser sources alone do not keep a closed panel's receiver alive.
 
 ## Development
