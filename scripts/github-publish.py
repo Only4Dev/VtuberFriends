@@ -5,7 +5,9 @@ Never prints credentials, overwrites a public release or force-pushes source his
 from pathlib import Path
 import argparse,subprocess,os,json,urllib.request,urllib.error,urllib.parse,http.client,hashlib,zipfile,time
 ROOT=Path(__file__).resolve().parents[1];REPO='Only4Dev/VtuberFriends'
-p=argparse.ArgumentParser();p.add_argument('action',choices=['ensure-repo','draft','upload','publish','verify']);p.add_argument('--version',default='0.7.0');p.add_argument('--commit');p.add_argument('--asset',action='append',default=[]);a=p.parse_args()
+import re
+version=re.search(r'const string Version="([0-9.]+)"',(ROOT/'src/VtuberFriends/UpdateService.cs').read_text(encoding='utf-8')).group(1)
+p=argparse.ArgumentParser();p.add_argument('action',choices=['ensure-repo','draft','upload','publish','verify']);p.add_argument('--version',default=version);p.add_argument('--commit');p.add_argument('--asset',action='append',default=[]);a=p.parse_args()
 credential=subprocess.run(['git','-c','credential.interactive=never','credential','fill'],input='protocol=https\nhost=github.com\n\n',capture_output=True,text=True,env={**os.environ,'GCM_INTERACTIVE':'never'},timeout=20)
 if credential.returncode:raise RuntimeError('No cached GitHub credential. Sign in with GitHub Desktop first.')
 values=dict(line.split('=',1) for line in credential.stdout.splitlines() if '=' in line);secret=values.get('password','')

@@ -2,9 +2,9 @@ import zipfile
 """Roundtrip seven configured sources through the old/new applications, not only file sentinels."""
 import pathlib,shutil,tempfile,subprocess,json,urllib.request,time,socket,contextlib,hashlib
 import argparse
-parser=argparse.ArgumentParser();parser.add_argument('--patch',default='vf-20261120-hacker-01');parser.add_argument('--base-patch');parser.add_argument('--feature',choices=['hacker','test-mode','sources-8','close'],default='hacker');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--patch',default='vf-20261120-hacker-01');parser.add_argument('--base-patch');parser.add_argument('--base-zip',help='Clean immutable ZIP with VtuberFriends/ root');parser.add_argument('--feature',choices=['hacker','test-mode','sources-8','close'],default='hacker');args=parser.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1];work=pathlib.Path(tempfile.mkdtemp(prefix='vf-configured-patch-'));target=work/'VtuberFriends';
-with zipfile.ZipFile(root/'Distribucion/VtuberFriends-Windows-x64.zip') as archive:
+with zipfile.ZipFile(pathlib.Path(args.base_zip) if args.base_zip else root/'Distribucion/VtuberFriends-Windows-x64.zip') as archive:
  assert not any('/.local/' in n or n.endswith('/config.json') or '..' in pathlib.Path(n).parts for n in archive.namelist())
  archive.extractall(work)
 if args.base_patch:
@@ -33,6 +33,8 @@ def run(*args):
  p=subprocess.run([str(target/'Aplicar parche.exe'),'--quiet',*args],capture_output=True,text=True,timeout=30);assert p.returncode==0,(p.returncode,p.stdout,p.stderr)
 models=['cyan','jade','amber','thoxer','ember','patch','rose','frost']
 with server():
+ if not request('/api/state')['slots']:
+  for _ in range(8):request('/api/slots',{},'POST')
  for i,slot in enumerate(request('/api/state')['slots']):
   pack=models[i]+'-dragon';slot.update(userId=str(123456789012345670+i),enabled=True,avatar=models[i]+'-puppet',opacity=.51+i*.05,thresholdDb=-61+i,nameStyle='outline',nameSize=18+i,nameOpacity=.75,entryAnimation='hacker' if args.base_patch and i==0 else 'celestial',exitAnimation='pop',entrySound='a'*32+'.wav',entrySoundFile='a'*32+'.wav',entrySoundName='Mi sonido',puppetPadding=250+i*10,puppetMouthTravel=50+i*5,puppetEyeGlow=True,puppetEyeGlowIntensity=.35,accessoryObject='phone',accessoryObjectLeft='microphone',accessoryHat='wizard',ambientEffects=['orbs'],accessoryAura='energy',accessoryEdits={pack+':object-phone':{'x':35+i,'y':-20-i,'scale':.7+i*.1,'rotation':i*7},pack+':effect-aura':{'x':12+i,'y':-30,'scale':1.1,'color':'#77aaff','intensity':.6,'speed':1.2}},puppetParts={'head':{'x':i*3,'y':-i,'scaleX':1.02,'scaleY':.98,'rotation':i}})
   slot['accessoryProfiles']['frost-puppet']={'accessoryGlasses':'sun','objectSpeed':1.7,'puppetPadding':350,'ambientEffects':['runes']}

@@ -1,0 +1,29 @@
+import assert from 'node:assert/strict';import {parseHTML} from '../.tools/ui-tests/node_modules/linkedom/worker.js';import {registerHooks} from 'node:module';
+registerHooks({resolve(specifier,context,next){return next(specifier.replace(/\?v=__UI_VERSION__$/,''),context);}});
+const {document,window}=parseHTML('<html lang="es"><body><button data-setup-wizard>Setup wizard</button><dialog id="settingsDialog"></dialog><div id="toast"></div></body></html>');
+Object.assign(globalThis,{document,window,location:new URL('http://127.0.0.1:17861'),CustomEvent:window.CustomEvent,localStorage:{setItem(){},getItem(){return null}},NodeFilter:{SHOW_TEXT:4,SHOW_ELEMENT:1}});
+Object.defineProperty(window.HTMLSelectElement.prototype,'value',{configurable:true,get(){return this.getAttribute('data-value')??this.querySelector('option')?.value??'';},set(v){this.setAttribute('data-value',String(v));}});
+window.HTMLElement.prototype.showModal=function(){this.open=true;};window.HTMLElement.prototype.close=function(){this.open=false;this.dispatchEvent(new window.Event('close'));};window.HTMLElement.prototype.focus=function(){};
+const calls=[],wait=ms=>new Promise(r=>setTimeout(r,ms));let state={receiver:{mode:'discord',status:'unconfigured'},participants:[],users:[],slots:[]},shouldOpen=true,failSave=false;
+globalThis.fetch=async(path,options={})=>{const body=options.body?JSON.parse(options.body):null;calls.push({path,method:options.method||'GET',body});let value={};
+ if(path==='/api/setup-wizard')value=options.method?{saved:true}:{shouldAutoOpen:shouldOpen};
+ else if(path==='/api/settings')value={guildId:'',channelId:'',hasToken:false};else if(path==='/api/state')value=structuredClone(state);
+ else if(path==='/api/settings/connect'){state.receiver.status='connected';value={receiver:state.receiver};}
+ else if(path==='/api/slots'){const slot={id:1,avatar:'cyan-puppet',enabled:false,opacity:.81,accessoryEdits:{keep:{x:9}}};state.slots.push(slot);value=slot;}
+ else if(path==='/api/slots/1'){if(failSave)return {ok:false,status:500,json:async()=>({})};state.slots[0]=body;value=body;}
+ return {ok:true,status:200,json:async()=>structuredClone(value)};
+};let copied='';Object.defineProperty(globalThis,'navigator',{configurable:true,value:{clipboard:{writeText:async text=>{copied=text;}}}});
+const {mountSetupWizard}=await import('../src/VtuberFriends/wwwroot/setup-wizard.js');const {setLanguage}=await import('../src/VtuberFriends/wwwroot/i18n.js');
+const wizard=mountSetupWizard();await wizard.ready;assert(wizard.dialog.open);assert.equal(document.querySelectorAll('.wizard-step').length,9);assert.equal(calls.filter(c=>c.method!=='GET').length,0);
+function clickText(text){const b=[...wizard.dialog.querySelectorAll('button')].find(b=>b.textContent===text);assert(b,text);b.click();return b;}
+function fill(name,value){const input=wizard.dialog.querySelector('[name='+name+']');assert(input,name);input.value=value;input.dispatchEvent(new window.Event('input'));return input;}
+wizard.go(1);assert(wizard.dialog.textContent.includes('Modo desarrollador'));setLanguage('en');assert(wizard.dialog.textContent.includes('Enable Developer Mode'));assert(wizard.dialog.textContent.includes('User Settings'));setLanguage('es');
+wizard.go(3);fill('applicationId','123456789012345678');const invite=wizard.dialog.querySelector('a[href*="oauth2/authorize"]');assert(invite);assert(invite.href.includes('permissions=1049600'));assert(!invite.href.includes('token='));
+wizard.go(5);fill('guildId','123456789012345678');fill('channelId','223456789012345678');const token=fill('wizardToken','SYNTHETIC_SECRET');clickText('Guardar y conectar');assert.equal(token.value,'');await wait(10);assert.equal(calls.filter(c=>c.path==='/api/settings/connect').length,1);assert(!wizard.dialog.textContent.includes('SYNTHETIC_SECRET'));
+wizard.go(6);fill('userId','323456789012345678');failSave=true;clickText('Crear y guardar mi fuente');await wait(10);assert.equal(calls.filter(c=>c.path==='/api/slots'&&c.method==='POST').length,1);failSave=false;clickText('Guardar esta fuente');await wait(10);assert.equal(calls.filter(c=>c.path==='/api/slots'&&c.method==='POST').length,1,'retry duplicated source');assert.equal(state.slots[0].opacity,.81);assert.deepEqual(state.slots[0].accessoryEdits,{keep:{x:9}});assert(state.slots[0].enabled);
+wizard.go(7);clickText('Copiar URL');await wait(10);assert.equal(copied,'http://127.0.0.1:17861/overlay/1');
+wizard.go(8);let finish=clickText('Terminar configuración');assert(finish.disabled);const checkbox=wizard.dialog.querySelector('input[type=checkbox]');checkbox.checked=true;checkbox.dispatchEvent(new window.Event('change'));assert(finish.disabled,'manual checkbox alone must not fake audio');
+state.participants=[{userId:'323456789012345678',name:'Guest'}];state.users=[{userId:'323456789012345678',frames:5,rms:.2}];state.testMode=true;wizard.update(state);assert(finish.disabled,'test mode is not live audio');state.testMode=false;await wait(120);wizard.update(state);assert(!finish.disabled);finish.click();await wait(10);assert(!wizard.dialog.open);assert(calls.some(c=>c.body?.outcome==='completed'));
+shouldOpen=false;await wizard.open();clickText('Omitir asistente');await wait(10);assert(!wizard.dialog.open);assert(calls.some(c=>c.body?.outcome==='skipped'));await wizard.open();const escape=new window.Event('cancel',{cancelable:true});wizard.dialog.dispatchEvent(escape);await wait(10);assert(!wizard.dialog.open);
+const noAuto=mountSetupWizard();await noAuto.ready;assert(!noAuto.dialog.open);assert.equal(calls.filter(c=>c.path==='/api/slots'&&c.method==='POST').length,1);
+console.log('PASS: bilingual nine-step wizard, true first boot/manual open/skip/Escape, no implicit writes, invite URL, cleared secret, one-source retry, settings preservation, clipboard, live PCM gating and manual Streamlabs confirmation. Simulated DOM/HTTP; no real Discord/browser.');

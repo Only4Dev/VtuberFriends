@@ -4,6 +4,7 @@ import {mountUpdates} from './updates.js?v=__UI_VERSION__';
 import {organizeCard} from './studio-layout.js?v=__UI_VERSION__';
 import {audioHealthText} from './audio-health.js?v=__UI_VERSION__';
 import {mountSettings} from './settings.js?v=__UI_VERSION__';
+import {mountSetupWizard} from './setup-wizard.js?v=__UI_VERSION__';
 import {subscribeState} from './state-stream.js?v=__UI_VERSION__';
 let soundLibrary=[];
 async function refreshSoundLibrary(){try{const r=await fetch('/api/sounds');if(r.ok){const next=await r.json();if(JSON.stringify(next)!==JSON.stringify(soundLibrary)){soundLibrary=next;for(const card of cards.values())for(const refresh of card.refresh)refresh();}}}catch{}}
@@ -506,7 +507,7 @@ function render(force=false){
 
 let lastControls=0,lastDiagnosticPayload=null;
 function receiveState(state){
- latest=state;received=performance.now();if(performance.now()-lastControls<(performanceMode?500:200))return;lastControls=performance.now();
+ latest=state;setupWizard?.update(state);received=performance.now();if(performance.now()-lastControls<(performanceMode?500:200))return;lastControls=performance.now();
   for(const person of latest.participants)knownNames.set(person.userId,person.name);
 
   const ids=new Set(latest.slots.map(s=>s.id));for(const card of [...cards.values()])if(!ids.has(card.slot.id))disposeCard(card);updateSourceCount();
@@ -566,7 +567,8 @@ document.querySelector('#helpButton').addEventListener('click',()=>document.quer
 
 document.querySelector('#closeHelp').addEventListener('click',()=>document.querySelector('#help').close());
 
-setInterval(render,50);subscribeState(receiveState,()=>{received=0;document.querySelector('#connectionLabel').textContent='Receptor desconectado';render();},{panel:true});
+let setupWizard=null;
+setInterval(render,50);subscribeState(receiveState,()=>{received=0;setupWizard?.update({receiver:{status:'disconnected'},slots:latest?.slots||[],users:[],participants:[]});document.querySelector('#connectionLabel').textContent='Receptor desconectado';render();},{panel:true});
 
 
 
@@ -580,5 +582,6 @@ mountSettings();
 mountUpdates();
 
 initLanguage();for(const dialog of document.querySelectorAll("dialog"))dismissible(dialog);
+setupWizard=mountSetupWizard();
 
 document.addEventListener('vf-language',()=>{for(const card of cards.values())refreshControls(card);if(latest)document.querySelector('#audioHealthSummary').textContent=audioHealthText(latest.receiver);});

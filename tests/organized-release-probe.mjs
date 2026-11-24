@@ -4,7 +4,7 @@ assert.deepEqual((await readdir(root)).sort(),['LEEME.txt','Sonidos','VtuberFrie
 const launcher=spawn(join(root,'VtuberFriends.exe'),['--demo','--no-panel','--port',String(port),'--data-dir',data],{windowsHide:true,stdio:'ignore'});
 try{
  let state;for(let i=0;i<100;i++){try{state=await(await fetch(url+'/api/state')).json();break;}catch{await wait(100);}}assert(state,'native launcher failed to start app');assert.equal(state.slots.length,0);
- const update=await(await fetch(url+'/api/updates')).json();assert.equal(update.version,'0.7.0');
+ const update=await(await fetch(url+'/api/updates')).json();assert.equal(update.version,(await readFile('src/VtuberFriends/UpdateService.cs','utf8')).match(/Version="([0-9.]+)"/)[1]);
  assert.equal((await fetch(url+'/api/updates/check',{method:'POST',headers:{'X-VF-Panel':'1',Origin:'https://evil.invalid'}})).status,403);
  assert.equal((await fetch(url+'/api/updates/download',{method:'POST'})).status,403);
  assert.equal((await fetch(url+'/api/updates/install',{method:'POST',headers:{'X-VF-Panel':'1'}})).status,400);

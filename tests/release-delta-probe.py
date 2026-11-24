@@ -38,6 +38,10 @@ try:
  process=start()
  try:
   assert request('/api/state')['slots']==before,'Avatar settings changed'
+  # If the new release includes onboarding, an update must not interrupt an existing setup.
+  try:assert request('/api/setup-wizard')['shouldAutoOpen'] is False
+  except urllib.error.HTTPError as error:
+   if error.code!=404:raise
   for row in before:
    with urllib.request.urlopen(url+'/overlay/'+str(row['id'])) as response:assert response.status==200
  finally:stop(process)

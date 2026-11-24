@@ -4,7 +4,7 @@
 
 Voice-driven, layered 2D dragon avatars for Discord calls and Streamlabs. **Only the streamer installs the app.** Guests use regular Discord.
 
-**Windows x64 · Portable · English / Spanish UI · Version 0.7.0**
+**Windows x64 · Portable · English / Spanish UI · Version 0.8.0**
 
 [Download the latest release](https://github.com/Only4Dev/VtuberFriends/releases/latest) · [Changelog](CHANGELOG.md)
 
@@ -12,6 +12,7 @@ Voice-driven, layered 2D dragon avatars for Discord calls and Streamlabs. **Only
 
 1. Download **VtuberFriends-Windows-x64.zip** from Releases and extract the entire ZIP into a writable folder.
 2. Open **VtuberFriends.exe**. Keep the `app` and `Sonidos` folders beside it. No .NET installation or PowerShell is required for the release.
+   On an unconfigured installation, **Setup wizard** guides you through bot creation, invitation, IDs, connection and your first avatar source. Skip it or reopen it from the sidebar or Settings. Configured installations do not launch it automatically.
 3. In **Settings**, enter your Discord bot token, server ID and voice-channel ID, then choose **Save and connect**. Create and invite an official bot through the [Discord Developer Portal](https://discord.com/developers/applications); it needs access to view and connect to the voice channel.
 4. Click **+ Add source**, choose a Puppet and assign a guest. You can prepare a guest by Discord user ID before they join.
 5. Enable **Show**, copy the source URL and add a **Browser Source** in Streamlabs. Use **1440 × 1080** for HD, or **800 × 600** for lower resource use.

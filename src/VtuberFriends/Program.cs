@@ -57,6 +57,14 @@ app.MapPost("/api/updates/check",async(HttpContext c)=>!PanelRequest(c)?Results.
 app.MapPost("/api/updates/download",async(HttpContext c)=>!PanelRequest(c)?Results.StatusCode(403):Results.Ok(await updates.Download(c.RequestAborted)));
 app.MapPost("/api/updates/install",(HttpContext c)=>{if(!PanelRequest(c))return Results.StatusCode(403);if(!updates.Install())return Results.BadRequest(new{error="Descarga primero un parche compatible."});app.Lifetime.StopApplication();return Results.Ok();});
 app.MapGet("/api/settings",()=>Results.Ok(connection.Settings));
+var setupWizard=new SetupWizard(Path.Combine(dataDirectory,"setup-wizard.json"));
+app.MapGet("/api/setup-wizard",()=>Results.Ok(setupWizard.Describe(!connection.HasSetup&&avatars.Snapshot().Length==0,demo)));
+app.MapPut("/api/setup-wizard",(WizardRequest value,HttpContext c)=>{
+ if(!PanelRequest(c))return Results.StatusCode(403);
+ try{setupWizard.Save(value.Outcome);return Results.Ok(new{saved=true});}
+ catch(ArgumentException){return Results.BadRequest(new{error="Invalid wizard outcome."});}
+ catch(IOException){return Results.Problem("Could not save setup preference.");}
+});
 bool PanelRequest(HttpContext c)=>c.Request.Headers["X-VF-Panel"]=="1"&&(c.Request.Headers.Origin.Count==0||c.Request.Headers.Origin.ToString()==$"http://127.0.0.1:{port}");
 app.MapPut("/api/test-mode",(TestModeRequest request,HttpContext c)=>{
  if(!PanelRequest(c))return Results.StatusCode(403);

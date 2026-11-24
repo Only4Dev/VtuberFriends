@@ -13,6 +13,7 @@ public sealed class ConnectionManager(string configPath,string tokenPath,Levels 
  public object Status=>receiver?.Describe(Volatile.Read(ref recoveryView))??new {mode=demo?"demo":"discord",status=demo?"synthetic":state,diagnostics=diagnostics?.Snapshot,recovery=Volatile.Read(ref recoveryView),acceptance="PENDING_LIVE_MANUAL_TEST"};
  public object LiveStatus=>receiver?.LiveStatus??new{mode=demo?"demo":"discord",status=demo?"synthetic":state};
  public Participant[] Participants=>receiver?.Participants??[];
+ public bool HasSetup=>config.Port!=17861||!string.IsNullOrWhiteSpace(config.GuildId)||!string.IsNullOrWhiteSpace(config.ChannelId)||File.Exists(tokenPath)||!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("VF_DISCORD_BOT_TOKEN"));
  public object Settings=>new{guildId=config.GuildId,channelId=config.ChannelId,hasToken=File.Exists(tokenPath)||!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("VF_DISCORD_BOT_TOKEN")),demo};
  public void SetInitial(Config value)=>config=value;
  public static void Validate(ConnectionSettings value){if(!Regex.IsMatch(value.GuildId??"",@"^\d{17,20}$")||!Regex.IsMatch(value.ChannelId??"",@"^\d{17,20}$"))throw new ArgumentException("Introduce IDs válidos de servidor y canal de voz (17 a20 dígitos).");if(value.Token?.Length>512)throw new ArgumentException("Token demasiado largo.");}

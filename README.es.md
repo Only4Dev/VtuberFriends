@@ -4,11 +4,13 @@
 
 Avatares 2D por capas que reaccionan a las voces de una llamada de Discord y se muestran en Streamlabs. **Solo el streamer instala la app.** Los invitados usan Discord normal.
 
-**Windows x64 · Portable · Interfaz en español e inglés · Versión 0.7.0**
+**Windows x64 · Portable · Interfaz en español e inglés · Versión 0.8.0**
 
 [Descargar la última versión](https://github.com/Only4Dev/VtuberFriends/releases/latest) · [Changelog](CHANGELOG.md)
 
 ## Empezar
+
+En una instalación sin configurar, **Setup wizard** te guía desde crear e invitar el bot hasta conectar tu canal y preparar tu primera fuente. Puedes omitirlo y abrirlo después desde la barra lateral o Configuración. No se abre automáticamente sobre datos ya configurados.
 
 1. Descarga **VtuberFriends-Windows-x64.zip** desde Releases y extrae todo el ZIP en una carpeta con permiso de escritura.
 2. Abre **VtuberFriends.exe**. Conserva las carpetas `app` y `Sonidos` junto al ejecutable. La versión distribuible no necesita instalar .NET ni abrir PowerShell.

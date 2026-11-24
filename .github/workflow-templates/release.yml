@@ -31,11 +31,15 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           dotnet run --project tests/UpdatesProbe -c Release
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          dotnet run --project tests/SetupWizardProbe -c Release
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           dotnet run --project tests/LevelsProbe -c Release
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node tests/studio-ui-probe.mjs
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node tests/update-ui-probe.mjs
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node tests/setup-wizard-ui-probe.mjs
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node tests/accessories-probe.mjs
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

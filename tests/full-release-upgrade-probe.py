@@ -42,7 +42,7 @@ try:
  process=start()
  try:
   assert request('/api/state')['slots']==before
-  assert request('/api/updates')['version']=='0.7.0'
+  assert request('/api/updates')['version']==__import__('re').search(r'Version="([0-9.]+)"',(r/'src/VtuberFriends/UpdateService.cs').read_text(encoding='utf-8')).group(1)
   for slot in before:
    with urllib.request.urlopen(url+'/overlay/'+str(slot['id'])) as response:assert response.status==200
  finally:stop(process)

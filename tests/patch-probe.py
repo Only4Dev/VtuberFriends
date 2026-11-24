@@ -1,9 +1,9 @@
 import zipfile
 import pathlib,shutil,tempfile,subprocess,json,hashlib,urllib.request,time,ctypes
 import argparse
-parser=argparse.ArgumentParser();parser.add_argument('--patch',default='vf-20261120-hacker-01');parser.add_argument('--base-patch');parser.add_argument('--feature',choices=['hacker','test-mode','sources-8','close'],default='hacker');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--patch',default='vf-20261120-hacker-01');parser.add_argument('--base-patch');parser.add_argument('--base-zip',help='Clean immutable ZIP with VtuberFriends/ root');parser.add_argument('--feature',choices=['hacker','test-mode','sources-8','close'],default='hacker');args=parser.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1];base=root/'Distribucion/VtuberFriends';patch=root/'Distribucion/Parches'/args.patch;work=pathlib.Path(tempfile.mkdtemp(prefix='vf-patch-test-'));target=work/'VtuberFriends';
-with zipfile.ZipFile(root/'Distribucion/VtuberFriends-Windows-x64.zip') as archive:
+with zipfile.ZipFile(pathlib.Path(args.base_zip) if args.base_zip else root/'Distribucion/VtuberFriends-Windows-x64.zip') as archive:
  assert not any('/.local/' in n or n.endswith('/config.json') or '..' in pathlib.Path(n).parts for n in archive.namelist())
  archive.extractall(work)
 if args.base_patch:

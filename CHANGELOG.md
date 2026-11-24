@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.8.0 — 2026-11-23
+
+### Added
+- Added a bilingual Setup Wizard to help users set up the program, from Discord Developer Mode and bot creation/invitation to a connected voice channel and their first Streamlabs avatar source.
+- Nine guided steps with visual illustrations, progress navigation, Back/Next, language switching and Skip Wizard.
+- First-run detection: opens automatically only for default, unconfigured installations. Saved IDs, tokens, sources or a custom port suppress it; it can always be opened manually.
+- Live connection and received-audio checks, plus explicit user confirmation for the Streamlabs scene. Test Mode is never treated as proof of real audio.
+
+### Compatibility
+- No resets of existing connection, avatar, accessory or sound settings. Setup changes are saved only through explicit actions.
+- Skip/completion is stored separately. Bot tokens remain encrypted for the Windows user.
+- Compatible 0.7.0 installations can use the in-app updater.
+
+### Validation boundary
+Synthetic HTTP/DOM checks verify onboarding and preservation; a real Discord/DAVE call and visual Streamlabs check remain separate acceptance tests.
+
 ## 0.7.0 — 2026-11-23
 
 First functional public build and baseline for future updates. Earlier development builds remain historical.
