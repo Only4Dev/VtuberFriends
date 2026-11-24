@@ -44,6 +44,7 @@ await using var connection=new ConnectionManager(configPath,Path.Combine(dataDir
 connection.SetInitial(config);
 int testMode=0;
 await using var feed=new LiveFeed(()=>new {testMode=Volatile.Read(ref testMode)==1,receiver=connection.LiveStatus,users=levels.Snapshot(),participants=demo?new[]{new Participant("demo-a","Only4",true),new Participant("demo-b","Streamer",true)}:connection.Participants},()=>connection.Status,avatars,()=>uiAssets.Version);
+using var reports=new DiagnosticReport(Path.Combine(dataDirectory,"logs"),()=>DiagnosticReport.Project(connection.Status,connection.Supervision,feed.Health,levels.Snapshot(),connection.Participants.Length,avatars.Snapshot().Count(s=>s.Enabled),Volatile.Read(ref testMode)==1),diagnosticLog);
 using var feedStopping=app.Lifetime.ApplicationStopping.Register(feed.Stop);
 using var connectingStopping=app.Lifetime.ApplicationStopping.Register(connection.BeginShutdown);
 app.UseWebSockets();
@@ -66,19 +67,30 @@ app.MapPut("/api/setup-wizard",(WizardRequest value,HttpContext c)=>{
  catch(IOException){return Results.Problem("Could not save setup preference.");}
 });
 bool PanelRequest(HttpContext c)=>c.Request.Headers["X-VF-Panel"]=="1"&&(c.Request.Headers.Origin.Count==0||c.Request.Headers.Origin.ToString()==$"http://127.0.0.1:{port}");
+app.MapGet("/api/diagnostics/status",()=>Results.Ok(reports.Status));
+app.MapPost("/api/diagnostics/export",(ReportContext value,HttpContext c)=>{
+ if(!PanelRequest(c))return Results.StatusCode(403);
+ try{return Results.File(reports.Export(value),"application/json",$"VtuberFriends-diagnostic-{DateTimeOffset.UtcNow:yyyyMMdd-HHmmss}.json");}
+ catch{return Results.Problem("No se pudo crear el informe.");}
+});
+app.MapPost("/api/diagnostics/source",(SourceDiagnostic value,HttpContext c)=>{
+ if(!PanelRequest(c))return Results.StatusCode(403);
+ try{reports.Source(value,avatars.Snapshot().Select(s=>s.Id).ToHashSet());return Results.NoContent();}
+ catch(ArgumentException){return Results.BadRequest();}
+});
 app.MapPut("/api/test-mode",(TestModeRequest request,HttpContext c)=>{
  if(!PanelRequest(c))return Results.StatusCode(403);
  Interlocked.Exchange(ref testMode,request.Enabled?1:0);return Results.Ok(new{enabled=Volatile.Read(ref testMode)==1});
 });
 app.MapPost("/api/settings/connect",async(ConnectionSettings value,HttpContext c)=>{
  if(!PanelRequest(c))return Results.StatusCode(403);
- try{await connection.SaveAndConnect(value);return Results.Ok(new{settings=connection.Settings,receiver=connection.Status});}
+ try{reports.Capture("before_connect");await connection.SaveAndConnect(value);reports.Capture("after_connect");return Results.Ok(new{settings=connection.Settings,receiver=connection.Status});}
  catch(ArgumentException e){return Results.BadRequest(new{error=e.Message});}
  catch{return Results.Problem("No se pudieron guardar los datos de conexión.");}
 });
 app.MapPost("/api/audio/reconnect",async(HttpContext c)=>{
  if(!PanelRequest(c))return Results.StatusCode(403);
- try{await connection.ReconnectAudio();return Results.Ok(new{receiver=connection.Status});}
+ try{reports.Capture("before_reconnect");await connection.ReconnectAudio();reports.Capture("after_reconnect");return Results.Ok(new{receiver=connection.Status});}
  catch(ArgumentException e){return Results.BadRequest(new{error=e.Message});}
 });
 app.MapPost("/api/settings/disconnect",async(HttpContext c)=>{if(!PanelRequest(c))return Results.StatusCode(403);await connection.Disconnect();return Results.Ok();});
@@ -205,6 +217,7 @@ try
     await app.StartAsync();
     Console.WriteLine($"Panel: http://127.0.0.1:{port}/");
     feed.Start();
+    reports.Start();
     if(!demo&&!args.Contains("--no-panel"))DesktopWindow.Open($"http://127.0.0.1:{port}/");
     var startup=connection.ConnectSaved();
     await app.WaitForShutdownAsync();
@@ -213,6 +226,7 @@ try
 }
 finally
 {
+    reports.Capture("shutdown");reports.Dispose();
     await demoStop.CancelAsync();
     if (demoTask is not null) { try { await demoTask; } catch (OperationCanceledException) { } }
     await app.StopAsync();

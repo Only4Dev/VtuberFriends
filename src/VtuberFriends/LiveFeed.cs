@@ -10,6 +10,8 @@ public sealed class LiveFeed(Func<object> live, Func<object> diagnostic, AvatarS
  public sealed record Frame(byte[] Live,byte[] Slots,byte[] Diagnostic,byte[] Version);
  private readonly ConcurrentDictionary<Guid,Channel<Frame>> clients=new();
  private readonly CancellationTokenSource stop=new();private Task? pump;
+ private long lastFrame=-1,frames;
+ public object Health=>new{clients=clients.Count,frames=Interlocked.Read(ref frames),lastFrameAgeMs=Interlocked.Read(ref lastFrame) is long last&&last>=0?Environment.TickCount64-last:(long?)null,pump=pump?.Status.ToString()??"NotStarted"};
  private static readonly JsonSerializerOptions Json=new(JsonSerializerDefaults.Web);
  public void Start()=>pump=Run();
  private async Task Run(){
@@ -21,6 +23,7 @@ public sealed class LiveFeed(Func<object> live, Func<object> diagnostic, AvatarS
    string currentUi=version();if(currentUi!=uiVersion){uiVersion=currentUi;ui=Message("version",currentUi);}
    var frame=new Frame(Message("levels",live()),slots,diag,ui);
    foreach(var channel in clients.Values)channel.Writer.TryWrite(frame);
+   Interlocked.Exchange(ref lastFrame,Environment.TickCount64);Interlocked.Increment(ref frames);
    nextFrame+=33;long now=Environment.TickCount64;if(nextFrame<now-33)nextFrame=now;
    await Task.Delay((int)Math.Clamp(nextFrame-now,1,33),stop.Token);
   }}catch(OperationCanceledException){}

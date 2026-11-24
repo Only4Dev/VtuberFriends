@@ -11,6 +11,7 @@ const presence=new SourcePresence(previous);
 function logSource(kind){if(!preview)void fetch('/api/source-events/'+id+'/'+kind,{method:'POST',headers:{'X-VF-Panel':'1'},keepalive:true}).catch(()=>{});}
 view.onTransition=logSource;logSource('load');
 let latest=null,received=0,savedAt=0,suppressEntry=false,lastTestMode=false;
+globalThis.vfSourceHealth=()=>({frameAgeMs:latest?Math.max(0,performance.now()-received):null,fresh:!!latest&&received>0&&performance.now()-received<1000});
 const knownNames=new Map();
 function render(){
  if(!latest)return;

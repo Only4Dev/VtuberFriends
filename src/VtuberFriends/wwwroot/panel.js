@@ -5,6 +5,7 @@ import {organizeCard} from './studio-layout.js?v=__UI_VERSION__';
 import {audioHealthText} from './audio-health.js?v=__UI_VERSION__';
 import {mountSettings} from './settings.js?v=__UI_VERSION__';
 import {mountSetupWizard} from './setup-wizard.js?v=__UI_VERSION__';
+import {mountDiagnosticReport} from './diagnostic-report.js?v=__UI_VERSION__';
 import {subscribeState} from './state-stream.js?v=__UI_VERSION__';
 let soundLibrary=[];
 async function refreshSoundLibrary(){try{const r=await fetch('/api/sounds');if(r.ok){const next=await r.json();if(JSON.stringify(next)!==JSON.stringify(soundLibrary)){soundLibrary=next;for(const card of cards.values())for(const refresh of card.refresh)refresh();}}}catch{}}
@@ -583,5 +584,6 @@ mountUpdates();
 
 initLanguage();for(const dialog of document.querySelectorAll("dialog"))dismissible(dialog);
 setupWizard=mountSetupWizard();
+mountDiagnosticReport();
 
 document.addEventListener('vf-language',()=>{for(const card of cards.values())refreshControls(card);if(latest)document.querySelector('#audioHealthSummary').textContent=audioHealthText(latest.receiver);});

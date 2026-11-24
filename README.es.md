@@ -4,7 +4,7 @@
 
 Avatares 2D por capas que reaccionan a las voces de una llamada de Discord y se muestran en Streamlabs. **Solo el streamer instala la app.** Los invitados usan Discord normal.
 
-**Windows x64 · Portable · Interfaz en español e inglés · Versión 0.8.0**
+**Windows x64 · Portable · Interfaz en español e inglés · Versión 0.8.1**
 
 [Descargar la última versión](https://github.com/Only4Dev/VtuberFriends/releases/latest) · [Changelog](CHANGELOG.md)
 

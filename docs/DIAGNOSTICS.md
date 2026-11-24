@@ -1,3 +1,19 @@
+# Guardar y compartir un informe (0.8.1)
+
+Si dejan de moverse las bocas:
+1. Antes de cerrar o reconectar, abre **Configuración → Guardar informe de diagnóstico** (también disponible en Estado de la conexión).
+2. Indica si ocurre a todos, si Discord se ilumina en verde, si se mueve el medidor del panel y si se mueve la boca en Streamlabs. Puedes elegir No lo sé.
+3. Pulsa **Marcar el fallo y descargar informe**. Comparte el JSON con el desarrollador por Discord o el medio que prefieras. No necesitas cuenta de GitHub y la app no sube nada.
+4. Después puedes usar Reconectar audio. Si ya reiniciaste, guarda el informe igualmente: incluye el historial anterior que siga disponible.
+
+La app guarda una muestra de salud cada15s en `.local/logs/diagnostic-health.jsonl`, independiente de las vistas previas/minimización. Rota4archivos de1MB; los logs categóricos anteriores conservan su rotación4×2MB. La exportación incluye hasta480muestras y600eventos recientes, versión/sesión/UTC y las observaciones elegidas. Solo estados y contadores: gateway/voz/DAVE, PCM, lectores, reintentos, supervisión y entrega a fuentes. Los intervalos no se usan para disparar reconexión por silencio.
+
+Las fuentes envían un heartbeat por minuto y códigos limitados de errorJS o pérdida/restauración WebGL, sin mensajes ni URLs de error. No se recoge audio, token, nombres/IDs Discord, configuración ni rutas del equipo. El exportador vuelve a filtrar los registros en disco; no adjunta archivos privados. Tampoco lee/incluye capturas o contenido de la escena de Streamlabs.
+
+El informe ayuda a diferenciar entrada Discord, lector, recuperación y frontend; no demuestra por sí solo la causa ni garantiza corregirla. Los logs locales antiguos de desarrollo no se pueden atribuir al equipo del amigo. La retención es limitada y no reconstruye retroactivamente salud que versiones anteriores no registraban.
+
+---
+
 # Avisos de Discord y log local
 
 El total acumulado es la cantidad de avisos recibidos desde que arrancó el receptor. No equivale a esa cantidad de fallos de animación ni demuestra por sí solo un problema activo. El panel muestra tipos de aviso, actividad en los últimos60segundos, paquetes descartados y fallos nativos de descifrado.

@@ -27,7 +27,7 @@ public sealed class AudioDiagnostics(DiagnosticLog? log = null)
         warningKindsLast60Seconds = recentKinds.ToArray().Select(p => new { p.Key, Count = Recent(p.Value) }).Where(p => p.Count > 0).ToDictionary(p => p.Key, p => p.Count),
         warningsLast60Seconds = Recent(warningTimes), decryptFailuresLast60Seconds = Recent(decryptTimes),
         warningKinds = warningKinds.ToArray().ToDictionary(p => p.Key, p => p.Value),
-        mlsFailures = Volatile.Read(ref mlsFailures), decryptFailures = Volatile.Read(ref decryptFailures),
+        mlsFailures = Volatile.Read(ref mlsFailures), decryptFailures = Volatile.Read(ref decryptFailures),managedDecryptFailures=Volatile.Read(ref managedDecryptFailures),
         mlsEstablished = Volatile.Read(ref established) == 1,
         nativeAudioDecryptionsObserved = Volatile.Read(ref decryptedAudio),
         packetErrors = packetErrors.ToArray().ToDictionary(p => p.Key, p => p.Value),

@@ -4,7 +4,7 @@
 
 Voice-driven, layered 2D dragon avatars for Discord calls and Streamlabs. **Only the streamer installs the app.** Guests use regular Discord.
 
-**Windows x64 · Portable · English / Spanish UI · Version 0.8.0**
+**Windows x64 · Portable · English / Spanish UI · Version 0.8.1**
 
 [Download the latest release](https://github.com/Only4Dev/VtuberFriends/releases/latest) · [Changelog](CHANGELOG.md)
 
@@ -35,6 +35,8 @@ The panel checks public GitHub Releases when opened (enabled by default). When a
 Install updates after your stream. The updater preserves `config.json`, `.local`, bot credentials, sound files, avatar assignments and positions. It checks the exact installed version and refuses incompatible or modified program files. See [UPDATES.md](docs/UPDATES.md) for the release contract and rollback rules.
 
 ## Your data
+
+If avatar mouths stop, use **Settings → Save diagnostic report** before reconnecting or closing. Send the downloaded JSON to the developer through your preferred channel; no GitHub account is needed. Bounded local health history is sampled every15seconds, including while the panel is minimized. Reports contain states and counters, never audio, tokens or Discord identities. See [diagnostics](docs/DIAGNOSTICS.md).
 
 `config.json`, `.local` and `Sonidos` live beside the main executable. Keep them when moving or backing up an installation. The bot token is encrypted for the current Windows account; configure it again on another Windows account or PC. Never upload your token or `.local` folder to GitHub.
 

@@ -13,6 +13,7 @@ public sealed class ConnectionManager(string configPath,string tokenPath,Levels 
  public object Status=>receiver?.Describe(Volatile.Read(ref recoveryView))??new {mode=demo?"demo":"discord",status=demo?"synthetic":state,diagnostics=diagnostics?.Snapshot,recovery=Volatile.Read(ref recoveryView),acceptance="PENDING_LIVE_MANUAL_TEST"};
  public object LiveStatus=>receiver?.LiveStatus??new{mode=demo?"demo":"discord",status=demo?"synthetic":state};
  public Participant[] Participants=>receiver?.Participants??[];
+ public object Supervision=>new{watch=watch?.Status.ToString()??"NotStarted",recoveryTask=recoveryTask?.Status.ToString()??"NotStarted",cleanupBlocked,cleanupPending=unfinishedCleanup is {IsCompleted:false},shuttingDown=Volatile.Read(ref shuttingDown)==1};
  public bool HasSetup=>config.Port!=17861||!string.IsNullOrWhiteSpace(config.GuildId)||!string.IsNullOrWhiteSpace(config.ChannelId)||File.Exists(tokenPath)||!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("VF_DISCORD_BOT_TOKEN"));
  public object Settings=>new{guildId=config.GuildId,channelId=config.ChannelId,hasToken=File.Exists(tokenPath)||!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("VF_DISCORD_BOT_TOKEN")),demo};
  public void SetInitial(Config value)=>config=value;

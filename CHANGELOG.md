@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.8.1 — 2026-11-24
+
+### Added
+- Downloadable diagnostic reports in English and Spanish: Settings or Connection status → Save diagnostic report. No GitHub account or automatic upload.
+- Bounded, persistent15-second health history for voice/gateway state, PCM counters, readers, automatic recovery supervision and live-source delivery. Retained history remains available after restarting.
+- Lightweight browser-source diagnostics: one heartbeat per minute and throttled JavaScript/WebGL failure categories, without raw error messages or URLs.
+- Guided observations help distinguish Discord input, panel meters and Streamlabs rendering. Save the report before reconnecting or closing when possible.
+
+### Privacy and compatibility
+- Export is reconstructed from allowlisted states, counters and event categories. No audio, credentials, Discord identities, configuration or computer paths are included.
+- Existing settings, avatars, sounds and source URLs are preserved. Recovery policy is unchanged: this update provides evidence to investigate the reported freeze; it does not establish the incident's cause or promise a fix.
+
 ## 0.8.0 — 2026-11-23
 
 ### Added

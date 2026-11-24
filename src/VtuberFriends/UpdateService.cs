@@ -8,7 +8,7 @@ namespace VtuberFriends;
 public sealed class UpdateService(string root, HttpClient http)
 {
  public const string Repository="Only4Dev/VtuberFriends";
- public const string Version="0.8.0";
+ public const string Version="0.8.1";
  private readonly SemaphoreSlim gate=new(1);private JsonElement? selected;private string? staged;private int installing;
  private UpdateView status=new("idle",Version,Repository);
  public object Status=>Volatile.Read(ref status);

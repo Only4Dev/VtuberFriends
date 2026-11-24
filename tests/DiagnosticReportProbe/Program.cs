@@ -1,0 +1,19 @@
+using VtuberFriends;using System.Text;using System.Text.Json;
+string root=Path.Combine(Path.GetTempPath(),"vf-report-"+Guid.NewGuid());Directory.CreateDirectory(root);
+void Check(bool value,string message){if(!value)throw new Exception(message);}
+const string secret="FAKE_SECRET_DO_NOT_EXPORT";const string userId="123456789012345678";
+HealthRow Sample()=>DiagnosticReport.Project(new{mode="discord",status="connected",botUserId=userId,token=secret,gatewayState="Connected",voiceState="Connected",observedProtocolVersion=1,audioHealth=new{active=2,tracked=2,faulted=0,exhausted=0,lastPcmAgeMs=45000,restarts=3},diagnostics=new{rejectedUserId=userId,recognizedUserIds=userId,decryptFailures=4,managedDecryptFailures=5,mlsFailures=0,warningsLast60Seconds=7,packetErrors=new Dictionary<string,int>{{secret,3}}},recovery=new{state="paused",reason="VoiceDisconnected",attempts=3}},new{watch="Faulted",recoveryTask="RanToCompletion",cleanupBlocked=true},new{clients=8,frames=100,lastFrameAgeMs=60000,pump="Faulted"},[new(userId,.1,.2,true,20,300)],2,7,false);
+try{
+ string logs=Path.Combine(root,"logs");using var log=new DiagnosticLog(logs);
+ var report=new DiagnosticReport(logs,Sample,log);report.Capture("startup");report.Source(new(7,"heartbeat",20,true),new HashSet<int>{7});report.Source(new(7,"js_error",30,true),new HashSet<int>{7});report.Source(new(7,"context_lost",40,true,true),new HashSet<int>{7});
+ bool invalid=false;try{report.Source(new(8,"js_error"),new HashSet<int>{7});}catch(ArgumentException){invalid=true;}Check(invalid,"unknown source accepted");
+ log.Record("SOURCE_7_load");log.Record("DAVE_DECRYPT_"+secret);log.Record("NATIVE_DECRYPT_FAILED");log.Flush();
+ string text=Encoding.UTF8.GetString(report.Export(new(secret,secret,secret,secret,secret)));Check(!text.Contains(secret)&&!text.Contains(userId)&&!text.Contains(root),"secret/identity/path leaked");
+ using(var d=JsonDocument.Parse(text)){var current=d.RootElement.GetProperty("current");Check(current.GetProperty("metrics").GetProperty("decryptErrorsTotal").GetInt64()==9,"decrypt totals missing");Check(current.GetProperty("metrics").GetProperty("contextLosses").GetInt64()==1,"context loss lost");Check(current.GetProperty("states").GetProperty("watch").GetString()=="Faulted","supervision fault missing");}
+ report.Dispose();using var restarted=new DiagnosticReport(logs,Sample,log);restarted.Capture("startup");var second=JsonDocument.Parse(restarted.Export(new()));var sessions=second.RootElement.GetProperty("history").EnumerateArray().Select(r=>r.GetProperty("session").GetString()).Distinct().Count();Check(sessions==2,"history lost across restart");
+ var evil=new HealthRow(DateTimeOffset.UtcNow,secret,secret,1,secret,new(){{secret,1},{"pcmFrames",5}},new(){{"receiver",secret},{secret,secret}});File.AppendAllText(Path.Combine(logs,"diagnostic-health.jsonl"),JsonSerializer.Serialize(evil,new JsonSerializerOptions(JsonSerializerDefaults.Web))+"\n");
+ text=Encoding.UTF8.GetString(restarted.Export(new()));Check(!text.Contains(secret),"untrusted historical fields leaked");
+ string rotate=Path.Combine(root,"rotate");using(var bounded=new DiagnosticReport(rotate,Sample,log,512)){for(int i=0;i<30;i++)bounded.Capture("periodic");}Check(Directory.GetFiles(rotate).Length==4,"rotation unbounded");
+ string blocked=Path.Combine(root,"not-a-directory");File.WriteAllText(blocked,"SYNTHETIC");using(var noDisk=new DiagnosticReport(blocked,Sample,log)){var fallback=Encoding.UTF8.GetString(noDisk.Export(new()));Check(fallback.Contains("\"writeFailed\": true"),"write failure invisible");Check(fallback.Contains("\"current\""),"in-memory snapshot lost");}
+ Console.WriteLine("PASS: report allowlists strip IDs/tokens/names/paths/raw error fields, retains recovery/reader/feed/source evidence, throttles sources, survives restart, rotates4files and exports in-memory state on write failure. No network/Discord/browser.");
+}finally{Directory.Delete(root,true);}

@@ -1,4 +1,5 @@
 export const english={
+ "Guardar informe de diagnóstico":"Save diagnostic report",
   " · fuera": " · offline",
   "Idioma": "Language",
   "TU ESTUDIO": "YOUR STUDIO",
